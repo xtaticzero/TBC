@@ -1,0 +1,15 @@
+/*General*/
+#cuerpo {
+	height: auto;
+	width: 788px;
+	margin: auto;
+	
+}
+.tabla td {
+ border: 1px solid #848484;
+ 
+}
+
+.panelBusq tr, .panelBusq td {
+border:0 !important;
+}

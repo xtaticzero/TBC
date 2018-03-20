@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/facelets">
+    <html xmlns="http://www.w3.org/1999/xhtml" xmlns:p="http://primefaces.org/ui">
+        <h:head>
+            <h:outputStylesheet library="css/" name="tabacos.css"/>
+        </h:head>
+        <h:body>
+            <ui:composition>
+                <p:menubar>
+                    <p:menuitem value="#{tbcMsj['menuitem.tramites.solicitud.codigos']}" url="/pages/codigos/solicitud.jsf" icon="ui-icon-document" />
+                    <p:menuitem value="#{tbcMsj['menuitem.tramites.produccion']}" url="/pages/produccion/produccionCigarros.jsf" icon="ui-icon-gear" />                    
+                    <p:menuitem value="#{tbcMsj['menuitem.tramites.desperdicios']}" url="/pages/desperdicio/desperdiciosDestruccion.jsf" icon="ui-icon-trash" />
+                    <p:menuitem value="#{tbcMsj['menuitem.tramites.codigos.falsos']}" url="/pages/codigos/ingresa.jsf" icon="ui-icon-alert" />
+                    <p:menuitem value="#{tbcMsj['menuitem.tramites.alta.marcas']}" url="/pages/marcas/solicitudAltaMarca.jsf" icon="ui-icon-circle-plus" />
+                    <p:menuitem value="#{tbcMsj['menuitem.tramites.historico']}" url="/pages/historico/historico.jsf" icon="ui-icon-document" />
+                    <f:facet name="options">
+                        <p:outputLabel value="#{version['version.numero']}" style="color: white"/>
+                    </f:facet>
+                </p:menubar>
+            </ui:composition>
+        </h:body>
+    </html>
+</f:view>

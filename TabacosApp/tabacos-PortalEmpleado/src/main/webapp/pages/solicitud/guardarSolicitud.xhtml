@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <meta http-equiv="X-UA-Compatible" content="IE=11"/>   
+        <h:outputScript library="js/" name="tabacos.js"/>
+        <h:outputStylesheet library="css/" name="tabacos.css"/>                
+    </h:head>
+    <h:body>          
+        <p:panel id="panelAutorizar" header="#{tbcMsj['autsol.guardar.titulo']}" 
+                 style="width:820px;margin-left:auto;margin-right:auto;" >                     
+            <h:form id="formAutorizarSol">                                               
+                <p:growl id="msgs" showDetail="true" sticky="false" globalOnly="true"/>
+                <p:outputLabel style="width: 300px; font-weight: bold">#{tbcMsj['autsol.guardar.subtitulo1']}</p:outputLabel>    
+                <p:separator/>
+                <p:outputLabel style="width: 300px; font-weight: bold">#{tbcMsj['autsol.guardar.subtitulo2']}</p:outputLabel>            
+                <table width="100%">
+                    <tr>
+                        <td width="28%">
+                            <p:outputLabel style="width: 300px">#{tbcMsj['autsol.guardar.folio']}</p:outputLabel>                    
+                        </td>
+                        <td width="50%">
+                            <p:inputText id="folioCapt" value="#{autorizarSolicitudesMBean.solicitudHelper.solicitud.folio}" style="width: 200px" readonly="true" />
+                        </td>
+                        <td>
+                            <p:message id="msgFolioCapt" for="folioCapt" display="text"/>                                
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="28%">
+                            <p:outputLabel style="width: 300px">#{tbcMsj['autsol.guardar.rfc']}</p:outputLabel>
+                        </td>
+                        <td  width="50%">
+                            <p:inputText id="rfcCapt" value="#{autorizarSolicitudesMBean.solicitudHelper.solicitud.rfc}" style="width: 200px" readonly="true" />
+                        </td>
+                        <td>
+                            <p:message id="msgRfc" for="rfcCapt" display="text"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="28%">
+                            <p:outputLabel style="width: 300px">#{tbcMsj['autsol.guardar.rsocial']}</p:outputLabel>
+                        </td>
+                        <td width="50%">
+                            <p:inputText id="rsocialCapt" value="#{autorizarSolicitudesMBean.solicitudHelper.solicitud.razonSocial}"
+                                         style="width: 200px" readonly="true" />
+                        </td>
+                        <td>
+                            <p:message id="msgRSocial" for="rsocialCapt" display="text"/>                
+                        </td>
+                    </tr>
+                </table>
+                <p:outputLabel style="font-weight: bold">#{tbcMsj['autsol.guardar.subtitulo4']}</p:outputLabel>                
+                <p:separator/>
+                <table style="width: 100%;">
+                    <tr>
+                        <td width="28%">
+                            <p:outputLabel style="width: 300px">#{tbcMsj['autsol.guardar.cantidad']}</p:outputLabel>                        
+                        </td>
+                        <td width="50%">
+                            <p:inputText id="cantSolCapt" 
+                                         value="#{autorizarSolicitudesMBean.solicitudHelper.solicitud.cantidadSolicitud}" 
+                                         style="width: 200px" readonly="true"/>
+                        </td>
+                        <td>
+                            <p:message id="msgCantSol" for="cantSolCapt" display="text"/>                
+                        </td>
+                    </tr>
+                </table>                                        
+                <p:outputLabel style="font-weight: bold">#{tbcMsj['autsol.guardar.subtitulo3']}</p:outputLabel>
+                <p:separator/>
+                <table width="100%">
+                    <tr>
+                        <td width="28%">                       
+                            <p:outputLabel style="width: 200px">#{tbcMsj['autsol.guardar.resolucion']}</p:outputLabel>
+                        </td>
+                        <td width="50%">
+                            <p:selectOneMenu id="resolucion" value="#{autorizarSolicitudesMBean.solicitudHelper.tipoResolucionSelect}" 
+                                             style="width: 80%" disabled="#{autorizarSolicitudesMBean.solicitudHelper.resCapt}"
+                                             valueChangeListener="#{autorizarSolicitudesMBean.onChangeAut}" required="true"
+                                             requiredMessage="Falta llenar el campo resolucion" >
+                                <f:selectItems value="#{autorizarSolicitudesMBean.solicitudHelper.lstTipoResolucion}" 
+                                               var="res" itemLabel="#{res.valor}" itemValue="#{res.id}"/>
+                                <p:ajax update="autorizante cantSolAut fecha"/>
+                            </p:selectOneMenu>  
+                        </td>
+                        <td>
+                            <p:message id="msgResolucion" for="resolucion" display="text"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="28%">
+                            <p:outputLabel style="width: 200px">
+                                #{tbcMsj['autsol.guardar.cautorizada']}</p:outputLabel>
+                        </td>
+                        <td width="50%">
+                            <p:inputText id="cantSolAut" value="#{autorizarSolicitudesMBean.solicitudHelper.solicitud.cantidadAutorizada}" 
+                                         onkeypress="return justNumbers(event);" style="width: 200px"
+                                         disabled="#{autorizarSolicitudesMBean.solicitudHelper.cantAutCapt}"
+                                         requiredMessage="Falta llenar el campo de cantidad autorizada" required="true">                            
+                            </p:inputText>
+                        </td>
+                        <td>
+                            <p:message id="msgCantAut" for="cantSolAut" display="text"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="28%">
+                            <p:outputLabel value="#{tbcMsj['autsol.guardar.noficio']}"/>
+                        </td>
+                        <td width="50%">
+                            <p:inputText id="numOficio" style="width: 200px" 
+                                         value="#{autorizarSolicitudesMBean.solicitudHelper.solicitud.numeroOficio}"                             
+                                         disabled="#{autorizarSolicitudesMBean.solicitudHelper.noFolioCapt}"
+                                         onkeypress="return justNumbers(event);"
+                                         requiredMessage="#{tbcMsj['msg.campo.requerido.numoficio']}" required="true">
+                                <f:ajax event="change" render="numOficio"/>
+                            </p:inputText>
+                        </td>
+                        <td>
+                            <p:message id="msgnumOficio" for="numOficio" display="text"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="28%">
+                            <p:outputLabel>#{tbcMsj['autsol.guardar.spublico']}</p:outputLabel>
+                        </td>
+                        <td width="50%">
+                            <p:selectOneMenu id="autorizante" 
+                                             value="#{autorizarSolicitudesMBean.solicitudHelper.autorizante}" 
+                                             style="width: 80%" 
+                                             disabled="#{autorizarSolicitudesMBean.solicitudHelper.autCapt}"
+                                             requiredMessage="#{tbcMsj['msg.campo.requerido.autorizante']}" required="true" >
+                                <f:selectItem itemLabel="#{tbcMsj['label.seleccione.one']}" itemValue="" />
+                                <f:selectItems value="#{autorizarSolicitudesMBean.solicitudHelper.autorizantes}" 
+                                               var="prov" itemLabel="#{prov.valor}" itemValue="#{prov.id}"/>
+                                <p:ajax update="autorizante"/>
+                            </p:selectOneMenu>         
+                        </td>
+                        <td>
+                            <p:message id="msgAutorizante" for="autorizante" display="text"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="28%">
+                            <p:outputLabel>#{tbcMsj['autsol.guardar.fecha']}</p:outputLabel>
+                        </td>
+                        <td width="50%">
+                            <p:calendar id="fecha" value="#{autorizarSolicitudesMBean.solicitudHelper.solicitud.fecha}" 
+                                        navigator="true" pattern="dd/MM/yyyy"  locale="es" required="true"
+                                        maxdate="#{autorizarSolicitudesMBean.today}"
+                                        disabled="#{autorizarSolicitudesMBean.solicitudHelper.fechaCapt}"
+                                        requiredMessage="Falta llenar el campo fecha" >                            
+                                <p:ajax event="dateSelect" listener="#{autorizarSolicitudesMBean.selectFecha}"
+                                        update="cargarArchivo" />
+                            </p:calendar>
+
+                        </td>
+                        <td>
+                            <p:message id="msgFecha" for="fecha" display="text"/>
+                        </td>
+                    </tr>
+                </table> 
+                <p:separator/>
+                <table width="100%">        
+                    <tr>
+                        <td width="15%">
+                            <p:commandButton  widgetVar="wbtnRegSol" value="#{tbcMsj['autsol.guardar.btnatras']}" id="btnRegSol" styleClass="gmxPositivo" 
+                                              actionListener="#{autorizarSolicitudesMBean.regresarSolicitud}" immediate="true" />
+                        </td>                
+                        <td width="55%">
+                            <table style="width: 100%;" border="0" >                        
+                                <tr>
+                                    <td>
+                                        <p:outputLabel>#{tbcMsj['autsol.guardar.carga']}</p:outputLabel>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p:fileUpload id="cargarArchivo" fileUploadListener=
+                                                      "#{autorizarSolicitudesMBean.upload}"
+                                                      sizeLimit="10000000" uploadLabel="#{tbcMsj['autsol.guardar.uploader.guardar']}" 
+                                                      label="#{tbcMsj['autsol.guardar.uploader.examinar']}" 
+                                                      cancelLabel="#{tbcMsj['autsol.guardar.uploader.cancelar']}" 
+                                                      disabled="#{autorizarSolicitudesMBean.solicitudHelper.ctrlUploader}" 
+                                                      allowTypes="/(\.|\/)(doc|docx|pdf)$/" 
+                                                      invalidFileMessage="#{tbcMsj['page.ingresar.codigos.archivo.formato.invalido']}"
+                                                      invalidSizeMessage="El tamaÃ±o del archivo es mas grande de lo esperado"
+                                                      update="btnGuardar btnBorrar docResolucion cargarArchivo">                                 
+                                        </p:fileUpload>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p:outputLabel>#{tbcMsj['autsol.guardar.tiposArchivos']}</p:outputLabel>
+                                    </td>
+                                </tr>                        
+                                <tr>
+                                    <td>                                
+                                        <p:commandButton value="#{tbcMsj['autsol.guardar.btnborrar']}" styleClass="gmxNegativo" 
+                                                         id="btnBorrar" actionListener="#{autorizarSolicitudesMBean.borrarArchivo}"
+                                                         ajax="false" disabled="#{autorizarSolicitudesMBean.solicitudHelper.btnBorrar}" update="formAutorizarSol"/>
+                                    </td>
+                                </tr>
+                            </table>                                        
+                        </td>                
+                        <td width="15%">
+    <!--                        <p:commandButton value="#{tbcMsj['autsol.guardar.btnguardar']}" id="btnGuardar"                             
+                                onclick="dlgConfirmacion.show()" />-->
+                            <p:commandButton value="#{tbcMsj['autsol.guardar.btnguardar']}" id="btnGuardar" styleClass="gmxPositivo"                            
+                                             onclick="dlgConfirmacion.show()" >
+                                <p:dialog header="#{tbcMsj['label.confirmacion.header']}" widgetVar="dlgConfirmacion" resizable="false"
+                                          closable="false" width="315px" height="120px">
+                                    <p:outputLabel value="#{tbcMsj['label.confirm.guardar']}"/>
+                                    <p:separator style="border-color: white"/>
+                                    <p:commandButton id="btnCancelar" value="#{tbcMsj['label.confirm.cancelar']}"
+                                                     oncomplete="dlgConfirmacion.hide();" styleClass="ui-confirmdialog-no gmxNegativo"
+                                                     icon="ui-icon-close" style="float:right;"/>
+                                    <p:commandButton id="btnAceptar" value="#{tbcMsj['label.confirm.aceptar']}"
+                                                     onclick="dlgConfirmacion.hide();" update="formAutorizarSol"
+                                                     actionListener="#{autorizarSolicitudesMBean.guardarSolicitud}"
+                                                     styleClass="ui-confirmdialog-yes gmxPositivo" icon="ui-icon-check" style="float:right;" >
+                                    </p:commandButton>
+                                </p:dialog>
+                            </p:commandButton>
+                        </td>                
+                        <td width="15%">                        
+                        </td>
+                    </tr>
+                </table>
+                <table>
+                    <tr>
+                        <td>
+                            <p:outputLabel value="La ruta del archivo es:"/>
+                        </td>                
+                        <td>                                
+                            <p:outputLabel id="docResolucion" style="font-weight: bold" value="#{autorizarSolicitudesMBean.solicitudHelper.solicitud.nombreArchivo}"/>                        
+                        </td>
+                    </tr>                
+                </table>
+            </h:form>
+        </p:panel>
+    </h:body>
+</html>

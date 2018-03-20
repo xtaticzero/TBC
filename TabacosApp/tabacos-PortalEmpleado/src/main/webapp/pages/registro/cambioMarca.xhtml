@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<f:view xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:c="http://java.sun.com/jsp/jstl/core"
+        xmlns:pe="http://primefaces.org/ui/extensions"
+        xmlns:tbc="http://www.sat.gob.mx/tabacos">
+    <html xmlns="http://www.w3.org/1999/xhtml">
+        <h:head>
+            <meta http-equiv="X-UA-Compatible" content="IE=11"/>
+            <h:outputScript library="js/" name="tabacos.js"/>
+            <h:outputStylesheet library="css/" name="tabacos.css"/>
+        </h:head>
+        <h:body>
+            <ui:include src="/WEB-INF/templates/confirmExit.xhtml"/>
+            <ui:include src="/pages/tramites/menuRegistro.xhtml"/>
+            <ui:include src="/pages/tramites/menuMarca.xhtml" />
+            <h:form id="formCMarca" styleClass="panel-contenedor" enctype="multipart/form-data">
+                <p:growl id="msgExitoGuardar" showDetail="true" sticky="false" globalOnly="true" autoUpdate="true"/>                
+                <p:panel id="panelProvedores" header="#{tbcMsj['abcmarcas.cambio.titulo']}" rendered="#{!marcaMBean.abcMarcaHelper.acuseCambio}">
+                    <table style="width: 100%" border="0">
+                        <tr>
+                            <td style="width: 20%">
+                                <p:outputLabel value="#{tbcMsj['abcmarcas.rfc']}"/>
+                            </td>
+                            <td>
+                                <p:selectOneMenu id="txtRfc" value="#{marcaMBean.movimiento.rfc}" 
+                                                 style="width: 250px">
+                                    <f:selectItem itemLabel="#{tbcMsj['label.seleccione.one']}" itemValue="-1" />
+                                    <f:selectItems value="#{marcaMBean.abcMarcaHelper.tabacaleras}" var="cont" 
+                                                   itemLabel="#{cont.valor}" itemValue="#{cont.valor}"/>  
+                                    <p:ajax event="change" listener="#{marcaMBean.selectRFC}" update="formCMarca"/>
+                                </p:selectOneMenu>                                
+                                <p:message id="msgRfc" for="txtRfc" display="text"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p:outputLabel value="#{tbcMsj['abcmarcas.selMarca']}"/>
+                            </td>
+                            <td>
+                                <p:selectOneMenu id="marcasCbo" value="#{marcaMBean.marcaSeleccionada}" 
+                                                 style="width: 650px" required="true" 
+                                                 requiredMessage="Falta llenar el campo marca que recibirá cambios">
+                                    <f:selectItem itemLabel="#{tbcMsj['label.seleccione.one']}" itemValue="" />
+                                    <f:selectItems value="#{marcaMBean.abcMarcaHelper.marcas}" var="marca" 
+                                                   itemLabel="#{marca.valor}" itemValue="#{marca.id}"/>
+                                    <p:ajax event="change" listener="#{marcaMBean.selectMarcaCambio}" 
+                                            update="formCMarca"/>
+                                </p:selectOneMenu>
+                                <p:message id="msgMarcasCbo" for="marcasCbo" display="text"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p:outputLabel value="#{tbcMsj['abcmarcas.marca']}"/>
+                            </td>
+                            <td>
+                                <p:inputText id="txtMarca" styleClass="input-text"
+                                             maxlength="100" value="#{marcaMBean.movimiento.marca}" 
+                                             required="true" lang="es" requiredMessage="Falta llenar el campo marca">
+                                    <p:ajax event="blur" listener="#{marcaMBean.validarMarcaCambio}" update="btnGuardar"/>
+                                </p:inputText>
+                                <p:message id="msgMarca" for="txtMarca" display="text"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p:outputLabel value="#{tbcMsj['abcmarcas.confirmacionmarca']}"/>
+                            </td>
+                            <td>
+                                <p:inputText id="txtConfirmacion" styleClass="input-text"
+                                             maxlength="100" value="#{marcaMBean.abcMarcaHelper.confirmacion}" required="true"
+                                             lang="es" requiredMessage="Falta llenar el campo confirmar marca">
+                                    <p:ajax event="blur" listener="#{marcaMBean.validarMarcaCambio}" update="btnGuardar"/>
+                                </p:inputText>
+                                <p:message id="msgConfirmacion" for="txtConfirmacion" display="text"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p:outputLabel value="#{tbcMsj['abcmarcas.clave']}"/>
+                            </td>
+                            <td>
+                                <p:inputText id="txtClave" styleClass="input-text"
+                                             maxlength="10" value="#{marcaMBean.movimiento.clave}" 
+                                             required="true" lang="es" 
+                                             requiredMessage="Falta llenar el campo clave">
+                                    <p:ajax event="blur" listener="#{marcaMBean.validarClavleCambio}" update="btnGuardar"/>
+                                </p:inputText>
+                                <p:message id="msgClave" for="txtClave" display="text"/>                                
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p:outputLabel value="#{tbcMsj['abcmarcas.fecha']}"/>
+                            </td>
+                            <td>                                
+                                <p:calendar id="fecha" locale="es" navigator="false" 
+                                            pattern="dd/MM/yyyy HH:mm:ss" readonlyInput="true"                                  
+                                            value="#{marcaMBean.movimiento.fecMovimiento}" 
+                                            maxdate="#{marcaMBean.today}" required="true"
+                                            lang="es" requiredMessage="Falta llenar el campo fecha y hora"
+                                            timeZone="GMT-6" >
+                                    <p:ajax event="dateSelect" update="msgFecha"/>
+                                </p:calendar>
+                                <p:message id="msgFecha" for="fecha" display="text"/>
+                            </td>
+                        </tr>
+                    </table>
+                    <p:separator/>
+                    <table align="center" border="0" style="width: 100%">
+                        <tr>
+                            <td style="width: 95%">
+                                <p:commandButton styleClass="gmxNegativo"
+                                                 value="#{tbcMsj['page.btn.salir']}" 
+                                                 onclick="exitDialog.show();"/>
+                            </td>
+                            <td>
+                                <p:commandButton styleClass="gmxPositivo"
+                                                 value="#{tbcMsj['abcmarcas.btnGuardar']}" id="btnGuardar" 
+                                                 onclick="dlgConfirmacion.show()" disabled="#{!marcaMBean.abcMarcaHelper.flgBtnGuardaCambio}"/>
+                            </td>
+                        </tr>
+                    </table>
+                </p:panel>
+                <p:panel id="acuseBaja" rendered="#{marcaMBean.abcMarcaHelper.acuseCambio}">
+                    <table width="100%" cellspacing="3" cellpadding="3">
+                        <tr>
+                            <td/>
+                            <td width="550px">
+                                <h:panelGrid columns="3" width="100%">
+                                    <h:panelGrid width="100%"/>
+                                    <h:panelGrid columns="2" width="100%">
+                                        <p:outputLabel value="#{tbcMsj['abcmarcas.rfc']}"/>
+                                        <p:outputLabel value="#{marcaMBean.movimiento.rfc}"/>
+                                        <p:outputLabel value="#{tbcMsj['abcmarcas.marca']}"/>
+                                        <p:outputLabel value="#{marcaMBean.movimiento.marca}"/>
+                                        <p:outputLabel value="#{tbcMsj['abcmarcas.clave']}"/>
+                                        <p:outputLabel value="#{marcaMBean.movimiento.clave}"/>
+                                        <p:outputLabel value="#{tbcMsj['abcmarcas.fecha']}"/>
+                                        <p:outputLabel value="#{marcaMBean.fechaAcuseCambio}"/>
+                                    </h:panelGrid>
+                                    <h:panelGrid width="100%"/>
+                                </h:panelGrid>
+                                <p:commandButton styleClass="gmxPositivo"
+                                                 value="#{tbcMsj['btn.imprimir.acuse']}" 
+                                                 ajax="false"
+                                                 action="#{marcaMBean.btnGenerarAcuseCambioPDF}" immediate="true"/>
+                                <p:commandButton styleClass="gmxNegativo"
+                                                 value="#{tbcMsj['btn.salir']}" onclick="exitDialog.show();"/>
+
+
+                            </td>
+                            <td/>
+                        </tr>
+                    </table> 
+                </p:panel>
+            </h:form>
+            <p:dialog header="#{tbcMsj['label.confirmacion.header']}" widgetVar="dlgConfirmacion" resizable="false"
+                      closable="false" width="315px" height="120px">
+                <p:outputLabel value="#{tbcMsj['label.confirm.guardar']}"/>
+                <p:separator style="border-color: white"/>
+                <p:commandButton id="btnCancelar" value="#{tbcMsj['label.confirm.cancelar']}"
+                                 oncomplete="dlgConfirmacion.hide();" styleClass="ui-confirmdialog-no gmxNegativo"
+                                 icon="ui-icon-close" style="float:right;"/>
+                <p:commandButton id="btnAceptar" value="#{tbcMsj['label.confirm.aceptar']}"
+                                 onclick="dlgConfirmacion.hide();" update="formCMarca"
+                                 actionListener="#{marcaMBean.btnGuardarCambio}"
+                                 styleClass="ui-confirmdialog-yes gmxPositivo" icon="ui-icon-check" style="float:right;" >
+                </p:commandButton>
+            </p:dialog>
+        </h:body>
+    </html>
+</f:view>

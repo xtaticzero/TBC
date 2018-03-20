@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+
+    </h:head>
+    <h:body>
+        <p:layout fullPage="true">
+            <p:layoutUnit position="north" size="100" resizable="true" closable="false" collapsible="true">
+                <h:panelGrid id="panelNorth" columns="3" width="100%">
+                    <h:panelGrid id="panelTitles" columns="1" width="100%" style="margin: 0 auto;">					
+                        <h:outputText value="#{tbcMsj['application']}" styleClass="titled" />
+                        <h:outputText value="#{tbcMsj['application.name']}" styleClass="subtitled" />
+                    </h:panelGrid>
+                    <h:graphicImage value="/resources/images/logo_sat.png" />					
+                </h:panelGrid>
+            </p:layoutUnit>
+            
+            <p:layoutUnit position="west" size="200" header="#{tbcMsj['menu.title']}" resizable="true" closable="false" collapsible="true" collapsed="false">
+			<p:menu>
+				<p:submenu label="#{tbcMsj['menu.compania.title']}">
+					<p:menuitem value="#{tbcMsj['menu.compania.alta']}" url="www.google.com" icon="ui-icon-home"/>
+					<p:menuitem value="#{tbcMsj['menu.compania.baja']}" url="www.google.com" icon="ui-icon-home"/>
+					<p:menuitem value="#{tbcMsj['menu.compania.cambio']}" url="www.google.com" icon="ui-icon-home"/>
+				</p:submenu>
+				<p:submenu label="#{tbcMsj['menu.codigos.autorizacion.title']}">
+					<p:menuitem value="#{tbcMsj['menu.codigos.autorizacion.produccion']}" url="www.google.com" icon="ui-icon-home"/>
+				</p:submenu>
+				<p:submenu label="#{tbcMsj['menu.historico.title']}">
+					<p:menuitem value="#{tbcMsj['menu.historico.compania']}" url="www.google.com" icon="ui-icon-home"/>
+				</p:submenu>
+				<p:submenu label="#{tbcMsj['menu.catalogo.title']}">	
+					<p:menuitem value="#{tbcMsj['menu.catalogo.origen']}" url="www.google.com" icon="ui-icon-home"/>
+					<p:menuitem value="#{tbcMsj['menu.catalogo.destino']}" url="www.google.com" icon="ui-icon-home"/>					
+				</p:submenu>
+<!--				<p:submenu label="#{tbcMsj['menu.salir']}">
+					<p:menuitem value="#{tbcMsj['menu.salir']}"  url="/../sec/SingleSignOut" icon="ui-icon-home"/>
+				</p:submenu>-->
+			</p:menu>
+		</p:layoutUnit>
+
+            <p:layoutUnit position="center">
+			<ui:insert name="content">Default content</ui:insert>
+			<p:ajaxStatus>
+				<f:facet name="start">
+					<p:graphicImage value="/resource/images/ajaxloading.gif" />
+				</f:facet>
+			</p:ajaxStatus>
+		</p:layoutUnit>
+        </p:layout>
+    </h:body>
+</html>

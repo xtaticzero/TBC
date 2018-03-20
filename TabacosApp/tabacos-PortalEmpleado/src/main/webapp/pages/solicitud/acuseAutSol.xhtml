@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<f:view xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:c="http://java.sun.com/jsp/jstl/core"
+        xmlns:pe="http://primefaces.org/ui/extensions"
+        xmlns:tbc="http://www.sat.gob.mx/tabacos">
+    <html xmlns="http://www.w3.org/1999/xhtml">
+        <h:head>
+            <meta http-equiv="X-UA-Compatible" content="IE=11"/>
+            <h:outputScript library="js/" name="tabacos.js"/>
+            <h:outputStylesheet library="css/" name="tabacos.css"/>
+        </h:head>
+        <h:body>            
+            <h:form id="formAcuseAut" styleClass="panel-contenedor" enctype="multipart/form-data">
+                <p:growl id="msgExitoGuardar" showDetail="true" sticky="false" globalOnly="true"/>               
+                <p:panel id="panelAcuseMarca" header="#{tbcMsj['autsol.acuse.titulo']}">
+                    <table width="90%">
+                        <tr>
+                            <td width="20%">
+                                <p:outputLabel value="#{tbcMsj['autsol.busqueda.tabla.folio']}"/>
+                            </td>
+                            <td>
+                                <p:outputLabel>#{autorizarSolicitudesMBean.solicitudHelper.solicitud.folio}</p:outputLabel>
+                            </td>                            
+                        </tr>
+                        <tr>
+                            <td width="20%">
+                                <p:outputLabel value="#{tbcMsj['autsol.busqueda.tabla.rfc']}"/>
+                            </td>
+                            <td>
+                                <p:outputLabel>#{autorizarSolicitudesMBean.solicitudHelper.solicitud.rfc}</p:outputLabel>
+                            </td>                            
+                        </tr>
+                        <tr>
+                            <td width="20%">
+                                <p:outputLabel value="#{tbcMsj['autsol.busqueda.tabla.rsocial']}"/>
+                            </td>
+                            <td>
+                                <p:outputLabel>#{autorizarSolicitudesMBean.solicitudHelper.solicitud.razonSocial}</p:outputLabel>
+                            </td>                            
+                        </tr>                        
+                        <tr>
+                            <td width="20%">
+                                <p:outputLabel value="#{tbcMsj['autsol.busqueda.tabla.fecha']}"/>
+                            </td>
+                            <td>
+                                <p:outputLabel>#{autorizarSolicitudesMBean.fechaSolicitud}</p:outputLabel>
+                            </td>                            
+                        </tr>
+                        <tr>
+                            <td width="20%">
+                                <p:outputLabel value="#{tbcMsj['autsol.guardar.cantidad']}"/>
+                            </td>
+                            <td>
+                                <p:outputLabel>#{autorizarSolicitudesMBean.solicitudHelper.solicitud.cantidadSolicitud}</p:outputLabel>
+                            </td>                            
+                        </tr>                        
+                        <tr>
+                            <td width="20%">
+                                <p:outputLabel value="#{tbcMsj['autsol.guardar.spublico']}"/>
+                            </td>
+                            <td>
+                                <p:outputLabel>#{autorizarSolicitudesMBean.solicitudHelper.solicitud.servidorPublicoAutorizanteInfo}</p:outputLabel>
+                            </td>                            
+                        </tr>
+                        <tr>
+                            <td width="20%">
+                                <p:outputLabel value="#{tbcMsj['autsol.guardar.cautorizada']}"/>
+                            </td>
+                            <td>
+                                <p:outputLabel>#{autorizarSolicitudesMBean.solicitudHelper.solicitud.cantidadAutorizada}</p:outputLabel>
+                            </td>                            
+                        </tr>
+                        <tr>
+                            <td width="20%">
+                                <p:outputLabel value="#{tbcMsj['autsol.guardar.docres']}"/>
+                            </td>
+                            <td>
+                                <p:outputLabel>#{autorizarSolicitudesMBean.solicitudHelper.solicitud.nombreArchivo}</p:outputLabel>
+                            </td>                            
+                        </tr>
+                        <tr>
+                            <td width="20%">
+                                <p:outputLabel value="#{tbcMsj['autsol.guardar.resolucion']}"/>
+                            </td>
+                            <td>
+                                <p:outputLabel>#{autorizarSolicitudesMBean.solicitudHelper.solicitud.estatusResolucionInfo}</p:outputLabel>
+                            </td>                            
+                        </tr>                        
+                        <tr>
+                            <td width="30%">                                
+                                <p:commandButton value="#{tbcMsj['autsol.guardar.btnimprimir']}" id="btnImprimir" 
+                                                 actionListener="#{autorizarSolicitudesMBean.imprimirSolicitud}" ajax="false" styleClass="gmxPositivo"/>
+                                <p:commandButton value="#{tbcMsj['abcmarcas.btnSalir']}" id="btnSalir" 
+                                                 actionListener="#{autorizarSolicitudesMBean.regresarSolicitud}" styleClass="gmxNegativo"/>
+                            </td>
+                            <td>
+                                
+                            </td>                            
+                        </tr>
+                    </table>
+                </p:panel>                
+            </h:form>            
+        </h:body>
+    </html>
+</f:view>

@@ -1,0 +1,26 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<facelet-taglib xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facelettaglibrary_2_0.xsd"
+                version="2.0" xmlns="http://java.sun.com/xml/ns/javaee">
+    <namespace>http://www.sat.gob.mx/marbetes</namespace>
+    <tag>
+        <tag-name>firmaSolicitudForm</tag-name>
+        <source>../pages/form/firmarSolicitudForm.jsf</source>
+    </tag>
+    <tag>
+        <tag-name>firmaSolicitudAppletForm</tag-name>
+        <source>../pages/form/firmarSolicitudAppletForm.jsf</source>
+    </tag>
+    <tag>
+        <tag-name>representanteLegalForm</tag-name>
+        <source>../pages/form/representanteLegalForm.jsf</source>
+    </tag>
+    <tag>
+        <tag-name>solicitudForm</tag-name>
+        <source>../pages/form/solicitudForm.jsf</source>
+    </tag>
+    <tag>
+        <tag-name>solicitudGenerada</tag-name>
+        <source>../pages/form/solicitudGeneradaForm.jsf</source>
+    </tag>
+</facelet-taglib>

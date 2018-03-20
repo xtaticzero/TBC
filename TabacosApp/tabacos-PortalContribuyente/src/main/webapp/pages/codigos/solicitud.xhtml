@@ -1,0 +1,191 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:c="http://java.sun.com/jsp/jstl/core"
+        xmlns:pe="http://primefaces.org/ui/extensions"
+        xmlns:tbc="http://www.sat.gob.mx/tabacos">
+    <html xmlns="http://www.w3.org/1999/xhtml">
+        <applet name="FIEL" code="com.novell.applet.firmaElectronica.main.SgiApplet.class"
+                codebase="../../resources/applet/" archive="#{appletConf['applet.name']}" height="0" width="0"/>
+        <h:head>
+            <h:outputScript library="js/" name="tabacos.js"/>
+            <h:outputScript library="js/" name="FIEL.js"/>
+            <h:outputStylesheet library="css/" name="tabacos.css"/>
+        </h:head>
+        <h:body>
+            <ui:include src="/WEB-INF/templates/confirmExit.xhtml"/>
+            <ui:include src="/pages/tramites/menuTramites.xhtml"/>
+            <ui:include src="/pages/tramites/menuSolicitudCodigos.xhtml" />
+            <h:form id="miForm">
+                <p:growl showDetail="true" sticky="true" globalOnly="true" autoUpdate="true"/>
+                <p:panel id="panelSolicitudCod" header="#{tbcMsj['menuitem.sub.tramites.solicitud.codigos.solicitar']}"
+                         rendered="#{solicitarCodigosMB.solicitud}"
+                         styleClass="panel-contenedor">
+                    <h:panelGrid columns="2">
+                        <p:outputLabel value="#{tbcMsj['label.rfc.contribuyente']}"/>
+                        <p:selectOneMenu id="rfcContrib" value="#{solicitarCodigosMB.solicitarCodigoHelper.tabacalera.rfc}" 
+                                         style="width: 450px;
+                                         margin-left:auto;
+                                         margin-right:auto;">
+                            <f:selectItems value="#{solicitarCodigosMB.solicitarCodigoHelper.lstContribuyente}" 
+                                           var="contribuyenteObj"
+                                           itemLabel="#{contribuyenteObj.rfc}"
+                                           itemValue="#{contribuyenteObj.rfc}"/>
+                            <p:ajax event="change" listener="#{solicitarCodigosMB.actualizaRSTavacalera}" update=":miForm"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{tbcMsj['label.rs.contribuyente']}"/>
+                        <p:inputText id="rsContrib" value="#{solicitarCodigosMB.solicitarCodigoHelper.tabacalera.razonSocial}" 
+                                     style="width: 452px !important;"
+                                     readonly="true" required="true"/>
+                        <p:outputLabel value="#{tbcMsj['label.rfc.proveedor']}"/>
+                        <p:selectOneMenu id="rfcProv" value="#{solicitarCodigosMB.solicitarCodigoHelper.proveedor.rfc}"
+                                         style="width: 450px; 
+                                         margin-left:auto;
+                                         margin-right:auto;">
+                            <f:selectItems value="#{solicitarCodigosMB.solicitarCodigoHelper.lstProveedores}" 
+                                           var="proveedorObj"
+                                           itemLabel="#{proveedorObj.rfc}"
+                                           itemValue="#{proveedorObj.rfc}"/>
+                            <p:ajax event="change" listener="#{solicitarCodigosMB.actualizaRSProveedor}" update="rfcProv rsProv"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{tbcMsj['label.rs.proveedor']}"/>
+                        <p:inputText id="rsProv" value="#{solicitarCodigosMB.solicitarCodigoHelper.proveedor.razonSocial}" 
+                                     style="width: 452px !important"
+                                     readonly="true" />
+                        <p:outputLabel value="#{tbcMsj['label.tipo.contribuyente']}"/>
+                        <p:selectOneMenu id="tipoContrib" value="#{solicitarCodigosMB.solicitarCodigoHelper.tipoContribuyente}"
+                                         style="width: 150px !important;">
+                            <f:selectItem itemLabel="#{tbcMsj['combo.default']}" itemValue="" />
+                            <f:selectItems value="#{solicitarCodigosMB.solicitarCodigoHelper.lstTipoContrib}" 
+                                           var="tipoContrib"
+                                           itemLabel="#{tipoContrib.descTipoContrib}"
+                                           itemValue="#{tipoContrib.idTipoContrib}"/>
+                            <p:ajax event="change" listener="#{solicitarCodigosMB.habilitarBtnSolicitud}" update=":miForm"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{tbcMsj['label.cantidad.codigos']}"/>
+                        <p:inputText id="numeroCod" value="#{solicitarCodigosMB.solicitarCodigoHelper.cantidadCodigos}" 
+                                     style="width: 151px !important;"
+                                     maxlength="15"
+                                     onkeypress="return justNumbers(event);">
+                            <p:ajax event="blur"  listener="#{solicitarCodigosMB.habilitarBtnSolicitud}" update=":miForm"/>
+                        </p:inputText>
+                        <p:outputLabel value="#{tbcMsj['label.pais.origen']}"/>
+                        <p:selectOneMenu id="origen" value="#{solicitarCodigosMB.solicitarCodigoHelper.origen.idPais}"
+                                         style="width: 150px !important;">
+                            <f:selectItem itemLabel="#{tbcMsj['combo.default']}" itemValue="" />
+                            <f:selectItems value="#{solicitarCodigosMB.solicitarCodigoHelper.lstPais}" 
+                                           var="paisOrigen"
+                                           itemLabel="#{paisOrigen.descCorta}"
+                                           itemValue="#{paisOrigen.idPais}"/>
+                            <p:ajax event="change" update=":miForm" listener="#{solicitarCodigosMB.habilitarBtnSolicitud}"/>
+                        </p:selectOneMenu>
+                        <h:outputText/>
+                        <h:panelGroup>
+                            <p:commandButton id="idBtnSolicitar" 
+                                             value="#{tbcMsj['btn.solicitar']}" 
+                                             disabled="#{!solicitarCodigosMB.solicitar}"
+                                             onclick="firma.show();"
+                                             styleClass="gmxPositivo"/>
+                            <p:commandButton value="#{tbcMsj['btn.salir']}"
+                                             onclick="exitDialog.show();"
+                                             styleClass="gmxNegativo"/>
+                        </h:panelGroup>
+                    </h:panelGrid>
+                </p:panel>
+                <p:panel id="panelAcuse" rendered="#{solicitarCodigosMB.acuse}" 
+                         header="#{tbcMsj['menuitem.sub.tramites.solicitud.codigos.solicitar']}" styleClass="panel-contenedor">
+                    <table width="100%" cellspacing="3" cellpadding="3">
+                        <tr>
+                            <td/>
+                            <td width="350px">
+                                <h:panelGrid columns="3" width="100%">
+                                    <h:panelGrid width="100%"/>
+                                    <h:panelGrid columns="1" width="100%" style="font-weight:bold;">
+                                        <p:outputLabel value="#{tbcMsj['label.exito']}"/>
+                                    </h:panelGrid>
+                                    <h:panelGrid width="100%"/>
+                                    <h:panelGrid width="100%"/>
+                                    <h:panelGrid columns="2" width="100%">
+                                        <p:outputLabel value="#{tbcMsj['page.solicitud.acuse.rfc']}"/>
+                                        <p:outputLabel value="#{solicitarCodigosMB.solicitarCodigoHelper.tabacalera.rfc}"/>
+                                        <p:outputLabel value="#{tbcMsj['page.solicitud.acuse.fecha']}"/>
+                                        <p:outputLabel value="#{solicitarCodigosMB.fechaAcuse}"/>
+                                        <p:outputLabel value="#{tbcMsj['page.solicitud.acuse.folio.acuse']}"/>
+                                        <p:outputLabel value="#{solicitarCodigosMB.acuseTransaccion.folioAcuse}"/>
+                                        <p:outputLabel value="#{tbcMsj['page.solicitud.acuse.catidad.solicitada']}"/>
+                                        <p:outputLabel value="#{solicitarCodigosMB.solicitarCodigoHelper.cantidadCodigos}"/>
+                                    </h:panelGrid>
+                                    <h:panelGrid width="100%"/>
+                                </h:panelGrid>
+                                <p:commandButton value="#{tbcMsj['btn.imprimir.acuse']}" 
+                                                 ajax="false"
+                                                 action="#{solicitarCodigosMB.btnGenerarAcusePDF}"
+                                                 immediate="true"
+                                                 styleClass="gmxPositivo"/>
+                                <p:commandButton value="#{tbcMsj['btn.salir']}"
+                                                 onclick="exitDialog.show();"
+                                                 styleClass="gmxNegativo"/>
+                                 
+                            </td>
+                            <td/>
+                        </tr>
+                    </table>
+                </p:panel>
+                <div>
+                    <p:dialog header="#{tbcMsj['panel.titulo.firma.solicitud']}" widgetVar="firma" resizable="false" width="700px" height="400px" onShow="true" closable="false" modal="true">
+                        <p:panel id="panelFirmaSolicitud" header="#{tbcMsj['panel.titulo.firma.solicitud']}">
+
+                            <p:outputLabel value="#{tbcMsj['label.accion.representante.legal']}" styleClass="titulo-label"/>
+                            <p:separator id="separatorFS"/>
+                            <h:panelGrid columns="3" id="panelGridFirmarSolicitud" style="text-align:left; margin: 0px auto;">
+                                <p:outputLabel value="#{tbcMsj['label.rfc']}"/>
+                                <p:inputText id="txtRFC" value="#{solicitarCodigosMB.firmaFormHelper.rfcSession}" disabled="true" style="width: 200px"/>
+                                <p:spacer/>
+                                <p:spacer/>
+                                <p:message id="msgRFC" for="txtRFC" display="text"/>
+                                <p:spacer/>
+                                <p:outputLabel value="#{tbcMsj['label.password']}"/>
+                                <p:password id="privateKeyPassword" value="#{solicitarCodigosMB.firmaFormHelper.passwordSession}" required="true"
+                                            requiredMessage="#{tbcMsj['error.campo.obligatorio']}" style="width: 200px"/>
+                                <p:spacer/>
+                                <p:spacer/>
+                                <p:message id="msgPassword" for="privateKeyPassword" display="text"/>
+                                <p:spacer/>
+                                <p:outputLabel value="#{tbcMsj['label.certificado']}"/>
+                                <p:inputText id="certificate" disabled="true" value="" style="width: 250px"/>
+                                <p:commandButton value="#{tbcMsj['btn.examinar']}" id="btnCert" onclick="browseForCertificate()"/>
+                                <p:spacer/>
+                                <p:message id="msgCertificado" for="certificate" display="text"/>
+                                <p:spacer/>
+                                <p:outputLabel value="#{tbcMsj['label.llave.privada']}"/>
+                                <p:inputText id="privateKey" disabled="true" value="" style="width: 250px"/>
+                                <p:commandButton value="#{tbcMsj['btn.examinar']}" id="btnPrivateKey" onclick="browseForPrivateKey()"/>
+                                <p:spacer/>
+                                <p:message id="msgLlavePriv" for="privateKey" display="text"/>
+                                <p:spacer/>
+                                <p:spacer/>
+                                <p:spacer/>
+                                <p:commandButton value="#{tbcMsj['btn.firmar']}" id="btnEnviarForm" update="@form"
+                                                 action="#{solicitarCodigosMB.guardarSolicitud}" process="@form"
+                                                 onstart="enviarFormulario()" onsuccess="firma.hide();" styleClass="gmxPositivo"/>
+                            </h:panelGrid>
+                            <input type="hidden" id="firmaDigital" name="firmaDigital"
+                                   value="#{solicitarCodigosMB.firmaFormHelper.selloDigital}"/>
+                            <input type="hidden" id="cadenaOriginal" name="cadenaOriginal"
+                                   value="#{solicitarCodigosMB.firmaFormHelper.cadenaOriginal}"/>
+                            <input type="hidden" id="mode" name="mode" value="#{tbc_prop_ambiente['aplicacion.ambiente.driver']}"/>
+                            <p:inputText id="firmaDigital" value="#{solicitarCodigosMB.firmaFormHelper.selloDigital}" disabled="true" rendered="false"/>
+                            <p:inputText id="cadenaOriginal" value="#{solicitarCodigosMB.firmaFormHelper.cadenaOriginal}" disabled="true" rendered="false"/>
+                            <p:inputText id="mode" value="#{tbc_prop_ambiente['aplicacion.ambiente.driver']}" disabled="true" rendered="false"/>
+                            <br/>
+                        </p:panel>
+                    </p:dialog>
+                </div>
+            </h:form>
+
+        </h:body>
+    </html>
+</f:view>

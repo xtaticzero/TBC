@@ -1,0 +1,106 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:c="http://java.sun.com/jsp/jstl/core"
+        xmlns:pe="http://primefaces.org/ui/extensions"
+        xmlns:tbc="http://www.sat.gob.mx/tabacos">
+    <html xmlns="http://www.w3.org/1999/xhtml">
+        <h:head>
+            <meta http-equiv="X-UA-Compatible" content="IE=10"/>
+            <h:outputScript library="js" name="tabacos.js"/>
+            <h:outputStylesheet library="css/" name="tabacos.css"/>
+        </h:head>
+        <h:body>
+            <ui:include src="/WEB-INF/templates/confirmExit.xhtml"/>
+            <ui:include src="/pages/tramites/menuTramites.xhtml"/>
+            <ui:include src="/pages/tramites/menuSolicitudCodigos.xhtml" />
+            <p:panel id="panelSolicitarCodigos" header="#{tbcMsj['page.mis.solicitudes.title']}" styleClass="panel-contenedor">
+                <p:scrollPanel mode="native">
+                    <h:form id="misSolicitudesForm">
+                        <p:growl id="msgsSolicitudes" showDetail="true" sticky="true" globalOnly="true" autoUpdate="true"/>
+                        <h:panelGrid columns="3">
+                            <h:panelGrid columns="2">
+                                <p:outputLabel value="#{tbcMsj['label.rfc.contribuyente']}"/>
+                                <p:selectOneMenu id="rfcContrib" value="#{misSolicitudesMB.misSolicitudesHelper.rfcTabacalera}" 
+                                                 style="width: 450px;
+                                                 margin-left:auto;
+                                                 margin-right:auto;">
+                                    <f:selectItems value="#{misSolicitudesMB.misSolicitudesHelper.lstTabacaleras}" 
+                                                   var="contribuyenteObj"
+                                                   itemLabel="#{contribuyenteObj.rfc}"
+                                                   itemValue="#{contribuyenteObj.rfc}"/>
+                                    <p:ajax event="blur" listener="#{misSolicitudesMB.consultarSolicitudes}" update="tbSolicitudes"/>
+                                </p:selectOneMenu>    
+                            </h:panelGrid>
+                            <h:outputText/>
+                            <h:outputText/>
+                            <p:scrollPanel mode="native">
+                                <p:dataTable id="tbSolicitudes" widgetVar="tbSolicitudes" value="#{misSolicitudesMB.misSolicitudesHelper.lstSolicitudes}" var="solicitud"
+                                             paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                                             paginator="true"
+                                             paginatorPosition="bottom"
+                                             scrollWidth=""
+                                             rows="10"
+                                             style="width: 100%; display:block;overflow-y:none;overflow-x:auto;"
+                                             emptyMessage="#{tbcMsj['msg.dataTable.vacio']}">
+
+                                    <p:column style="text-align: right !important;" sortBy="#{solicitud.idSolicitud}">
+                                        <f:facet name="header" ><h:outputText value="#{tbcMsj['page.data.table.title.folio']}"/></f:facet>
+                                        <h:outputText value="#{solicitud.idSolicitud}" style="font-weight: bold"/>
+                                    </p:column>
+
+                                    <p:column style="text-align: center !important;width: 100px;" sortBy="#{solicitud.rfcTavacalera}">
+                                        <f:facet name="header"><h:outputText value="#{tbcMsj['page.data.table.title.rfc']}"/></f:facet>
+                                        <h:outputText value="#{solicitud.rfcTavacalera}" />
+                                    </p:column>
+
+                                    <p:column style="text-align: center !important;width: 100px;" sortBy="#{solicitud.rfcTavacalera}">
+                                        <f:facet name="header"><h:outputText value="#{tbcMsj['page.data.table.title.proveedor']}"/></f:facet>
+                                        <h:outputText value="#{solicitud.rfcProveedor}" />
+                                    </p:column>
+
+                                    <p:column style="text-align: right !important;" sortBy="#{solicitud.cantidadCodigos}">
+                                        <f:facet name="header"><h:outputText value="#{tbcMsj['page.data.table.title.numcodigos']}"/></f:facet>
+                                        <h:outputText value="#{solicitud.cantidadCodigos}" />
+                                    </p:column>
+
+                                    <p:column style="text-align: center !important;" sortBy="#{solicitud.fechaSolicitud}">
+                                        <f:facet name="header"><h:outputText value="#{tbcMsj['page.data.table.title.fechasol']}"/></f:facet>
+                                        <h:outputText value="#{solicitud.fechaSolicitud}" >
+                                            <f:convertDateTime pattern="dd/MM/yyyy" ></f:convertDateTime>
+                                        </h:outputText>
+                                    </p:column>
+
+                                    <p:column style="text-align: center !important;" sortBy="#{solicitud.paisOrigen}">
+                                        <f:facet name="header"><h:outputText value="#{tbcMsj['page.data.table.title.origen']}"/></f:facet>
+                                        <h:outputText value="#{solicitud.paisOrigen}" />
+                                    </p:column>
+
+                                    <p:column style="text-align: center !important;" sortBy="#{solicitud.estatus}">
+                                        <f:facet name="header"><h:outputText value="#{tbcMsj['page.data.table.title.estatus']}"/></f:facet>
+                                        <h:outputText value="#{solicitud.estatus}" />
+                                    </p:column>
+
+                                    <p:column style="text-align: center !important;" sortBy="#{solicitud.fechaResolucion}">
+                                        <f:facet name="header"><h:outputText value="#{tbcMsj['page.data.table.title.fh.resolucion']}"/></f:facet>
+                                        <h:outputText value="#{solicitud.fechaResolucion}" >
+                                            <f:convertDateTime pattern="dd/MM/yyyy" ></f:convertDateTime>
+                                        </h:outputText>
+                                    </p:column>
+                                </p:dataTable>
+                            </p:scrollPanel>
+                            <h:outputText/>
+                            <h:outputText/>
+                            <h:panelGroup style="text-align: right;">
+                                <p:commandButton value="#{tbcMsj['btn.salir']}" onclick="exitDialog.show();" styleClass="gmxNegativo"/>
+                            </h:panelGroup>
+                        </h:panelGrid>
+                    </h:form>
+                </p:scrollPanel>
+            </p:panel>
+        </h:body>
+    </html>
+</f:view>

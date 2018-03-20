@@ -1,0 +1,20 @@
+.ui-growl{
+            position: fixed;
+                top: 85%;
+                left:50%;
+                width:360px;
+                height: 110px;
+                z-index:9999;
+}
+.contenedorComboLargo{
+    width:500px;
+}
+.contenedorComboChico{
+    width:50px;
+}
+.contenedorPanelGridMediano{
+    width:500px;
+}
+.contenedorPanelGridChico{
+    width:250px;
+}

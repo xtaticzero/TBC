@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<appender name="consola" class="org.apache.log4j.ConsoleAppender">
+    <layout class="org.apache.log4j.PatternLayout">
+        <param name="ConversionPattern" value="%d %5p [%c:%L] [%M] - %m%n"/>
+    </layout>
+</appender>
+<appender name="appenderTBCPE" class="org.apache.log4j.DailyRollingFileAppender">
+    <param name="file" value="/siat/logs/TabacosPE_error.log" />
+    <param name="Append" value="true"/>
+    <param name="DatePattern" value="'.'yyyyMMdd" />
+ 
+    <!--
+           <appender-ref ref="consola" />
+    NIVEL DE PRIORIDAD DE LOG4J -->
+    <param name="Threshold" value="INFO" />
+
+    <layout class="org.apache.log4j.PatternLayout">
+        <param name="ConversionPattern"
+               value="%d %-4r [%t] %-5p %l %x - %m%n" />
+    </layout>
+</appender>
+<logger name="loggerTBCPE" additivity="false" >
+    <appender-ref ref="appenderTBCPE"/>
+</logger>
+
+
+<root>    	
+    <appender-ref ref="appenderTBCPE" />
+</root>

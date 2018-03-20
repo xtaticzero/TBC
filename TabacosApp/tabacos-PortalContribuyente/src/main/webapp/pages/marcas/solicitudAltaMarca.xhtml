@@ -1,0 +1,224 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:c="http://java.sun.com/jsp/jstl/core"
+        xmlns:pe="http://primefaces.org/ui/extensions"
+        xmlns:tbc="http://www.sat.gob.mx/tabacos">
+    <html xmlns="http://www.w3.org/1999/xhtml">
+        <applet name="FIEL" code="com.novell.applet.firmaElectronica.main.SgiApplet.class"
+                codebase="../../resources/applet/" archive="#{appletConf['applet.name']}" height="0" width="0"/>
+        <h:head>
+            <meta http-equiv="X-UA-Compatible" content="IE=11"/>
+            <h:outputScript library="js/" name="tabacos.js"/>
+            <h:outputScript library="js/" name="FIEL.js"/>
+            <h:outputStylesheet library="css/" name="tabacos.css"/>
+            <style type="text/css">
+                .fileupload-content{
+                    height:70px!important;
+                    z-index: 0 !important;
+                }
+                .ui-inputfield{
+                    width: 80% !important;
+                }
+
+                .fileupload-buttonbar{
+                    height:35px!important;
+                    z-index: 0 !Important;
+                }
+                .fileupload-buttonbar .ui-button input {
+                    top: auto !important;
+                    right: auto !important;
+                    margin: auto !important;
+                    border: solid transparent;
+                    border-width: 0 0 100px 200px;
+                    opacity: 0;
+                    filter: alpha(opacity=0);
+                    -o-transform: translate(250px, -50px) scale(1);
+                    direction: ltr;
+                    cursor: pointer;
+                    z-index: 0;
+                }
+            </style>
+        </h:head>
+        <h:body>
+            <ui:include src="/WEB-INF/templates/confirmExit.xhtml"/>
+            <ui:include src="/pages/tramites/menuTramites.xhtml"/>
+            <p:panel id="panelSolAltaMarca" header="#{tbcMsj['page.solicitud.alta.marca.heder']}" styleClass="panel-contenedor">
+                <h:form id="solicitudAltaMarcaForm" enctype="multipart/form-data">
+                    <p:growl id="msgs" showDetail="true" sticky="false" globalOnly="true"/>
+                    <p:panel id="panelSolicitudMarca" rendered="#{solicitudAltaMarcaMB.solicitud}">
+                        <table width="100%" cellspacing="3" cellpadding="3">
+                            <tr>
+                                <td/>
+                                <td>
+                                    <h:panelGrid columns="3" width="100%">
+                                        <h:panelGrid width="100%"/>
+                                        <h:panelGrid columns="2" width="100%">
+                                            <p:outputLabel value="#{tbcMsj['label.rfc.contribuyente']}"/>
+                                            <p:selectOneMenu id="rfcContribuyente" value="#{solicitudAltaMarcaMB.solicitudAltaMarcaHelper.tabacalera.rfc}" 
+                                                             style="width: 450px;">
+                                                <f:selectItems value="#{solicitudAltaMarcaMB.solicitudAltaMarcaHelper.lstContribuyente}"
+                                                               var="contribuyenteObj"
+                                                               itemLabel="#{contribuyenteObj.rfc}"
+                                                               itemValue="#{contribuyenteObj.rfc}"/>
+                                                <p:ajax event="change" listener="#{solicitudAltaMarcaMB.actualizaRSTavacalera}" update="@form"/>
+                                            </p:selectOneMenu>
+                                            <p:outputLabel value="#{tbcMsj['label.rs.contribuyente']}"/>
+                                            <p:inputText id="rsContrib" value="#{solicitudAltaMarcaMB.solicitudAltaMarcaHelper.tabacalera.razonSocial}" 
+                                                         style="width: 452px !important;"
+                                                         readonly="true" required="true"/>
+                                            <p:outputLabel value="#{tbcMsj['page.solicitud.alta.marca.marca']}"/>
+                                            <p:inputText id="marca" value="#{solicitudAltaMarcaMB.solicitudAltaMarcaHelper.marca}" 
+                                                         style="width: 325px !important;">
+                                                <p:ajax event="blur"  listener="#{solicitudAltaMarcaMB.habilitarGuardar}" update=":solicitudAltaMarcaForm :solicitudAltaMarcaForm :solicitudAltaMarcaForm:rfcContribuyente"/>
+                                            </p:inputText>
+                                            <p:outputLabel value="#{tbcMsj['page.solicitud.alta.marca.confirm']}"/>
+                                            <p:inputText id="confirmMarca" value="#{solicitudAltaMarcaMB.solicitudAltaMarcaHelper.confirmMarca}" 
+                                                         style="width: 325px !important;">
+                                                <p:ajax event="blur"  listener="#{solicitudAltaMarcaMB.confirmarMarca}" update=":solicitudAltaMarcaForm :solicitudAltaMarcaForm:rfcContribuyente"/>
+                                            </p:inputText>
+                                            <p:outputLabel value="#{tbcMsj['page.solicitud.alta.marca.clave']}"/>
+                                            <p:inputText id="clave" value="#{solicitudAltaMarcaMB.solicitudAltaMarcaHelper.clavleMarca}" 
+                                                         style="width: 100px !important;" onkeypress="return justNumbers(event);" maxlength="6" >
+                                                <p:ajax event="blur"  listener="#{solicitudAltaMarcaMB.validarClavle}" update=":solicitudAltaMarcaForm :solicitudAltaMarcaForm:rfcContribuyente" />
+                                            </p:inputText>
+                                            <p:outputLabel value="#{tbcMsj['page.solicitud.alta.marca.archivo']}"/>
+                                            <p:inputText id="nombreArchivo" value="#{solicitudAltaMarcaMB.nombreArchivo}" readonly="true" style="width: 452px !important;"/>
+                                        </h:panelGrid>
+                                        <h:panelGrid width="100%"/>
+                                    </h:panelGrid>
+                                </td>
+                                <td/>
+                            </tr>
+                            <tr>
+                                <td width="10%"/>
+                                <td width="80%" align="left">
+                                    <p:fileUpload id="cargaArchivo" disabled="#{!solicitudAltaMarcaMB.flgFile}"
+                                                  fileUploadListener="#{solicitudAltaMarcaMB.fileUpload}"
+                                                  mode="advance"  allowTypes="/(\.|\/)(pdf)$/"
+                                                  sizeLimit="1049000"
+                                                  cancelLabel="#{tbcMsj['page.ingresar.codigos.cancelar']}"
+                                                  uploadLabel="#{tbcMsj['page.ingresar.codigos.cargaarchivo']}"
+                                                  invalidFileMessage="#{tbcMsj['page.ingresar.codigos.archivo.invalido']}"
+                                                  invalidSizeMessage="#{tbcMsj['page.ingresar.codigos.archivo.grande']}"
+                                                  label="#{tbcMsj['btn.examinar']}" update=":solicitudAltaMarcaForm"
+                                                  auto="true"/>
+                                </td>
+                                <td width="10%"/>
+                            </tr>
+                            <tr>
+                                <td width="10%"/>
+                                <td width="80%">
+                                    <h:outputText/>
+                                </td>
+                                <td width="10%"/>
+                            </tr>
+                        </table>
+                        <table width="100%" cellspacing="3" cellpadding="3">
+                            <tr>
+                                <td width="10%"/>
+                                <td width="80%">
+                                    <p:commandButton value="#{tbcMsj['btn.salir']}"
+                                                     onclick="exitDialog.show();"
+                                                     styleClass="gmxNegativo"/>
+                                    <p:commandButton id="idBtnSolicitar"
+                                                     value="#{tbcMsj['btn.guardar']}"
+                                                     disabled="#{!solicitudAltaMarcaMB.flgBtnGuarda}"
+                                                     onclick="firma.show();"
+                                                     styleClass="gmxPositivo"/>
+                                </td>
+                                <td width="10%"/>
+                            </tr>
+                        </table>
+                    </p:panel>
+                    <p:panel id="panelAcuse" rendered="#{solicitudAltaMarcaMB.acuse}">
+                        <table width="100%" cellspacing="3" cellpadding="3">
+                            <tr>
+                                <td/>
+                                <td width="350px">
+                                    <h:panelGrid columns="3" width="100%">
+                                        <h:panelGrid width="100%"/>
+                                        <h:panelGrid columns="2" width="100%">
+                                            <p:outputLabel value="#{tbcMsj['page.solicitud.acuse.rfc']}"/>
+                                            <p:outputLabel value="#{solicitudAltaMarcaMB.solicitudAltaMarcaHelper.tabacalera.rfc}"/>
+                                            <p:outputLabel value="#{tbcMsj['page.solicitud.alta.marca.marca']}"/>
+                                            <p:outputLabel value="#{solicitudAltaMarcaMB.solicitudAltaMarcaHelper.marca}"/>
+                                            <p:outputLabel value="#{tbcMsj['page.solicitud.alta.marca.clave']}"/>
+                                            <p:outputLabel value="#{solicitudAltaMarcaMB.solicitudAltaMarcaHelper.clavleMarca}"/>
+                                            <p:outputLabel value="#{tbcMsj['page.solicitud.alta.marca.fecha']}"/>
+                                            <p:outputLabel value="#{solicitudAltaMarcaMB.fechaCadena}"/>
+                                            <p:outputLabel value="#{tbcMsj['page.solicitud.acuse.folio.acuse']}"/>
+                                            <p:outputLabel value="#{solicitudAltaMarcaMB.solicitudAltaMarca.idAcuseRecibo}"/>
+                                        </h:panelGrid>
+                                        <h:panelGrid width="100%"/>
+                                    </h:panelGrid>
+                                    <p:commandButton value="#{tbcMsj['btn.imprimir.acuse']}" 
+                                                     ajax="false"
+                                                     action="#{solicitudAltaMarcaMB.btnGenerarAcusePDF}"
+                                                     immediate="true"
+                                                     styleClass="gmxPositivo"/> 
+                                    <p:commandButton value="#{tbcMsj['btn.salir']}"
+                                                     onclick="exitDialog.show();"
+                                                     styleClass="gmxNegativo"/>
+
+                                </td>
+                                <td/>
+                            </tr>
+                        </table> 
+                    </p:panel>
+                    <p:dialog header="#{tbcMsj['panel.titulo.firma.solicitud']}" widgetVar="firma" resizable="false" width="700px" height="400px" onShow="true" closable="false" modal="true">
+                        <p:panel id="panelFirmaSolicitud" header="#{tbcMsj['panel.titulo.firma.solicitud']}">
+
+                            <p:outputLabel value="#{tbcMsj['label.accion.representante.legal']}" styleClass="titulo-label"/>
+                            <p:separator id="separatorFS"/>
+                            <h:panelGrid columns="3" id="panelGridFirmarSolicitud" style="text-align:left; margin: 0px auto;">
+                                <p:outputLabel value="#{tbcMsj['label.rfc']}"/>
+                                <p:inputText id="txtRFC" value="#{solicitudAltaMarcaMB.firmaFormHelper.rfcSession}" disabled="true" style="width: 200px"/>
+                                <p:spacer/>
+                                <p:spacer/>
+                                <p:message id="msgRFC" for="txtRFC" display="text"/>
+                                <p:spacer/>
+                                <p:outputLabel value="#{tbcMsj['label.password']}"/>
+                                <p:password id="privateKeyPassword" value="#{solicitudAltaMarcaMB.firmaFormHelper.passwordSession}" required="true"
+                                            requiredMessage="#{tbcMsj['error.campo.obligatorio']}" style="width: 200px"/>
+                                <p:spacer/>
+                                <p:spacer/>
+                                <p:message id="msgPassword" for="privateKeyPassword" display="text"/>
+                                <p:spacer/>
+                                <p:outputLabel value="#{tbcMsj['label.certificado']}"/>
+                                <p:inputText id="certificate" disabled="true" value="" style="width: 250px"/>
+                                <p:commandButton value="#{tbcMsj['btn.examinar']}" id="btnCert" onclick="browseForCertificate()"/>
+                                <p:spacer/>
+                                <p:message id="msgCertificado" for="certificate" display="text"/>
+                                <p:spacer/>
+                                <p:outputLabel value="#{tbcMsj['label.llave.privada']}"/>
+                                <p:inputText id="privateKey" disabled="true" value="" style="width: 250px"/>
+                                <p:commandButton value="#{tbcMsj['btn.examinar']}" id="btnPrivateKey" onclick="browseForPrivateKey()"/>
+                                <p:spacer/>
+                                <p:message id="msgLlavePriv" for="privateKey" display="text"/>
+                                <p:spacer/>
+                                <p:spacer/>
+                                <p:spacer/>
+                                <p:commandButton value="#{tbcMsj['btn.firmar']}" id="btnEnviarForm" update="@form"
+                                                 action="#{solicitudAltaMarcaMB.guardarSolicitud}" process="@form"
+                                                 onstart="enviarFormulario()" onsuccess="firma.hide();" styleClass="gmxPositivo"/>
+                            </h:panelGrid>
+                            <input type="hidden" id="firmaDigital" name="firmaDigital"
+                                   value="#{solicitudAltaMarcaMB.firmaFormHelper.selloDigital}"/>
+                            <input type="hidden" id="cadenaOriginal" name="cadenaOriginal"
+                                   value="#{solicitudAltaMarcaMB.firmaFormHelper.cadenaOriginal}"/>
+                            <input type="hidden" id="mode" name="mode" value="#{tbc_prop_ambiente['aplicacion.ambiente.driver']}"/>
+                            <p:inputText id="firmaDigital" value="#{solicitudAltaMarcaMB.firmaFormHelper.selloDigital}" disabled="true" rendered="false"/>
+                            <p:inputText id="cadenaOriginal" value="#{solicitudAltaMarcaMB.firmaFormHelper.cadenaOriginal}" disabled="true" rendered="false"/>
+                            <p:inputText id="mode" value="#{tbc_prop_ambiente['aplicacion.ambiente.driver']}" disabled="true" rendered="false"/>
+                            <br/>
+                        </p:panel>
+                    </p:dialog>
+                </h:form>
+            </p:panel>
+        </h:body>
+    </html>
+</f:view>

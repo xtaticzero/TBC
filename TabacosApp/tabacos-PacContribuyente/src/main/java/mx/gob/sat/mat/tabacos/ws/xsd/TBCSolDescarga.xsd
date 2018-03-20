@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:slcdesc="http://esquemas.clouda.sat.gob.mx/archivos/Tabacos/1/Descarga" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:cat="http://esquemas.clouda.sat.gob.mx/archivos/Tabacos/1/Catalogos" targetNamespace="http://esquemas.clouda.sat.gob.mx/archivos/Tabacos/1/Descarga" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:import namespace="http://esquemas.clouda.sat.gob.mx/archivos/Tabacos/1/Catalogos" schemaLocation="catTabacos.xsd"/>
+	<xs:element name="TBCSolDescarga">
+		<xs:annotation>
+			<xs:documentation>Estándar de la solicitud  de la descarga de archivos de códigos de seguridad</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:attribute name="Version" type="xs:string" use="required" fixed="1.0">
+				<xs:annotation>
+					<xs:documentation>Atributo requerido para expresar la versión del formato.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<!--xs:attribute name="RFCProveedorCertificado" type="cat:tipoRFC" use="required"-->
+			<xs:attribute name="RFC" type="cat:tipoRFC" use="required">
+				<xs:annotation>
+					<xs:documentation>Atributo requerido para expresar el RFC del Proveedor de Servicios Autorizado.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<!--xs:attribute name="Folio" type="xs:string" use="required"-->
+			<xs:attribute name="Folio" type="cat:tipoFolioSolicitud" use="required">
+				<xs:annotation>
+					<xs:documentation>Atributo requerido para expresar el número de Folio asignado a la solicitud de Códigos de Seguridad</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<!--xs:attribute name="NomArch" type="xs:string" use="required"-->
+			<xs:attribute name="NomArch" type="cat:catNomArchivo" use="required">
+				<xs:annotation>
+					<xs:documentation>Atributo requerido para expresar el Nombre del archivo de Códigos de Seguridad</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<!--xs:attribute name="Firma" type="xs:string" use="required"-->
+			<xs:attribute name="Firma" type="cat:catTipoFirma" use="required">
+				<xs:annotation>
+					<xs:documentation>Atributo requerido para expresar la Firma de la solicitud de descarga</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

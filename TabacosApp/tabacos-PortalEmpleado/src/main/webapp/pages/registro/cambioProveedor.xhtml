@@ -1,0 +1,284 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:c="http://java.sun.com/jsp/jstl/core"
+        xmlns:pe="http://primefaces.org/ui/extensions"
+        xmlns:tbc="http://www.sat.gob.mx/tabacos">
+    <html xmlns="http://www.w3.org/1999/xhtml">
+        <h:head>
+            <meta http-equiv="X-UA-Compatible" content="IE=11"/>
+            <h:outputScript library="js/" name="tabacos.js"/>
+            <h:outputStylesheet library="css/" name="tabacos.css"/>
+        </h:head>
+        <h:body>
+            <ui:include src="/WEB-INF/templates/confirmExit.xhtml"/>
+            <ui:include src="/pages/tramites/menuRegistro.xhtml"/>
+            <ui:include src="/pages/tramites/menuProveedor.xhtml" />
+            <h:form id="formProveedor">
+                <p:growl id="msgExitoGuardar" showDetail="true" sticky="false" globalOnly="true"/>
+                <p:panel id="panelProvedores" header="#{tbcMsj['page.proveedor.title.cambio']}" rendered="#{cambioProveedorMBean.pnlPrincipal}">
+                    <table style="width: 100%;" border="0">
+                        <tr>
+                            <td style="width: 19%">
+                                <p:outputLabel value="#{tbcMsj['page.proveedor.rfc']}: "/>
+                            </td>
+                            <td style="width: 1%">
+                                <p:outputLabel style="color: red;"></p:outputLabel>
+                            </td>
+                            <td style=" width: 30%">
+                                <p:inputText id="txtRfc" styleClass="input-text" maxlength="13"
+                                             style="text-transform: uppercase" 
+                                             value="#{cambioProveedorMBean.proveedor.rfc}">
+                                    <p:ajax event="blur" update="formProveedor txtDomicilio txtRazonSocial cbxRfcCliente" 
+                                            listener="#{cambioProveedorMBean.buscaDatosProveedorCambio}"/>
+                                </p:inputText>
+                            </td>
+                            <td style=" width: 20%">
+                                <p:outputLabel value="#{tbcMsj['page.proveedor.domicilio.fiscal']}: " />
+                            </td>
+                            <td style="width: 1%">
+                                <p:outputLabel style="color: red;"></p:outputLabel>
+                            </td>
+                            <td style="width: 29%">
+                                <p:inputText id="txtDomicilio" styleClass="input-text" readonly="true"
+                                             value="#{cambioProveedorMBean.proveedor.domicilio}" >
+                                </p:inputText>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p:outputLabel value="#{tbcMsj['page.proveedor.razon']}: "/>
+                            </td>
+                            <td style="width: 1%">
+                                <p:outputLabel style="color: red;"></p:outputLabel>
+                            </td>
+                            <td>
+                                <p:inputText id="txtRazonSocial" styleClass="input-text" readonly="true"
+                                             value="#{cambioProveedorMBean.proveedor.razonSocial}" >
+                                </p:inputText>
+                            </td>
+                            <td>
+                            </td>
+                            <td style="width: 1%">
+                            </td>
+                            <td>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="6">
+                                <p:outputLabel value="#{tbcMsj['label.titulo.representante']}"
+                                               styleClass="titulo-label"></p:outputLabel>
+                                <p:separator id="separator1"/>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <table style="width: 100%">
+                        <tr>
+                            <td style="width: 19%">
+                                <p:outputLabel value="#{tbcMsj['page.proveedor.representante']}: "/>
+                            </td>
+                            <td style="width: 1%">
+                                <p:outputLabel style="color: red;"></p:outputLabel>
+                            </td>
+                            <td style="width: 30%">
+                                <p:inputText id="txtRepresentante" styleClass="input-text"
+                                             value="#{cambioProveedorMBean.representante.nombre}"
+                                             disabled="#{cambioProveedorMBean.cambioProveedorHelper.deshabilitaRepresenCambio}">
+                                    <p:ajax event="blur" update="btnGuardarCambio" 
+                                            listener="#{cambioProveedorMBean.habilitaBtnGuardarCambio}"/>
+                                </p:inputText>
+                            </td>
+                            <td style="width: 20%">
+                                <p:outputLabel value="#{tbcMsj['page.proveedor.telefono']}: "/>
+                            </td>
+                            <td style="width: 1%">
+                                <p:outputLabel style="color: red;"></p:outputLabel>
+                            </td>
+                            <td style="width: 29%">
+                                <p:inputText id="txtTelefono" styleClass="input-text" maxlength="10"
+                                             onkeypress="return validaNumeros(event);"
+                                             value="#{cambioProveedorMBean.representante.telefono}"
+                                             disabled="#{cambioProveedorMBean.cambioProveedorHelper.deshabilitaRepresenCambio}">
+                                    <p:ajax event="blur" update="btnGuardarCambio" 
+                                            listener="#{cambioProveedorMBean.habilitaBtnGuardarCambio}"/>
+                                </p:inputText>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p:outputLabel value="#{tbcMsj['page.proveedor.ape.paterno']}:"/>
+                            </td>
+                            <td style="width: 1%">
+                                <p:outputLabel style="color: red;"></p:outputLabel>
+                            </td>
+                            <td>
+                                <p:inputText id="txtPaterno" styleClass="input-text"
+                                             value="#{cambioProveedorMBean.representante.apellidoPaterno}"
+                                             disabled="#{cambioProveedorMBean.cambioProveedorHelper.deshabilitaPaternoCambio}">
+                                    <p:ajax event="blur" update="btnGuardarCambio" 
+                                            listener="#{cambioProveedorMBean.habilitaBtnGuardarCambio}"/>
+                                </p:inputText>
+                            </td>
+                            <td>
+                                <p:outputLabel value="#{tbcMsj['page.proveedor.correo']}: "/>
+                            </td>
+                            <td style="width: 1%">
+                                <p:outputLabel style="color: red;"></p:outputLabel>
+                            </td>
+                            <td>
+                                <p:inputText id="txtEmail" maxlength="50" styleClass="input-text" 
+                                             value="#{cambioProveedorMBean.representante.correoElectronico}" 
+                                             disabled="#{cambioProveedorMBean.cambioProveedorHelper.deshabilitaCorreoCambio}">
+                                    <p:ajax event="blur" update="msgEmail btnGuardarCambio" 
+                                            listener="#{cambioProveedorMBean.habilitaBtnGuardarCambio}"/>
+                                    <f:validator validatorId="emailValidator"/>
+                                </p:inputText>
+                                <br></br>
+                                <h:message id="msgEmail" for="txtEmail" style="color: red" />
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <p:outputLabel value="#{tbcMsj['page.proveedor.ape.materno']}:"/>
+                            </td>
+                            <td style="width: 1%">
+                                <p:outputLabel style="color: red;"></p:outputLabel>
+                            </td>
+                            <td>
+                                <p:inputText id="txtMaterno" styleClass="input-text"
+                                             value="#{cambioProveedorMBean.representante.apellidoMaterno}"
+                                             disabled="#{cambioProveedorMBean.cambioProveedorHelper.deshabilitaPaternoCambio}">
+                                    <p:ajax event="blur" update="btnGuardarCambio" 
+                                            listener="#{cambioProveedorMBean.habilitaBtnGuardarCambio}"/>
+                                </p:inputText>
+                            </td>
+                            <td>
+                                <p:outputLabel value="#{tbcMsj['page.proveedor.estatus']}:"/>
+                            </td>
+                            <td style="width: 1%">
+                                <p:outputLabel style="color: red;"></p:outputLabel>
+                            </td>
+                            <td>
+                                <p:selectOneMenu style="width: 180px; text-align: left" id="cbxEstatus" 
+                                                 value="#{cambioProveedorMBean.opcionEstatus}" disabled="true">
+                                    <f:selectItem itemLabel="#{tbcMsj['page.cbx.default']}" itemValue=""/>
+                                    <f:selectItems value="#{cambioProveedorMBean.estatusList}" 
+                                                   var="estatusLista"
+                                                   itemLabel="#{estatusLista.nomEstatus}"
+                                                   itemValue="#{estatusLista.idEstatus}">
+                                    </f:selectItems>
+                                    <f:ajax event="change" render="btnGuardarCambio" 
+                                            listener="#{cambioProveedorMBean.habilitaBtnGuardarCambio}"/>                                
+                                </p:selectOneMenu>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p:outputLabel value="#{tbcMsj['page.proveedor.rfc.cliente']}:"/>
+                            </td>
+                            <td style="width: 1%">
+                                <p:outputLabel style="color: red;"></p:outputLabel>
+                            </td>
+                            <td>
+                                <p:selectOneMenu id="cbxRfcCliente" style="width: 180px;"
+                                                 value="#{cambioProveedorMBean.opcionRfcCliente}"
+                                                 disabled="#{cambioProveedorMBean.cambioProveedorHelper.deshabilitaRfcClienteCambio}">
+                                    <f:selectItem itemLabel="#{tbcMsj['page.cbx.default']}" itemValue=""/>
+                                    <f:selectItems value="#{cambioProveedorMBean.tabacaleraList}"
+                                                   var="rfcClienteList"
+                                                   itemLabel="#{rfcClienteList.rfc}"
+                                                   itemValue="#{rfcClienteList.idTabacalera}" >
+                                    </f:selectItems>
+                                    <f:ajax event="change" render="btnGuardarCambio" 
+                                            listener="#{cambioProveedorMBean.habilitaBtnGuardarCambio}"/>
+                                </p:selectOneMenu>
+                            </td>
+                        </tr>
+                    </table>
+                    <p:separator/>
+                    <table align="center" border="0" style="width: 100%">
+                        <tr>
+                            <td style="width: 95%">
+                                <p:commandButton styleClass="gmxNegativo"
+                                                 value="#{tbcMsj['page.btn.salir']}" onclick="exitDialog.show();"/>
+                            </td>
+                            <td>
+                                <p:commandButton id="btnGuardarCambio" styleClass="gmxPositivo"
+                                                 value="#{tbcMsj['page.btn.guardar']}"  
+                                                 onclick="dlgConfirmacion.show()"
+                                                 disabled="#{cambioProveedorMBean.deshabilitaBtnGuardarCambio}"/>
+                            </td>
+                        </tr>
+                    </table>
+                </p:panel>
+                <p:panel id="panelAcuseCambioProveedor" header="#{tbcMsj['page.proveedor.title.cambio']}" 
+                         rendered="#{cambioProveedorMBean.pnlAcuse}">
+                    <table align="center" style="width: 35%" border="0">
+                        <tr>
+                            <td colspan="2">
+                                <b> <p:outputLabel value="#{tbcMsj['label.exito']}" style="text-align: center;" /> </b>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p:outputLabel value="#{tbcMsj['label.rfc']}"/>
+                            </td>
+                            <td>
+                                <p:outputLabel value="#{cambioProveedorMBean.proveedor.rfc}"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p:outputLabel value="#{tbcMsj['label.fecha']}"/>
+                            </td>
+                            <td>
+                                <p:outputLabel value="#{cambioProveedorMBean.fechaAcuse}"/> 
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p:outputLabel value="#{tbcMsj['label.folio.acuse']}"/>
+                            </td>
+                            <td>
+                                <p:outputLabel value="#{cambioProveedorMBean.idAcuseRecibo}"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <table align="center" border="0">
+                                    <tr>
+                                        <td>
+                                            <p:commandButton styleClass="gmxNegativo"
+                                                             value="#{tbcMsj['btn.salir']}" onclick="exitDialog.show();"/>
+                                        </td>
+                                        <td>
+                                            <p:commandButton styleClass="gmxPositivo"
+                                                             value="#{tbcMsj['btn.imprimir.acuse']}" 
+                                                             ajax="false" action="#{cambioProveedorMBean.btnGenerarReportePDF}" immediate="true" update=":formProdCigarros:">
+                                            </p:commandButton>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </p:panel>
+            </h:form> 
+            <p:confirmDialog header="#{tbcMsj['label.confirmacion.header']}" 
+                             widgetVar="dlgConfirmacion" closable="false" width="315px" height="80px" message="#{tbcMsj['label.confirm.guardar']}">
+                <p:commandButton id="btnAceptar" value="#{tbcMsj['label.confirm.aceptar']}"
+                                 actionListener="#{cambioProveedorMBean.actualizaProveedor}"
+                                 onclick="dlgConfirmacion.hide();" update="formProveedor"
+                                 styleClass="ui-confirmdialog-yes gmxPositivo" icon="ui-icon-check" style="float:right;"/>
+                <p:commandButton id="btnCancelar" value="#{tbcMsj['label.confirm.cancelar']}"
+                                 oncomplete="dlgConfirmacion.hide();" styleClass="ui-confirmdialog-no gmxNegativo"
+                                 icon="ui-icon-close" style="float:right;"/>
+            </p:confirmDialog>
+        </h:body>
+    </html>
+</f:view>

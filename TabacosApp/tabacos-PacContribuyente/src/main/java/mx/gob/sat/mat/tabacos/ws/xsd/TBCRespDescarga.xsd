@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:rdesc="http://esquemas.clouda.sat.gob.mx/archivos/Tabacos/1/Descarga/Resp" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://esquemas.clouda.sat.gob.mx/archivos/Tabacos/1/Descarga/Resp" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="TBCRespDescarga">
+		<xs:annotation>
+			<xs:documentation>Estándar de respuesta de la descarga de archivos de códigos de seguridad</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Contenido">
+					<xs:annotation>
+						<xs:documentation>Nodo requerido para expresar el contenido del archivo de Códigos de Seguridad</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="Version" type="xs:string" use="required" fixed="1.0">
+				<xs:annotation>
+					<xs:documentation>Atributo requerido para expresar la versión del formato.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="Folio" type="xs:string" use="required">
+				<xs:annotation>
+					<xs:documentation>Atributo requerido para expresar el folio asignado a la solicitud de Códigos de Seguridad</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="NomArch" type="xs:string" use="required">
+				<xs:annotation>
+					<xs:documentation>Atributo requerido para expresar el Nombre del archivo de Códigos de Seguridad</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="FechaDescarga" type="xs:dateTime" use="required">
+				<xs:annotation>
+					<xs:documentation>Atributo requerido para expresar la Fecha y Hora de descarga del archivo de Códigos de seguridad</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="CantidadCodigos" type="xs:integer" use="required">
+				<xs:annotation>
+					<xs:documentation>Atributo requerido para expresar el número total de Códigos de Seguridad contenidos en el archivo</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="FolioAcuse" type="xs:string" use="required">
+				<xs:annotation>
+					<xs:documentation>Atributo requerido para expresar el folio del Acuse</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

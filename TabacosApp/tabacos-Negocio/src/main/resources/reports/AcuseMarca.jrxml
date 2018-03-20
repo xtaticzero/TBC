@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ReporteCodigos" pageWidth="792" pageHeight="612" orientation="Landscape" columnWidth="752" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="1b36f0f7-f336-4de8-a601-19bcda3e5a30">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="clave" class="java.lang.String"/>
+	<parameter name="rfc" class="java.lang.String"/>
+	<parameter name="fecha" class="java.lang.String"/>
+	<parameter name="marca" class="java.lang.String"/>
+	<pageHeader>
+		<band height="272">
+			<staticText>
+				<reportElement uuid="828f2811-28cc-4611-951c-aa6285ed8f22" x="96" y="3" width="562" height="34"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="20" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Acuse de Alta de Marcas]]></text>
+			</staticText>
+			<image>
+				<reportElement uuid="2ca11345-2782-4da0-a407-eecc628af175" x="3" y="3" width="93" height="86"/>
+				<imageExpression><![CDATA["reports/images/logoSHCPV.jpg"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement uuid="afa4ce2f-5a9c-46fd-9a22-04510ce279c6" x="658" y="3" width="93" height="85"/>
+				<imageExpression><![CDATA["reports/images/logoSATV.jpg"]]></imageExpression>
+			</image>
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="97671265-d143-4902-b400-d7a9c365ae7a" positionType="FixRelativeToBottom" stretchType="RelativeToTallestObject" x="372" y="140" width="157" height="20" isPrintWhenDetailOverflows="true"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{clave}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="c4c99c05-d1ad-4d9c-a6d0-e9e70b83d841" stretchType="RelativeToTallestObject" x="372" y="102" width="157" height="20" isPrintWhenDetailOverflows="true"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{rfc}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement uuid="0968079c-1ad8-4297-99c9-a8cc0ace9468" positionType="FixRelativeToBottom" stretchType="RelativeToTallestObject" x="372" y="159" width="157" height="20" isPrintWhenDetailOverflows="true"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{fecha}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="a4b78420-3665-4f05-91c5-31f7c144ca92" positionType="FixRelativeToBottom" stretchType="RelativeToTallestObject" x="372" y="121" width="157" height="20" isPrintWhenDetailOverflows="true"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{marca}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="cfc32bcb-6beb-4032-a6f3-0bdf8c547217" positionType="FixRelativeToBottom" stretchType="RelativeToTallestObject" x="217" y="140" width="155" height="20" isPrintWhenDetailOverflows="true"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[CLAVE:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="ec6100fc-9b57-4c99-86a1-86511b64115a" stretchType="RelativeToTallestObject" x="217" y="102" width="155" height="20" isPrintWhenDetailOverflows="true"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[RFC:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="ad3cf7f4-f323-4783-8396-e05aab629faf" positionType="FixRelativeToBottom" stretchType="RelativeToTallestObject" x="217" y="159" width="155" height="20" isPrintWhenDetailOverflows="true"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[FECHA:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="727caaac-3073-420b-a566-4baa52ca4b1f" positionType="FixRelativeToBottom" stretchType="RelativeToTallestObject" x="217" y="121" width="155" height="20" isPrintWhenDetailOverflows="true"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[MARCA:]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="4"/>
+	</columnHeader>
+	<detail>
+		<band height="5" splitType="Stretch"/>
+	</detail>
+	<pageFooter>
+		<band height="3" splitType="Stretch"/>
+	</pageFooter>
+</jasperReport>

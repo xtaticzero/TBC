@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:acuretro="http://esquemas.clouda.sat.gob.mx/archivos/Tabacos/1/Retroalimentacion/Acuse" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:cat="http://esquemas.clouda.sat.gob.mx/archivos/Tabacos/1/Catalogos" targetNamespace="http://esquemas.clouda.sat.gob.mx/archivos/Tabacos/1/Retroalimentacion/Acuse" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:import namespace="http://esquemas.clouda.sat.gob.mx/archivos/Tabacos/1/Catalogos" schemaLocation="catTabacos.xsd"/>
+	<xs:element name="TBCAcuseRetroInfo">
+		<xs:annotation>
+			<xs:documentation>Estándar para los acuses de retroalimentación de información de los códigos de seguridad para Tabacos</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Acuse">
+					<xs:annotation>
+						<xs:documentation>Nodo requerido para expresar los Acuses de Retroalimentacion de Información de códigos de seguridad</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:attribute name="RFC" type="cat:tipoRFC" use="required">
+							<xs:annotation>
+								<xs:documentation>Atributo requerido para expresar el RFC del Productor al que se le enviaron los folios.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="Incidencia" type="xs:string" use="required">
+							<xs:annotation>
+								<xs:documentation>Atributo requerido para expresar la incidencia del Acuse</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="FolioAcuse" type="xs:string" use="required">
+							<xs:annotation>
+								<xs:documentation>Atributo requerido para expresar el folio del Acuse</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="Version" type="xs:string" use="required" fixed="1.0">
+				<xs:annotation>
+					<xs:documentation>Atributo requerido para expresar la versión del formato.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="Fecha" type="xs:dateTime" use="required">
+				<xs:annotation>
+					<xs:documentation>Atributo requerido para expresar la fecha del informe</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

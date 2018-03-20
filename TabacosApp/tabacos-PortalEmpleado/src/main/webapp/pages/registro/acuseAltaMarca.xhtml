@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<f:view xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:c="http://java.sun.com/jsp/jstl/core"
+        xmlns:pe="http://primefaces.org/ui/extensions"
+        xmlns:tbc="http://www.sat.gob.mx/tabacos">
+    <html xmlns="http://www.w3.org/1999/xhtml">
+        <h:head>
+            <meta http-equiv="X-UA-Compatible" content="IE=11"/>
+            <h:outputScript library="js/" name="tabacos.js"/>
+            <h:outputStylesheet library="css/" name="tabacos.css"/>
+        </h:head>
+        <h:body>
+            <ui:include src="/WEB-INF/templates/confirmExit.xhtml"/>
+            <ui:include src="/pages/tramites/menuRegistro.xhtml"/>
+            <ui:include src="/pages/tramites/menuMarca.xhtml" />
+            <h:form id="formAcuseMarca" styleClass="panel-contenedor" enctype="multipart/form-data">
+                <p:growl id="msgExitoGuardar" showDetail="true" sticky="false" globalOnly="true"/>               
+                <p:panel id="panelAcuseMarca" header="#{tbcMsj['abcmarcas.acuse.titulo']}">
+                    <table width="90%">
+                        <tr>
+                            <td width="20%">
+                                <p:outputLabel value="#{tbcMsj['abcmarcas.rfc']}"/>
+                            </td>
+                            <td>
+                                <p:outputLabel>#{marcaMBean.movimiento.rfc}</p:outputLabel>
+                            </td>                            
+                        </tr>
+                        <tr>
+                            <td width="20%">
+                                <p:outputLabel value="#{tbcMsj['abcmarcas.marca']}"/>
+                            </td>
+                            <td>
+                                <p:outputLabel>#{marcaMBean.movimiento.marca}</p:outputLabel>
+                            </td>                            
+                        </tr>
+                        <tr>
+                            <td width="20%">
+                                <p:outputLabel value="#{tbcMsj['abcmarcas.clave']}"/>
+                            </td>
+                            <td>
+                                <p:outputLabel>#{marcaMBean.movimiento.clave}</p:outputLabel>
+                            </td>                            
+                        </tr>
+                        <tr>
+                            <td width="20%">
+                                <p:outputLabel value="#{tbcMsj['abcmarcas.fecha']}"/>
+                            </td>
+                            <td>
+                                <p:outputLabel>#{marcaMBean.movimiento.fechaAcuse}</p:outputLabel>
+                            </td>                            
+                        </tr>
+                        <tr>
+                            <td width="30%">
+                                <p:commandButton styleClass="gmxPositivo"
+                                                 value="#{tbcMsj['autsol.guardar.btnimprimir']}" id="btnImprimir" 
+                                                 actionListener="#{marcaMBean.btnImprimirAcuse}" ajax="false"/>
+                                <p:commandButton styleClass="gmxNegativo"
+                                                 value="#{tbcMsj['abcmarcas.btnSalir']}" id="btnSalir" 
+                                                 onclick="exitDialog.show();"/>
+                                
+                            </td>
+                            <td>
+
+                            </td>                            
+                        </tr>
+                    </table>
+                </p:panel>                
+            </h:form>
+            <p:dialog header="#{tbcMsj['menu.exit']}" widgetVar="exitDialog" width="270px" height="90px" 
+              resizable="false" onShow="true" modal="true" onHide="true" appendToBody="true" closable="false">
+                <table>
+                    <tr>
+                        <td>
+                            <div style="text-align: center">
+                                <h:outputText value="#{tbcMsj['label.confirm.salir']}"/>    
+                            </div> 
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div style="text-align: center">
+                                <p:button styleClass="gmxPositivo"
+                                          value="#{tbcMsj['btn.confirm.yes']}" outcome="/pages/tramites/registro"/>
+                                <p:commandButton styleClass="gmxNegativo"
+                                                 value="#{tbcMsj['btn.confirm.no']}" onclick="exitDialog.hide();"/>
+                            </div>     
+                        </td>
+                    </tr>
+                </table>
+            </p:dialog>
+        </h:body>
+    </html>
+</f:view>

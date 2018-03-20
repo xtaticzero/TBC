@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<f:facet name="first">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />	
+		<title>
+			<ui:insert name="title" />
+		</title>
+		<meta http-equiv="pragma" content="no-cache"/>
+		<meta http-equiv="cache-control" content="no-cache"/>
+		<meta http-equiv="expires" content="0"/>
+	</f:facet>
+</h:head>
+<h:body>
+	<h:outputStylesheet name="css/default.css" />
+	<p:layout fullPage="true">
+
+		<p:layoutUnit position="north" size="100" resizable="true" closable="false" collapsible="true">
+			<h:panelGrid id="panelNorth" columns="3" width="100%">
+				<h:graphicImage value="/resources/images/logo_shcp.png"/>
+				<h:panelGrid id="panelTitles" columns="1" width="100%" style="margin: 0 auto;">					
+					<h:outputText value="#{labels['application']}" styleClass="titled" />
+					<h:outputText value="#{labels['application.name']}" styleClass="subtitled" />
+				</h:panelGrid>
+				<h:graphicImage value="/resources/images/logo_sat.png" />					
+			</h:panelGrid>
+		</p:layoutUnit>
+
+		<p:layoutUnit position="west" size="200" header="#{labels['menu.title']}" resizable="true" closable="false" collapsible="true" collapsed="false">
+			<p:menu>
+				<p:submenu label="#{labels['menu.compania.title']}">
+					<p:menuitem value="#{labels['menu.compania.alta']}" outcome="/resources/pages/compania/add" icon="ui-icon-home"/>
+					<p:menuitem value="#{labels['menu.compania.baja']}" outcome="/resources/pages/compania/delete" icon="ui-icon-home"/>
+					<p:menuitem value="#{labels['menu.compania.cambio']}" outcome="/resources/pages/compania/update" icon="ui-icon-home"/>
+				</p:submenu>
+				<p:submenu label="#{labels['menu.codigos.autorizacion.title']}">
+					<p:menuitem value="#{labels['menu.codigos.autorizacion.produccion']}" outcome="/resources/pages/produccion/authorize" icon="ui-icon-home"/>
+				</p:submenu>
+				<p:submenu label="#{labels['menu.historico.title']}">
+					<p:menuitem value="#{labels['menu.historico.compania']}" outcome="/resources/pages/produccion/historico" icon="ui-icon-home"/>
+				</p:submenu>
+				<p:submenu label="#{labels['menu.catalogo.title']}">	
+					<p:menuitem value="#{labels['menu.catalogo.origen']}" outcome="/resources/pages/catalogo/origenes" icon="ui-icon-home"/>
+					<p:menuitem value="#{labels['menu.catalogo.destino']}" outcome="/resources/pages/catalogo/destinos" icon="ui-icon-home"/>					
+				</p:submenu>
+				<p:submenu label="#{labels['menu.salir']}">
+					<p:menuitem value="#{labels['menu.salir']}"  url="/../sec/SingleSignOut" icon="ui-icon-home"/>
+				</p:submenu>
+			</p:menu>
+		</p:layoutUnit>
+
+		<p:layoutUnit position="center">
+			<ui:insert name="content">Default content</ui:insert>
+			<p:ajaxStatus>
+				<f:facet name="start">
+					<p:graphicImage value="/resources/images/ajaxloading.gif" />
+				</f:facet>
+			</p:ajaxStatus>
+		</p:layoutUnit>
+	</p:layout>
+</h:body>
+</f:view>

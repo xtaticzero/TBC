@@ -1,0 +1,271 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:c="http://java.sun.com/jsp/jstl/core"
+        xmlns:pe="http://primefaces.org/ui/extensions"
+        xmlns:tbc="http://www.sat.gob.mx/tabacos">
+
+    <html xmlns="http://www.w3.org/1999/xhtml">
+
+        <h:head>
+            <h:outputStylesheet library="css" name="estilo.css"  />
+            <h:outputStylesheet library="css/" name="tabacos.css"/>
+            <h:outputStylesheet library="css/" name="estilos_comp.css"/>
+            <!--h:outputScript library="js/" name="FIEL.js"/-->
+            <h:outputScript library="js/" name="tabacos.js" />
+
+        </h:head>
+        <h:body>
+
+            <ui:include src="/WEB-INF/templates/confirmExit.xhtml"/>
+            <ui:include src="/pages/tramites/menuRegistro.xhtml"/>
+            <h:form id="formCodigosF" enctype="multipart/form-data">
+                <p:growl id="grlMessage" autoUpdate="true" showDetail="true"/>
+
+                <p:panel id="altaCodigos" header="#{tbcMsj['page.ingresar.codigos.titulo']}"
+                         visible="#{ingresaCodMB.visiblePanelCodigos}" styleClass="panel-contenedor" >
+
+                    <p:panel id="panelCodigoExito" widgetVar="panelCodigoExito" visible="#{ingresaCodMB.visiblePanelExito}"
+                             styleClass="panel-contenedor">
+                        <p:outputLabel id="msgExitoGuardar" style="color: black; font-weight: bold" value="#{ingresaCodMB.msgExito}" />
+                    </p:panel>
+                    <f:facet name="actions">
+                    </f:facet>
+                    <p:separator id="separator"/>
+
+                    <table width="650px">
+                        <tr>
+                            <td>
+                                <p:outputLabel id="lblTabacalera" value="#{tbcMsj['page.ingresar.codigos.rfc'] }" style="display: #{ingresaCodMB.ingresaCodigosHelper.opcionTipoCodigo eq 2 ? 'block' : 'none'}"/>
+                            </td>
+                            <td>
+                                <p:selectOneMenu widgetVar="rfcTabacalera" id="rfcTabacalera" style="width: 410px;display: #{ingresaCodMB.ingresaCodigosHelper.opcionTipoCodigo eq 2 ? 'block' : 'none'}"
+                                                 value="#{ingresaCodMB.ingresaCodigosHelper.opcionRfcTabacalera}" >  
+                                    <f:selectItem itemLabel="#{tbcMsj['page.ingresar.codigos.tipocodigo.selecciona'] }" itemValue="" />  
+                                    <f:selectItems value="#{ingresaCodMB.ingresaCodigosHelper.tabacaleras}"
+                                                   var="contribuyenteTab"
+                                                   itemLabel="#{contribuyenteTab.rfc}"
+                                                   itemValue="#{contribuyenteTab.idTabacalera}"/>
+                                    <p:ajax event="change" listener="#{ingresaCodMB.cargarMarcas}" update="cbxMarcasCod"/>
+                                </p:selectOneMenu>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td/>
+                            <td>
+                                <p:outputLabel id="msgRFCTab" style="font-size: 10; color: red;display: #{ingresaCodMB.ingresaCodigosHelper.opcionTipoCodigo eq 2 ? 'block' : 'none'}" 
+                                               value="#{ingresaCodMB.ingresaCodigosHelper.errorSeleccionRfc}" />
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><p:outputLabel value="#{tbcMsj['page.ingresar.codigos.tipocodigo'] }" /></td>
+                            <td>
+                                <p:selectOneMenu widgetVar="tipoCodigo" id="tipoCodigo" style="width: 410px"
+                                                 value="#{ingresaCodMB.ingresaCodigosHelper.opcionTipoCodigo}" >  
+                                    <f:selectItem itemLabel="#{tbcMsj['page.ingresar.codigos.tipocodigo.selecciona'] }" itemValue="" />  
+                                    <f:selectItems value="#{ingresaCodMB.ingresaCodigosHelper.tiposCodigo}"
+                                                   var="code"
+                                                   itemLabel="#{code.tipo}"
+                                                   itemValue="#{code.id}"/>
+                                    <p:ajax event="change" listener="#{ingresaCodMB.cargarMarcas}" 
+                                            update="panelTestArchivo, rfcTabacalera, lblTabacalera, msgRFCTab, 
+                                            labelnumerocodigo, numeroCodigo, msgNumCodigo, 
+                                            labelmarca, cbxMarcasCod, msgMarcas, 
+                                            msgTipoCod, msgJustificacion, msgCalendario, msgErrorGeneral"/>
+                                </p:selectOneMenu>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td/>
+                            <td>
+                                <p:outputLabel id="msgTipoCod" style="color: red"  value="#{ingresaCodMB.ingresaCodigosHelper.errorSeleccionTipoCod}" />
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><p:outputLabel id="labelnumerocodigo" value="#{tbcMsj['page.ingresar.codigos.numerocodigo'] }" 
+                                               style="display: #{ingresaCodMB.ingresaCodigosHelper.opcionTipoCodigo eq 1 ? 'block' : 'none'}"/></td>
+                            <td>
+                                <p:inputText widgetVar="numeroCodigo" id="numeroCodigo" label="numeroCodigo" 
+                                             maxlength="12" style="width: 410px; display: #{ingresaCodMB.ingresaCodigosHelper.opcionTipoCodigo eq 1 ? 'block' : 'none'}"
+                                             value="#{ingresaCodMB.ingresaCodigosHelper.codigo.numeroCodigo}" >
+                                    <!--p:ajax event="blur" listener="{ingresaCodMB.verificarFormulario}" update="btGuardarCod"/-->
+                                </p:inputText>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td/>
+                            <td>
+                                <p:outputLabel id="msgNumCodigo" style="color: red; display: #{ingresaCodMB.ingresaCodigosHelper.opcionTipoCodigo eq 1 ? 'block' : 'none'}" 
+                                               value="#{ingresaCodMB.ingresaCodigosHelper.errorNumeroCodigo}" />
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><p:outputLabel id="labelmarca" value="#{tbcMsj['page.ingresar.codigos.marca'] }" 
+                                               style="display: #{not empty ingresaCodMB.ingresaCodigosHelper.opcionTipoCodigo and ingresaCodMB.ingresaCodigosHelper.opcionTipoCodigo > 0 ? 'block' : 'none'}"
+                                               /></td>
+                            <td>
+                                <p:selectOneMenu widgetVar="cbxMarcasCod" id="cbxMarcasCod" 
+                                                 value="#{ingresaCodMB.ingresaCodigosHelper.opcionMarca}" 
+                                                 style="width: 410px; text-align: left; display: #{not empty ingresaCodMB.ingresaCodigosHelper.opcionTipoCodigo and ingresaCodMB.ingresaCodigosHelper.opcionTipoCodigo > 0 ? 'block' : 'none'}">
+                                    <f:selectItem itemLabel="#{tbcMsj['page.ingresar.codigos.tipocodigo.selecciona'] }" itemValue="" />
+                                    <f:selectItems value="#{ingresaCodMB.ingresaCodigosHelper.marcasList}" 
+                                                   var="marcasProdList"
+                                                   itemLabel="#{marcasProdList.marca}"
+                                                   itemValue="#{marcasProdList.idMarca}">
+                                    </f:selectItems>
+                                    <p:ajax update="msgMarcas" event="change"/>
+                                </p:selectOneMenu>
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td/>
+                            <td>
+                                <p:outputLabel id="msgMarcas" value="#{ingresaCodMB.ingresaCodigosHelper.errorMarca}" 
+                                               style="color: red; display: #{not empty ingresaCodMB.ingresaCodigosHelper.opcionTipoCodigo and ingresaCodMB.ingresaCodigosHelper.opcionTipoCodigo > 0 ? 'block' : 'none'}"/>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><p:outputLabel value="#{tbcMsj['page.ingresar.codigos.justificacion'] }" /></td>
+                            <td>
+                                <p:inputTextarea widgetVar="justificacion" id="justificacion" 
+                                                 label="Justificacion" value="#{ingresaCodMB.ingresaCodigosHelper.codigo.justificacion}" 
+                                                 autoResize="false" 
+                                                 cols="25" rows="4" style="height: min-content ; overflow: auto"
+
+                                                 >
+                                    <!--p:ajax event="blur" listener="{ingresaCodMB.verificarFormulario}" update="msgJustificacion btGuardarCod"/-->
+                                </p:inputTextarea>
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td/>
+                            <td>
+                                <p:outputLabel id="msgJustificacion" style="color: red" value="#{ingresaCodMB.ingresaCodigosHelper.errorJustificacion}" />
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><p:outputLabel value="#{tbcMsj['page.ingresar.codigos.fechayhora'] }" /></td>
+                            <td>
+                                <p:calendar widgetVar="fecha" id="fecha" label="Fecha y Hora" 
+                                            locale="es" pattern="dd/MM/yyyy HH:mm:ss" 
+                                            value="#{ingresaCodMB.ingresaCodigosHelper.codigo.fecCaptura}" 
+                                            readonlyInput="true"
+                                            style="width:70px"
+                                            maxdate="#{ingresaCodMB.maxFecha}">
+                                    <!--p:ajax event="dateSelect" update="panelTestArchivo btGuardarCod" 
+                                            listener="{ingresaCodMB.verificarFormulario}"/-->
+                                </p:calendar>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td/>
+                            <td>
+                                <p:outputLabel id="msgCalendario" style="color: red" value="#{ingresaCodMB.ingresaCodigosHelper.errorFecha}" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <p:panel id="panelTestArchivo" style="width: 550px; height: #{ingresaCodMB.ingresaCodigosHelper.opcionTipoCodigo eq 2 ? '150px' : '0px'}" >
+                                    <p:outputLabel id="labelcargaarchivo" value="#{tbcMsj['page.ingresar.codigos.cargaarchivo']}" rendered="#{ingresaCodMB.ingresaCodigosHelper.opcionTipoCodigo eq 2}"/>
+
+                                    <p:fileUpload widgetVar="archivosCodigos" id="archivosCodigos" invalidFileMessage="#{tbcMsj['page.ingresar.codigos.archivo.formato.invalido']}"
+                                                  mode="advance" 
+                                                  auto="true" disabled="false"
+                                                  value="#{ingresaCodMB.ingresaCodigosHelper.archivoFolios}"
+                                                  fileUploadListener="#{ingresaCodMB.handleFileUpload}"
+                                                  allowTypes="/(\.|\/)(xlsx|xls)$/" oncomplete="$('.files').empty();"
+                                                  label="#{tbcMsj['page.ingresar.codigos.examinar']}"
+                                                  rendered="#{ingresaCodMB.ingresaCodigosHelper.opcionTipoCodigo eq 2}" update="msgFile, msgExitoArchivo, msgErrorGeneral">
+                                    </p:fileUpload>
+
+                                    <p:outputLabel id="msgFile" style="color: red" value="#{ingresaCodMB.ingresaCodigosHelper.errorSeleccionFile}" rendered="#{ingresaCodMB.ingresaCodigosHelper.opcionTipoCodigo eq 2}"/>
+                                    <p:outputLabel id="msgExitoArchivo"  style="text-align: right; font-weight: bold" value="#{ingresaCodMB.exitoarchivo}" rendered="#{ingresaCodMB.ingresaCodigosHelper.opcionTipoCodigo eq 2}"/>
+                                </p:panel>
+
+                                <h:panelGrid columns="1" style="width: 100%">
+                                    <p:outputLabel id="msgErrorGeneral" style="text-align: right; color: red;" value="#{ingresaCodMB.errorGeneral}"/>
+                                    <h:panelGroup>
+                                        <p:commandButton id="btGuardarCod" value="#{tbcMsj['page.ingresar.codigos.guardar']}" 
+                                                         disabled="false" onstart="wdlgLoading.show();" oncomplete="wdlgLoading.hide();"
+                                                         actionListener="#{ingresaCodMB.verificarFormulario}"
+                                                         ajax="true" process="@form" 
+                                                         styleClass="gmxPositivo"/>
+                                        <p:commandButton value="#{tbcMsj['btn.salir']}" onclick="exitDialog.show();" styleClass="gmxNegativo"/>
+
+                                    </h:panelGroup>
+
+                                </h:panelGrid>
+                            </td>
+                        </tr>
+                    </table>
+
+                </p:panel>
+
+
+
+                <p:panel id="panelAcuseCod" widgetVar="panelAcuseCod" visible="#{ingresaCodMB.visiblePanelAcuse}" 
+                         styleClass="panel-contenedor" style="width: 390px; border: 0px" >
+                    <p:panel style="width: 390px; border: 0px" styleClass="panelBusq" >
+
+                        <br/>
+
+                        <table  style=" border: black 2px solid; width: 335px; "> 
+                            <tr>
+                                <td colspan="2"><p:outputLabel style="font-weight: bold; text-align: center" value="#{ingresaCodMB.msgExito}" /></td>
+                            </tr>
+                            <tr>
+                                <td><p:outputLabel value="#{tbcMsj['page.codigos.acuse.rfc'] }" /></td>
+                                <td><p:outputLabel value="#{ingresaCodMB.ingresaCodigosHelper.rfcTabacalera}" /></td>
+                            </tr>
+
+                            <tr>
+                                <td><p:outputLabel value="#{tbcMsj['page.codigos.acuse.incidencia'] }" /></td>
+                                <td><p:outputLabel value="#{tbcMsj['page.ingresar.codigos.titulo'] }" /></td>
+                            </tr>
+
+                            <tr>
+                                <td><p:outputLabel value="#{tbcMsj['page.codigos.acuse.fecha'] }" /></td>
+                                <td><p:outputLabel value="#{ingresaCodMB.fechaAcuse}" /></td>
+                            </tr>
+
+                            <tr>
+                                <td><p:outputLabel value="#{tbcMsj['page.codigos.acuse.folioacuse'] }" /></td>
+                                <td><p:outputLabel value="#{ingresaCodMB.folioAcuse}" /></td>
+                            </tr>
+                        </table>
+                        <br/>
+                        <br/>
+                        <h:panelGrid columns="2" width="100%">
+                            <h:panelGroup>
+                                <p:commandButton  value="#{tbcMsj['page.codigos.acuse.imprimir']}" 
+                                                  ajax="false"
+                                                  action="#{ingresaCodMB.btnGenerarReportePDF}" immediate="true" styleClass="gmxPositivo"/> 
+                                <p:commandButton value="#{tbcMsj['btn.salir']}" onclick="exitDialog.show();" styleClass="gmxNegativo"/>
+                            </h:panelGroup>
+                        </h:panelGrid>
+
+                    </p:panel>
+
+                </p:panel>
+
+            </h:form>
+
+            <p:dialog id="dlgLoading" widgetVar="wdlgLoading" closable="false" draggable="false" modal="true">
+                <p:graphicImage value="/resources/images/ajaxloadingbar.gif" />
+            </p:dialog>
+
+            <br/>
+            <br/>
+        </h:body>
+    </html>
+</f:view>

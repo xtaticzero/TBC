@@ -1,0 +1,31 @@
+.ui-growl{
+            position: fixed;
+                top: 85%;
+                left:50%;
+                width:360px;
+                height: 110px;
+                z-index:9999;
+}
+.contenedorComboLargo{
+    width:500px;
+}
+.contenedorComboChico{
+    width:50px;
+}
+.contenedorPanelGridMediano{
+    width:500px;
+}
+.contenedorPanelGridChico{
+    width:250px;
+}
+
+.ui-fileupload .progress {
+  /*  display: none; - if you wanted to hide the progress bar as well*/
+}
+.ui-fileupload  {
+    border: none;
+}
+.ui-progressbar {  /* made progress bar smaller to fit on same line */
+    width: 100px!important;
+    height: 5px!important;
+}

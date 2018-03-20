@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ReporteDesperdiciosYProduccion" pageWidth="792" pageHeight="612" orientation="Landscape" columnWidth="752" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="1b36f0f7-f336-4de8-a601-19bcda3e5a30">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="135"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="rfcContribuyente" class="java.lang.String"/>
+	<parameter name="nombreRazonSocial" class="java.lang.String"/>
+	<parameter name="fechaDescarga" class="java.lang.String"/>
+	<parameter name="fechainicio" class="java.lang.String"/>
+	<parameter name="fechafin" class="java.lang.String"/>
+	<field name="marca" class="java.lang.String"/>
+	<field name="planta" class="java.lang.String"/>
+	<field name="cantidadProduccion" class="java.lang.String"/>
+	<field name="nombrePais" class="java.lang.String"/>
+	<field name="maquinaria" class="java.lang.String"/>
+	<field name="lote" class="java.lang.String"/>
+	<field name="fechaHora" class="java.lang.String"/>
+	<field name="cantidadDestruccion" class="java.lang.String"/>
+	<field name="numeroRegistro" class="java.lang.String"/>
+	<pageHeader>
+		<band height="158">
+			<staticText>
+				<reportElement uuid="828f2811-28cc-4611-951c-aa6285ed8f22" x="96" y="3" width="562" height="34"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="20" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Reporte de desperdicios y destrucción]]></text>
+			</staticText>
+			<image>
+				<reportElement uuid="2ca11345-2782-4da0-a407-eecc628af175" x="3" y="3" width="93" height="86"/>
+				<imageExpression><![CDATA["reports/images/logoSHCPV.jpg"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement uuid="afa4ce2f-5a9c-46fd-9a22-04510ce279c6" x="658" y="3" width="93" height="85"/>
+				<imageExpression><![CDATA["reports/images/logoSATV.jpg"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement uuid="285a7636-d0c7-4d9d-a12c-cd8655b31a08" x="5" y="119" width="123" height="15"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nombre/Razón social:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="2ffcb032-1914-46a9-b5af-59d3b1eaffc7" x="5" y="104" width="123" height="15"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[RFC contribuyente:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="0983b273-3841-4c80-9911-0ad0b0ac7fee" x="512" y="136" width="90" height="15"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha descarga:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="6496bdb1-f743-4da3-9222-e2f9ea11274b" x="140" y="104" width="401" height="15"/>
+				<textElement>
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{rfcContribuyente}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="8f2e7618-8f03-44c4-bbbe-d6785e2cd1f6" x="140" y="119" width="401" height="15"/>
+				<textElement>
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{nombreRazonSocial}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement uuid="6473f572-9f53-42c1-b130-ec7ea3995e76" x="610" y="136" width="104" height="15"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{fechaDescarga}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="04c9e5ec-6525-4d00-b433-141b0ad05e8c" x="5" y="135" width="123" height="15"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha inicial:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="9e35cf7f-049c-40c4-8483-fe48e1d67b07" x="293" y="136" width="68" height="15"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha final:]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement uuid="4245f2fd-22f6-4cb4-a395-f985aaa22696" x="140" y="136" width="100" height="15"/>
+				<textElement>
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{fechainicio}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement uuid="fa33cae4-cc15-45b6-8d1c-07b156269917" x="364" y="136" width="102" height="15"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{fechafin}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="33">
+			<staticText>
+				<reportElement uuid="ecb5e165-7f50-4f0b-93cb-6f619c9bab81" x="0" y="0" width="100" height="31"/>
+				<textElement textAlignment="Left">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<text><![CDATA[PRODUCTO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="65d17ea5-2231-47ca-bdec-b9f174b33d5a" x="100" y="0" width="90" height="31"/>
+				<textElement textAlignment="Left">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<text><![CDATA[PLANTA DE PRODUCCIÓN]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="2bbc2f08-8459-4c34-83f4-227d8cae9494" x="190" y="0" width="103" height="31"/>
+				<textElement textAlignment="Left">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<text><![CDATA[CANTIDAD DE PRODUCCIÓN]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="edd1c6ea-921e-4e11-8f8c-27e41956373e" x="293" y="0" width="96" height="31"/>
+				<textElement textAlignment="Left">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<text><![CDATA[ORIGEN]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6dc38646-2c19-43c8-bd39-1368bb846162" x="389" y="0" width="100" height="31"/>
+				<textElement textAlignment="Left">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<text><![CDATA[MÁQUINA DE PRODUCCIÓN]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6234f4bb-894f-4a1c-8c4f-5ee99bb65a92" x="489" y="0" width="63" height="31"/>
+				<textElement textAlignment="Left">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<text><![CDATA[LOTE DE PRODUCCIÓN]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="2fc7878f-1a33-49a5-a7e4-e1bf6dd1b818" x="552" y="0" width="50" height="31"/>
+				<textElement textAlignment="Left">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<text><![CDATA[FECHA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="ead266a0-7ca1-4318-b9e7-a1b3f2d782bd" x="602" y="0" width="88" height="31"/>
+				<textElement textAlignment="Left">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<text><![CDATA[CANTIDAD DE DESTRUCCIÓN]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="b4fd7d1f-1d76-456b-afd6-26ba189e226e" x="690" y="0" width="60" height="31"/>
+				<textElement textAlignment="Left">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<text><![CDATA[NUMERO DE REGISTRO]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="24" splitType="Stretch">
+			<textField>
+				<reportElement uuid="68125f60-a173-4964-a21a-02a57695f43d" x="0" y="0" width="100" height="20"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{marca}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="6265b0db-6794-42ee-a005-b8ff781a2479" x="100" y="0" width="90" height="20"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{planta}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="8125e827-60fd-49c5-b493-8fdbfe817eee" x="190" y="0" width="103" height="20"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cantidadProduccion}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="f714071c-8ace-4cdf-a9c1-6be698563068" x="293" y="0" width="96" height="20"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombrePais}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="fb231691-97c3-4b1a-8e64-d35778d50bbf" x="389" y="0" width="100" height="20"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{maquinaria}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="84c6153a-4347-4c17-86c2-12f849631f2a" x="489" y="0" width="63" height="20"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{lote}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="1f6d1c78-36ed-42c6-a874-492937cf74a4" x="552" y="0" width="50" height="20"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fechaHora}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="6225cb8f-b820-4168-943e-c2a4a350d21f" x="602" y="0" width="88" height="20"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cantidadDestruccion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="0c776b23-3b7c-4e73-9379-9dc59db9d0e0" x="690" y="0" width="60" height="20"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{numeroRegistro}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement uuid="b8d83ff4-f309-4010-a39d-5ee73e221061" x="627" y="0" width="80" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement uuid="97b76992-5c47-47f5-957b-1387fb2d3eb0" x="707" y="0" width="40" height="20"/>
+				<textElement>
+					<font fontName="Arial" size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

@@ -1,0 +1,117 @@
+<wsdl:definitions name="selladora" targetNamespace="http://www.sat.gob.mx/selladora/" xmlns:sellosat="http://www.sat.gob.mx/selladora/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+ <wsdl:types>
+  <xsd:schema targetNamespace="http://www.sat.gob.mx/selladora/">
+   <xsd:element name="GetNumeroSerieResponse">
+    <xsd:complexType>
+     <xsd:sequence>
+      <xsd:element minOccurs="0" name="NoSerieCertificado" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="Error" type="xsd:string"/>
+     </xsd:sequence>
+    </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="GeneraSelloRequest">
+    <xsd:complexType>
+     <xsd:sequence>
+      <xsd:element name="Cadena" type="xsd:string"/>
+     </xsd:sequence>
+    </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="GeneraSelloResponse">
+    <xsd:complexType>
+     <xsd:sequence>
+      <xsd:element minOccurs="0" name="Firma" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="Error" type="xsd:string"/>
+     </xsd:sequence>
+    </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="GeneraSelloHashRequest">
+    <xsd:complexType>
+     <xsd:sequence>
+      <xsd:element name="CadenaHash" type="xsd:string"/>
+      <xsd:element name="AlgoritmoHash" type="xsd:string"/>
+     </xsd:sequence>
+    </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="GeneraSelloHashResponse">
+    <xsd:complexType>
+     <xsd:sequence>
+      <xsd:element minOccurs="0" name="Firma" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="Error" type="xsd:string"/>
+     </xsd:sequence>
+    </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="IdServicio" type="xsd:string"/>
+  </xsd:schema>
+ </wsdl:types>
+ <wsdl:message name="Header">
+  <wsdl:part element="sellosat:IdServicio" name="request_header"/>
+ </wsdl:message>
+ <wsdl:message name="GeneraSelloRequest">
+  <wsdl:part element="sellosat:GeneraSelloRequest" name="parameters"/>
+ </wsdl:message>
+ <wsdl:message name="GeneraSelloResponse">
+  <wsdl:part element="sellosat:GeneraSelloResponse" name="paramenters"/>
+ </wsdl:message>
+ <wsdl:message name="GetNumeroSerieRequest"/>
+ <wsdl:message name="GeneraSelloHashRequest">
+  <wsdl:part element="sellosat:GeneraSelloHashRequest" name="parameters"/>
+ </wsdl:message>
+ <wsdl:message name="GeneraSelloHashResponse">
+  <wsdl:part element="sellosat:GeneraSelloHashResponse" name="paramenters"/>
+ </wsdl:message>
+ <wsdl:message name="GetNumeroSerieResponse">
+  <wsdl:part element="sellosat:GetNumeroSerieResponse" name="parameters"/>
+ </wsdl:message>
+ <wsdl:portType name="selladora">
+  <wsdl:operation name="GetNumeroSerie">
+   <wsdl:input message="sellosat:GetNumeroSerieRequest"/>
+   <wsdl:output message="sellosat:GetNumeroSerieResponse"/>
+  </wsdl:operation>
+  <wsdl:operation name="GeneraSello">
+   <wsdl:input message="sellosat:GeneraSelloRequest"/>
+   <wsdl:output message="sellosat:GeneraSelloResponse"/>
+  </wsdl:operation>
+  <wsdl:operation name="GeneraSelloHash">
+   <wsdl:input message="sellosat:GeneraSelloHashRequest"/>
+   <wsdl:output message="sellosat:GeneraSelloHashResponse"/>
+  </wsdl:operation>
+ </wsdl:portType>
+ <wsdl:binding name="selladoraBinding" type="sellosat:selladora">
+  <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+  <wsdl:operation name="GetNumeroSerie">
+   <soap:operation soapAction="http://www.sat.gob.mx/selladora/selladora"/>
+   <wsdl:input>
+    <soap:body use="literal"/>
+    <soap:header message="sellosat:Header" part="request_header" use="literal"/>
+   </wsdl:input>
+   <wsdl:output>
+    <soap:body use="literal"/>
+   </wsdl:output>
+  </wsdl:operation>
+  <wsdl:operation name="GeneraSello">
+   <soap:operation soapAction="http://www.sat.gob.mx/selladora/selladora"/>
+   <wsdl:input>
+    <soap:body use="literal"/>
+    <soap:header message="sellosat:Header" part="request_header" use="literal"/>
+   </wsdl:input>
+   <wsdl:output>
+    <soap:body use="literal"/>
+   </wsdl:output>
+  </wsdl:operation>
+  <wsdl:operation name="GeneraSelloHash">
+   <soap:operation soapAction="http://www.sat.gob.mx/selladora/selladora"/>
+   <wsdl:input>
+    <soap:body use="literal"/>
+    <soap:header message="sellosat:Header" part="request_header" use="literal"/>
+   </wsdl:input>
+   <wsdl:output>
+    <soap:body use="literal"/>
+   </wsdl:output>
+  </wsdl:operation>
+ </wsdl:binding>
+ <wsdl:service name="Selladora">
+  <wsdl:port binding="sellosat:selladoraBinding" name="selladoraPort">
+   <soap:address location="http://10.0.2.100:8080/selladora"/>
+  </wsdl:port>
+ </wsdl:service>
+</wsdl:definitions>

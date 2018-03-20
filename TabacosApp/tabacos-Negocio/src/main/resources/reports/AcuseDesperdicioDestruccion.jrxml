@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ReporteDemo" pageWidth="612" pageHeight="792" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isFloatColumnFooter="true" uuid="bd12e19b-a4bf-4557-86e8-d6f9a9c29ea4">
+	<property name="ireport.zoom" value="1.2396694214876032"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="RUTA_REPORTES" class="java.lang.String"/>
+	<parameter name="RUTA_RECURSOS" class="java.lang.String"/>
+	<parameter name="folio" class="java.lang.String"/>
+	<parameter name="fecha" class="java.util.Date"/>
+	<parameter name="incidencia" class="java.lang.String"/>
+	<parameter name="rfc" class="java.lang.String"/>
+	<parameter name="cadenaOriginal" class="java.lang.String"/>
+	<parameter name="selloDigital" class="java.lang.String"/>
+	<parameter name="codigo_qr" class="java.io.InputStream"/>
+	<background>
+		<band height="752">
+			<image>
+				<reportElement uuid="2f1d993e-6576-4a72-b977-78493f3ba555" x="36" y="171" width="520" height="430"/>
+				<imageExpression><![CDATA["/siat/imagenes/fondo.png"]]></imageExpression>
+			</image>
+		</band>
+	</background>
+	<title>
+		<band height="205" splitType="Prevent">
+			<staticText>
+				<reportElement uuid="ca9d0aa7-8a10-46fc-9e86-0d61486e64be" positionType="Float" x="10" y="77" width="135" height="15"/>
+				<textElement verticalAlignment="Middle" markup="none">
+					<font fontName="Arial" size="11" isBold="true" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Fecha de presentación:]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement uuid="8e2fdb35-cd1d-4498-87ec-d71a38f7c40e" positionType="Float" x="171" y="77" width="295" height="15"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{fecha}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement uuid="4e72ff39-31c7-4f2f-8bc6-be54969a9b96" positionType="Float" x="450" y="30" width="112" height="15"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Hoja "+$V{PAGE_COUNT}+" de " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="e9296168-08e7-490d-a0f5-32191c7eacb0" positionType="Float" x="10" y="50" width="135" height="15"/>
+				<textElement verticalAlignment="Middle" markup="none">
+					<font fontName="Arial" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Incidencia:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="33c339bb-dd85-4d02-996f-1f37ebf57930" positionType="Float" x="10" y="30" width="135" height="15"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[RFC:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="16dc5bb2-efbf-42fb-8660-2a2a0eb722bb" positionType="Float" x="10" y="98" width="135" height="15"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Folio Folio de acuse:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="b6703ee1-0207-4aa8-b6ca-e72b8b3799df" positionType="Float" x="171" y="50" width="295" height="15"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{incidencia}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="1d307468-3c32-435b-a61e-7bab36b4395b" positionType="Float" x="171" y="30" width="295" height="15"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{rfc}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="7803b321-89e7-4d75-ae8a-e3f8ed8e25c0" positionType="Float" x="171" y="98" width="295" height="15"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{folio}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement uuid="5b0412e8-3fd5-482f-9487-a1c34fa64e5a" positionType="Float" x="10" y="70" width="552" height="1"/>
+			</line>
+			<line>
+				<reportElement uuid="e8c4e826-fcf5-48fe-93b4-eb99fc74f3d7" positionType="Float" mode="Transparent" x="10" y="20" width="552" height="1" forecolor="#FF0000"/>
+				<graphicElement>
+					<pen lineWidth="3.0"/>
+				</graphicElement>
+			</line>
+			<subreport>
+				<reportElement uuid="80abaa7e-77ec-4c05-ad5f-fb977156fdd7" x="0" y="0" width="572" height="10"/>
+				<subreportParameter name="titulo">
+					<subreportParameterExpression><![CDATA["ACUSE DE DESPERDICIOS Y DESTRUCCIÓN"]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="NOMBRE_FUENTE">
+					<subreportParameterExpression><![CDATA["Arial"]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="RUTA_RECURSOS">
+					<subreportParameterExpression><![CDATA["reports/images/"]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="TAMANIO_FUENTE">
+					<subreportParameterExpression><![CDATA["11"]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportExpression><![CDATA["reports/Header.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</title>
+	<lastPageFooter>
+		<band height="100" splitType="Prevent">
+			<subreport>
+				<reportElement uuid="05719a3d-0a36-4295-b6a2-f45be91b64b6" x="0" y="0" width="572" height="10"/>
+				<subreportParameter name="codigo_qr">
+					<subreportParameterExpression><![CDATA[$P{codigo_qr}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="NOMBRE_FUENTE">
+					<subreportParameterExpression><![CDATA["Arial"]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="selloDigital">
+					<subreportParameterExpression><![CDATA[$P{selloDigital}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="TAMANIO_FUENTE">
+					<subreportParameterExpression><![CDATA["11"]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="cadenaOriginal">
+					<subreportParameterExpression><![CDATA[$P{cadenaOriginal}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportExpression><![CDATA["reports/Footer.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</lastPageFooter>
+</jasperReport>

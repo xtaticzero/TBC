@@ -1,0 +1,96 @@
+.anchoFolios,
+.anchoRFC,.anchoALFDomCont,
+.anchoALFDomDest,
+.anchoCompet,
+.anchoALFDomCont,
+.anchoFechasFormatoDiag,
+.anchoALFDomCont,
+.anchoEstatusMerc,
+.anchoImportes,
+.anchoObservacionesNoSi,
+.anchoHoras,
+.anchoTipoMerc,
+.anchoEntFed,
+.anchoMunic,.anchoCPBenef,
+.anchoContribuyente,.anchoFechasFormatoDiagHeadLargo,
+.anchoHorasHeadLargo,
+.anchoHorasHeadSuperLargo,
+.anchoFechasFormatoDiagHeadSuperLargo,.anchoFundLegal,
+.anchoUnidadMedida,.anchoOtraUnidadMedida,.anchoUnidades, .anchoDecision
+{
+    padding: 0px 0px;
+    text-align: center;
+}
+
+
+.anchoFolios{
+    width: 60px;  
+}
+.anchoRFC{
+    width: 120px;
+}
+.anchoALFDomCont, .anchoALFDomDest{
+    width:190px;
+}
+.anchoCompet{
+    width: 70px;
+}
+.anchoFechasFormatoDiag{
+    width: 120px;
+}
+.anchoHoras{
+    width: 60px;
+}
+.anchoEstatusMerc{
+    width: 220px;
+}
+.anchoImportes{
+    width: 120px;
+}
+.anchoObservacionesNoSi{
+    width: 80px;
+}
+.anchoTipoMerc{
+    width: 120px;
+}
+.anchoEntFed{
+    width:120px;
+}
+.anchoMunic{
+    width:200px;
+}
+.anchoCPBenef{
+    width:90px;
+}
+.anchoContribuyente{
+    width:220px;
+}
+.anchoFechasFormatoDiagHeadLargo{
+    width:180px;
+}
+.anchoHorasHeadLargo{
+    width: 170px;
+}
+.anchoHorasHeadSuperLargo{
+    width: 190px;
+}
+.anchoFechasFormatoDiagHeadSuperLargo{
+    width:220px;
+}
+.anchoFundLegal{
+    width:400px;
+}
+.anchoUnidadMedida{
+    width:400px;
+}
+.anchoOtraUnidadMedida{
+    width:400px;
+}
+.anchoUnidades{
+    width:400px;
+}
+.anchoDecision{
+    width:120px;
+}
+
+

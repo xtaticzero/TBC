@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui"
+        >
+    <html xmlns="http://www.w3.org/1999/xhtml">
+        <h:head></h:head>
+        <h:body>
+            <p:panel id="panelFirmaSolicitud" header="#{tbcMsj['panel.titulo.firma.solicitud']}">
+
+                <p:outputLabel value="#{tbcMsj['label.accion.representante.legal']}" styleClass="titulo-label"/>
+                <p:separator id="separatorFS"/>
+                <h:panelGrid columns="3" id="panelGridFirmarSolicitud" style="text-align:left; margin: 0px auto;">
+                    <p:outputLabel value="#{tbcMsj['label.rfc']}"/>
+                    <p:inputText id="txtRFC" value="#{controller.firmaFormHelper.rfcSession}" disabled="true" style="width: 200px"/>
+                    <p:spacer/>
+                    <p:spacer/>
+                    <p:message id="msgRFC" for="txtRFC" display="text"/>
+                    <p:spacer/>
+                    <p:outputLabel value="#{tbcMsj['label.password']}"/>
+                    <p:password id="privateKeyPassword" value="#{controller.firmaFormHelper.passwordSession}" required="true"
+                                requiredMessage="#{tbcMsj['error.campo.obligatorio']}" style="width: 200px"/>
+                    <p:spacer/>
+                    <p:spacer/>
+                    <p:message id="msgPassword" for="privateKeyPassword" display="text"/>
+                    <p:spacer/>
+                    <p:outputLabel value="#{tbcMsj['label.certificado']}"/>
+                    <p:inputText id="certificate" disabled="true" value="" style="width: 250px"/>
+                    <p:commandButton value="#{tbcMsj['btn.examinar']}" id="btnCert" onclick="browseForCertificate()"/>
+                    <p:spacer/>
+                    <p:message id="msgCertificado" for="certificate" display="text"/>
+                    <p:spacer/>
+                    <p:outputLabel value="#{tbcMsj['label.llave.privada']}"/>
+                    <p:inputText id="privateKey" disabled="true" value="" style="width: 250px"/>
+                    <p:commandButton value="#{tbcMsj['btn.examinar']}" id="btnPrivateKey" onclick="browseForPrivateKey()"/>
+                    <p:spacer/>
+                    <p:message id="msgLlavePriv" for="privateKey" display="text"/>
+                    <p:spacer/>
+                    <p:spacer/>
+                    <p:spacer/>
+                    <p:commandButton value="#{tbcMsj['btn.firmar']}" id="btnEnviarForm" update="@form"
+                                                 action="#{solicitarCodigosMB.guardarSolicitud}" process="@form"
+                                                 onstart="enviarFormulario()" onsuccess="firma.hide();" styleClass="gmxPositivo"/>
+                </h:panelGrid>
+                <input type="hidden" id="firmaDigital" name="firmaDigital"
+                       value="#{controller.firmaFormHelper.selloDigital}"/>
+                <input type="hidden" id="cadenaOriginal" name="cadenaOriginal"
+                       value="#{controller.firmaFormHelper.cadenaOriginal}"/>
+                <input type="hidden" id="mode" name="mode" value="#{tbc_prop_ambiente['aplicacion.ambiente.driver']}"/>
+                <p:inputText id="firmaDigital" value="#{controller.firmaFormHelper.selloDigital}" disabled="true" rendered="false"/>
+                <p:inputText id="cadenaOriginal" value="#{controller.firmaFormHelper.cadenaOriginal}" disabled="true" rendered="false"/>
+                <p:inputText id="mode" value="#{tbc_prop_ambiente['aplicacion.ambiente.driver']}" disabled="true" rendered="false"/>
+                <br/>
+            </p:panel>
+        </h:body>
+    </html>
+</f:view>

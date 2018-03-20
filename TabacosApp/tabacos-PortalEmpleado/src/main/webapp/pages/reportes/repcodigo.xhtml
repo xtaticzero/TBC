@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<f:view xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:c="http://java.sun.com/jsp/jstl/core"
+        xmlns:pe="http://primefaces.org/ui/extensions"
+        xmlns:tbc="http://www.sat.gob.mx/tabacos">
+    <html xmlns="http://www.w3.org/1999/xhtml">
+        <h:head>
+            <meta http-equiv="X-UA-Compatible" content="IE=11"/>
+            <h:outputStylesheet library="css/" name="tabacos.css"/>
+            <h:outputScript library="js/" name="tabacos.js"/>
+            <style type="text/css">
+                .ui-menubar   {mouseover: #ff0000; background-color: #A80000;}
+                .ui-state-hover {cursor:hand;}
+             </style>
+        </h:head>
+        <h:body>
+            <p:panel id="panelDowload" header="#{tbcMsj['label.titulo.codigosfalso']}" 
+                     styleClass="panel-contenedor"> 
+            <h:form id="formCodigo">
+                <p:tabMenu activeIndex="#{param.i}" styleClass="ui-menubar"> 
+                    <p:menuitem value="#{tbcMsj['label.titulo.mcontribuyente']}" url="reptabacalera.jsf?i=0" >  
+                        <f:param name="i" value="0" />
+                    </p:menuitem>
+                    <p:menuitem value="#{tbcMsj['label.titulo.mproveedor']}" url="repproveedor.jsf?i=1" >
+                        <f:param name="i" value="1" />
+                    </p:menuitem>
+                    <p:menuitem value="#{tbcMsj['label.titulo.mmarca']}" url="repmarca.jsf?i=2" >  
+                        <f:param name="i" value="2" />
+                    </p:menuitem>
+                    <p:menuitem value="#{tbcMsj['label.titulo.mcodigosfalso']}" url="repcodigo.jsf?i=3" >
+                        <f:param name="i" value="3" />
+                    </p:menuitem>
+                    <p:menuitem value="#{tbcMsj['label.titulo.mproduccion']}" url="repProduccion.jsf?i=4" >
+                        <f:param name="i" value="4" />
+                    </p:menuitem>
+                    <p:menuitem value="#{tbcMsj['label.titulo.mdesperdicios']}" url="repDesperdicio.jsf?i=5" >   
+                        <f:param name="i" value="5" />
+                    </p:menuitem>
+                    <p:menuitem value="#{tbcMsj['label.titulo.mhistoricos']}" url="rephistorico.jsf?i=6" >                      
+                        <f:param name="i" value="6" />
+                    </p:menuitem>                                        
+                </p:tabMenu>
+                <p:growl id="msgs" showDetail="true" sticky="true" globalOnly="true" autoUpdate="true"/>
+                <table width="800px">
+                    <tr>
+                        <td>
+                            <table width="100%">
+                                <tr width="100%">                        
+                                    <td>
+                                        <h:outputLabel>#{tbcMsj['label.rfc.contribuyente']}</h:outputLabel>
+                                    </td>
+                                    <td>
+                                        <p:autoComplete id="txtRFC4" value="#{reportesCodigosMB.codigoFiltro.rfc}" widgetVar="txtRFC4"
+                                                        maxlength="15" completeMethod="#{reportesCodigosMB.autocompletarRFC}">
+                                            <p:ajax event="blur" listener="#{reportesCodigosMB.validaRFC}" update="formCodigo btReportePdf btReporteExcel"/>
+                                        </p:autoComplete>
+                                        
+                                    </td>
+                                </tr>
+                                <tr width="100%">
+                                    <td>
+                                        <h:outputLabel>#{tbcMsj['label.fechainicio']}</h:outputLabel>
+                                    </td>
+                                    <td>
+                                        <p:calendar id="finicio4" value="#{reportesCodigosMB.codigoFiltro.fechainicio}" 
+                                            style="width: 10px" navigator="true" pattern="dd/MM/yyyy" locale="es"
+                                            requiredMessage="#{tbcMsj['msg.fechainicial']}"
+                                            effect="fadeIn" effectDuration="100" maxdate="#{reportesCodigosMB.today}" readonlyInput="true">
+                                            <p:ajax event="dateSelect" listener="#{reportesCodigosMB.validaFormatoFechas}" update="ffinal4"/> 
+                                        </p:calendar>                            
+                                    </td>
+                                </tr>
+                                <tr width="100%">
+                                    <td>
+                                        <h:outputLabel>#{tbcMsj['label.fechafin']}</h:outputLabel>
+                                    </td>
+                                    <td>
+                                        <p:calendar id="ffinal4" value="#{reportesCodigosMB.codigoFiltro.fechafin}" 
+                                                    mindate="#{reportesCodigosMB.codigoFiltro.fechainicio}" style="width: 10px"
+                                            navigator="true" pattern="dd/MM/yyyy" locale="es"
+                                            requiredMessage="#{tbcMsj['msg.fechafinal']}" 
+                                            effect="fadeIn" effectDuration="100" maxdate="#{reportesCodigosMB.today}" readonlyInput="true">
+                                            <f:attribute name="finicial" value="#{reportesCodigosMB.codigoFiltro.fechainicio}" />
+                                            <p:ajax event="dateSelect" listener="#{reportesCodigosMB.validaFormatoFechas}"/>  
+                                        </p:calendar>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <h:outputLabel>#{tbcMsj['label.codigosfalsos.codigos']}</h:outputLabel>
+                                    </td>
+                                    <td>
+                                        <p:selectOneMenu id="codigoCB" value="#{reportesCodigosMB.codigoFiltro.seleccion}" widgetVar="codigoCB"
+                                            style="width: 300px">
+                                            <f:selectItem itemLabel="#{tbcMsj['label.seleccione.one']}" itemValue="" />                                                            
+                                            <f:selectItem itemLabel="#{tbcMsj['label.opcion.falsos']}" 
+                                                    itemValue="#{tbcMsj['label.opcion.falsos.valor']}" />
+                                            <f:selectItem itemLabel="#{tbcMsj['label.opcion.novalidos']}" 
+                                                    itemValue="#{tbcMsj['label.opcion.novalidos.valor']}" />
+                                                    <h:outputText value="#{tbcMsj['label.seleccione.one']}" />
+                                            <p:ajax event="change" listener="#{reportesCodigosMB.validaParametrosReportes}" update="formCodigo"/> 
+                                        </p:selectOneMenu>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+                <h:panelGrid columns="2"> 
+                    <p:commandButton id ="btReportePdf" 
+                                     value="#{tbcMsj['lbl.archivo.pdf']}" 
+                                     actionListener="#{reportesCodigosMB.btnGenerarReporteCodigoPDF}" 
+                                     ajax="false" 
+                                     disabled="#{!reportesCodigosMB.flgBtnReportes}"
+                                     styleClass="gmxPositivo"/>                    
+                    <p:commandButton id ="btReporteExcel" 
+                                     value="#{tbcMsj['lbl.archivo.excel']}"
+                                     actionListener="#{reportesCodigosMB.btnGenerarReporteCodigoExcel}"
+                                     ajax="false"
+                                     disabled="#{!reportesCodigosMB.flgBtnReportes}"
+                                     styleClass="gmxPositivo"/>                            
+                </h:panelGrid>
+            </h:form>
+            </p:panel>
+        </h:body>
+    </html>
+</f:view>

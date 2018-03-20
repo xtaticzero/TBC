@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<f:view xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:c="http://java.sun.com/jsp/jstl/core"
+        xmlns:pe="http://primefaces.org/ui/extensions"
+        xmlns:tbc="http://www.sat.gob.mx/tabacos">
+    <html xmlns="http://www.w3.org/1999/xhtml">
+        <h:head>
+            <!--<meta http-equiv="X-UA-Compatible" content="IE=8"/>-->
+            <h:outputStylesheet library="css/" name="tabacos.css"/>
+            <style type="text/css">
+                .ui-menubar   {mouseover: #ff0000; background-color: #A80000;}
+                .ui-state-hover {cursor:hand;}
+            </style>
+            <h:outputScript library="js/" name="tabacos.js"/>
+        </h:head>
+        <h:body>
+            <p:panel id="panelDowload" header="#{tbcMsj['label.titulo.contribuyente']}" 
+                     styleClass="panel-contenedor"> 
+                <h:form id="formTabaco">             
+                    <p:tabMenu activeIndex="#{param.i}" styleClass="ui-menubar"> 
+                        <p:menuitem value="#{tbcMsj['label.titulo.mcontribuyente']}" url="reptabacalera.jsf?i=0" >  
+                            <f:param name="i" value="0" />
+                        </p:menuitem>
+                        <p:menuitem value="#{tbcMsj['label.titulo.mproveedor']}" url="repproveedor.jsf?i=1" >
+                            <f:param name="i" value="1" />
+                        </p:menuitem>
+                        <p:menuitem value="#{tbcMsj['label.titulo.mmarca']}" url="repmarca.jsf?i=2" >  
+                            <f:param name="i" value="2" />
+                        </p:menuitem>
+                        <p:menuitem value="#{tbcMsj['label.titulo.mcodigosfalso']}" url="repcodigo.jsf?i=3" >
+                            <f:param name="i" value="3" />
+                        </p:menuitem>
+                        <p:menuitem value="#{tbcMsj['label.titulo.mproduccion']}" url="repProduccion.jsf?i=4" >
+                            <f:param name="i" value="4" />
+                        </p:menuitem>
+                        <p:menuitem value="#{tbcMsj['label.titulo.mdesperdicios']}" url="repDesperdicio.jsf?i=5" >    
+                            <f:param name="i" value="5" />
+                        </p:menuitem>
+                        <p:menuitem value="#{tbcMsj['label.titulo.mhistoricos']}" url="rephistorico.jsf?i=6" >                      
+                            <f:param name="i" value="6" />
+                        </p:menuitem>                                        
+                    </p:tabMenu>
+                    <p:growl id="msgs" showDetail="true" sticky="true" globalOnly="true" autoUpdate="true"/>
+                    <table width="800px">
+                        <tr>
+                            <td>
+                                <table width="800px">
+                                    <tr width="100%">                        
+                                        <td>
+                                            <h:outputLabel>#{tbcMsj['label.rfc.contribuyente']}</h:outputLabel>
+                                        </td>
+                                        <td>
+                                            <p:autoComplete id="txtRFC" value="#{reporteTabacaleraMB.reporteTabacaleraHelper.rfcContribuyente}" maxlength="15" completeMethod="#{reporteTabacaleraMB.autocompletarRFC}">
+                                                <p:ajax event="blur" listener="#{reporteTabacaleraMB.validaRFC}" update="formTabaco"/>
+                                            </p:autoComplete>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <h:outputLabel>#{tbcMsj['label.fechainicio']}</h:outputLabel>
+                                        </td>
+                                        <td>
+                                            <p:calendar id="finicio" value="#{reporteTabacaleraMB.reporteTabacaleraHelper.fechaInicio}" 
+                                                        style="width: 25%" navigator="true" pattern="dd/MM/yyyy" 
+                                                        locale="es" onkeypress="return permite(event, 'none')" 
+                                                        requiredMessage="#{tbcMsj['label.fechainicio']}"
+                                                        effect="fadeIn" effectDuration="100" maxdate="#{reporteTabacaleraMB.reporteTabacaleraHelper.fechaMaxima}"
+                                                        readonlyInput="true">
+                                                <p:ajax event="dateSelect" listener="#{reporteTabacaleraMB.validaParametrosReportes}" update="formTabaco"/>
+                                            </p:calendar>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <h:outputLabel>#{tbcMsj['label.fechafin']}</h:outputLabel>
+                                        </td>
+                                        <td>
+                                            <p:calendar id="ffinal" 
+                                                        locale="es"
+                                                        value="#{reporteTabacaleraMB.reporteTabacaleraHelper.fechaFin}" 
+                                                        mindate="#{reporteTabacaleraMB.reporteTabacaleraHelper.fechaInicio}"
+                                                        maxdate="#{reporteTabacaleraMB.reporteTabacaleraHelper.fechaMaxima}"
+                                                        style="width: 10px" 
+                                                        navigator="true" pattern="dd/MM/yyyy" 
+                                                        onkeypress="return permite(event, 'none')" 
+                                                        requiredMessage="#{tbcMsj['label.fechafin']}"
+                                                        effect="fadeIn" effectDuration="100" 
+                                                        readonlyInput="true">
+                                                <p:ajax event="dateSelect" listener="#{reporteTabacaleraMB.validaParametrosReportes}" update="formTabaco"/>                            
+                                            </p:calendar>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <table style="width: 800px;">
+                                    <p:separator/>
+                                    <tr>
+                                        <td>
+                                            <p:selectOneRadio id="contribuyenteCB" value="#{reporteTabacaleraMB.reporteTabacaleraHelper.tipoReporte}" 
+                                                              style="width: 350px" layout="pageDirection">
+                                                <f:selectItem itemLabel="#{tbcMsj['label.contribuyente.alta']}" itemValue="#{reporteTabacaleraMB.reporteTabacaleraHelper.tipoAlta}" />
+                                                <f:selectItem itemLabel="#{tbcMsj['label.contribuyente.mod']}" itemValue="#{reporteTabacaleraMB.reporteTabacaleraHelper.tipoCambio}" />
+                                                <f:selectItem itemLabel="#{tbcMsj['label.contribuyente.baja']}" itemValue="#{reporteTabacaleraMB.reporteTabacaleraHelper.tipoBaja}" />                                
+                                                <p:ajax event="change" listener="#{reporteTabacaleraMB.validaParametrosReportes}" update="formTabaco"/> 
+                                            </p:selectOneRadio>
+                                        </td>
+                                    </tr>
+                                </table>  
+                            </td>
+                        </tr>
+                    </table>
+                    <h:panelGrid columns="2">
+                        <p:commandButton value="#{tbcMsj['lbl.archivo.pdf']}"
+                                         actionListener="#{reporteTabacaleraMB.btnGenerarReporteContribuyentePDF}"
+                                         ajax="false"
+                                         disabled="#{!reporteTabacaleraMB.flgBtnReportes}"
+                                         styleClass="gmxPositivo"/>
+                        <p:commandButton value="#{tbcMsj['lbl.archivo.excel']}"
+                                         actionListener="#{reporteTabacaleraMB.btnGenerarReporteContribuyenteExcel}"
+                                         ajax="false"
+                                         disabled="#{!reporteTabacaleraMB.flgBtnReportes}"
+                                         styleClass="gmxPositivo"/>
+                    </h:panelGrid>
+
+                </h:form>
+            </p:panel>
+        </h:body>
+    </html>
+</f:view>

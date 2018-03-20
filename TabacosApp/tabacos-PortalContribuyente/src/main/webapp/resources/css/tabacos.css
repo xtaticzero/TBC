@@ -1,0 +1,110 @@
+/** SelectCheckbox Menu **/
+.titulo-label {
+    font-weight:bold;
+    font-size:small;
+}
+.panel-principal{
+    width: 810.0px;
+}
+
+.panel-interno{
+    width: 800.0px;
+}
+.panel-tab{
+    width: 100%;
+}
+.alineacion-texto-numero{
+    text-align: right;
+}
+.textoRojo {
+    color: RED;
+}
+.textoAzul {
+    color: #0070BB;
+}
+.panel-contenedor{
+    margin-left:auto;
+    margin-right:auto;
+}
+.cell-rfc{
+    width: 550px;
+    //text-align: center;
+    //margin-left:auto;
+    //margin-right:auto;
+}
+.cell-razonsocial{
+    width: 440px
+        //text-align: center;
+        //margin-left:auto;
+        //margin-right:auto;
+}
+.one-menu-frc{
+    width: 550px;
+    text-align: center;
+    margin-left:auto;
+    margin-right:auto;
+}
+.grid-solicitud-co{
+    width:100%;
+    margin-left:auto;
+    margin-right:auto;
+    border: 0px;
+    text-align: left;
+}
+.input-text{
+    width: 200px;
+}
+.one-select{
+    width: 550px;
+    margin-left:auto;
+    margin-right:auto;  
+}
+
+.codigosHeaderGrid tr, .codigosHeaderGrid td {
+    border-style: hidden;
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 0 solid #FFFFFF;
+    color: #333333;
+}
+
+.version{
+    text-align: right;
+    border: 0px;
+    border-width: 0px;
+    margin-left:auto;
+    margin-right:auto;
+
+}
+
+.version:before{
+    content: "#{version['version.numero']}";
+    font-size: 11px;
+    font: Arial, sans-serif;
+    color: blue;
+}
+
+.fileupload-content{
+    height:70px!important;
+    z-index: 1 !important;
+}
+.ui-inputfield{
+    width: 80% !important;
+}
+
+.fileupload-buttonbar{
+    height:35px!important;
+    z-index: 0 !Important;
+}
+.fileupload-buttonbar .ui-button input {
+    top: auto !important;
+    right: auto !important;
+    margin: auto !important;
+    border: solid transparent;
+    border-width: 0 0 100px 200px;
+    opacity: 0;
+    filter: alpha(opacity=0);
+    -o-transform: translate(250px, -50px) scale(1);
+    direction: ltr;
+    cursor: pointer;
+    z-index: 5000;
+}

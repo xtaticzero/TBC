@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui">
+    <html>
+        <h:form>
+            <p:growl showDetail="true" id="msgGrw" globalOnly="true"/>
+            <p:messages showDetail="true" id="msg" globalOnly="true"/>
+            <div align="left">
+                <p:panelGrid columns="1">
+                    <img src="../../resources/images/warning.jpg" align="middle" alt=""/>
+                    <span class="ui-messages-warn-icon"></span>
+                    <p:outputLabel value="Acceso denegado: no cumple con las condiciones para ver la p&aacute;gina solicitada ">
+                        #{detalleError}
+                    </p:outputLabel>
+                </p:panelGrid>
+            </div>
+        </h:form>
+    </html>
+</f:view>

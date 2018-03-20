@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:retro="http://esquemas.clouda.sat.gob.mx/archivos/Tabacos/1/Retroalimentacion" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:cat="http://esquemas.clouda.sat.gob.mx/archivos/Tabacos/1/Catalogos" targetNamespace="http://esquemas.clouda.sat.gob.mx/archivos/Tabacos/1/Retroalimentacion" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:import namespace="http://esquemas.clouda.sat.gob.mx/archivos/Tabacos/1/Catalogos" schemaLocation="catTabacos.xsd"/>
+	<xs:element name="TBCRetroInfo">
+		<xs:annotation>
+			<xs:documentation>Estándar de la retroalimentacion de Información de los códigos de seguridad para Tabacos</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:choice>
+				<xs:element name="Produccion" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>Nodo Opcional para expresar las actualizaciónes de información de los Códigos de Seguridad impresos por el Contribuyente</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Rangos" type="cat:RangoCodigosSeguridad" maxOccurs="unbounded">
+								<xs:annotation>
+									<xs:documentation>Nodo requerido para expresar los rangos de los identificadores de Códigos de Seguridad</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+						</xs:sequence>
+						<xs:attribute name="RFC" type="cat:tipoRFC" use="required">
+							<xs:annotation>
+								<xs:documentation>Atributo requerido para expresar el RFC del Productor al que se le enviaron los Códigos de Seguridad.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="Marca" use="required">
+							<xs:annotation>
+								<xs:documentation>Atributo requerido para expresar la marca del producto al que se le asignaron Códigos de Seguridad</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:length value="6"/>
+									<xs:pattern value="[0-4][0-9]{5}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="CantidadCigarros" use="required">
+							<xs:annotation>
+								<xs:documentation>Atributo requerido para expresar el número Total de cigarros que contiene el producto</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:integer">
+									<xs:minInclusive value="0"/>
+									<xs:totalDigits value="4"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="CantidadProduccion" type="xs:integer" use="required">
+							<xs:annotation>
+								<xs:documentation>Atributo requerido para expresar la cantidad de cajetillas producidas en este rango de códigos</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="PlantaProduccion" use="required">
+							<xs:annotation>
+								<xs:documentation>Atributo requerido para expresar la Planta de producción donde se imprimieron los Códigos de Seguridad</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:maxLength value="255"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="MaquinaProduccion" use="required">
+							<xs:annotation>
+								<xs:documentation>Atributo requerido para expresar la Máquina de producción que imprimió los Códigos de Seguridad</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:maxLength value="50"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="LoteProduccion" use="required">
+							<xs:annotation>
+								<xs:documentation>Atributo requerido para expresar el Lote de producción al que pertenece el producto</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:maxLength value="20"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<!--xs:attribute name="PaisProduccion" type="xs:string" use="required">
+							<xs:annotation>
+								<xs:documentation>Atributo requerido para expresar el país de producción del producto</xs:documentation>
+							</xs:annotation>
+						</xs:attribute-->
+						<xs:attribute name="LineaProd" use="required">
+							<xs:annotation>
+								<xs:documentation>Atributo requerido para expresar la línea de producción del producto</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:integer">
+									<xs:minInclusive value="0"/>
+									<xs:totalDigits value="3"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="FechaHoraProd" type="xs:dateTime" use="required">
+							<xs:annotation>
+								<xs:documentation>Atributo requerido para expresar la fecha y hora en la que se realizó la producción</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<!--xs:attribute name="Origen" type="xs:string" use="required"-->
+						<xs:attribute name="Origen" type="cat:catPais" use="required">
+							<xs:annotation>
+								<xs:documentation>Atributo requerido para expresar el país de origen del producto</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="FechaImportacion" type="xs:date" use="required">
+							<xs:annotation>
+								<xs:documentation>Atributo requerido para expresar la fecha de importación del producto</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Destruccion" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>Nodo opcional para expresar los Códigos de Seguridad que fueron destruidos por el Contribuyente</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Rangos" type="cat:RangoCodigosSeguridad">
+								<xs:annotation>
+									<xs:documentation>Nodo requerido para expresar los rangos de los identificadores de Códigos de Seguridad</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+						</xs:sequence>
+						<xs:attribute name="RFC" type="cat:tipoRFC" use="required">
+							<xs:annotation>
+								<xs:documentation>Atributo requerido para expresar el RFC del Productor al que se le enviaron los Códigos de Seguridad.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="Marca" use="required">
+							<xs:annotation>
+								<xs:documentation>Atributo requerido para expresar la marca del producto al que se le asignaron Códigos de Seguridad.</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:length value="6"/>
+									<xs:pattern value="[0-4][0-9]{5}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="PlantaProduccion" use="required">
+							<xs:annotation>
+								<xs:documentation>Atributo requerido para expresar la Planta de producción donde se imprimieron los Códigos de Seguridad.</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:maxLength value="255"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="MaquinaProduccion" use="required">
+							<xs:annotation>
+								<xs:documentation>Atributo requerido para expresar la Máquina de producción que imprimió los Códigos de Seguridad.</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:maxLength value="50"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="LoteProduccion" use="required">
+							<xs:annotation>
+								<xs:documentation>Atributo requerido para expresar el Lote de producción al que pertenece el producto.</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:maxLength value="20"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="CantidadProduccion" use="required">
+							<xs:annotation>
+								<xs:documentation>Atributo requerido para expresar el número Total de productos.</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:integer">
+									<xs:minInclusive value="0"/>
+									<xs:totalDigits value="4"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="TipoRetroalimentacion" type="cat:catTipoRetroalimentacion" use="required">
+							<xs:annotation>
+								<xs:documentation>Atributo requerido para expresar el tipo de retroalimentación 3. Destrucción 4. Desperdicios</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<!--xs:attribute name="Origen" type="xs:string" use="required"-->
+						<xs:attribute name="Origen" type="cat:catPais" use="required">
+							<xs:annotation>
+								<xs:documentation>Atributo requerido para expresar el país de origen del producto.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="FechaHoraReg" type="xs:dateTime" use="required">
+							<xs:annotation>
+								<xs:documentation>Atributo requerido para expresar la fecha y hora del registro.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="CantidadDestruccion" use="required">
+							<xs:annotation>
+								<xs:documentation>Atributo requerido para expresar el número total de productos en destrucción o desperdicios.</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:integer">
+									<xs:minInclusive value="1"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="CodigosNoValidos" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>Nodo opcional para expresar los Códigos de Seguridad que marcaods como Falsos por el Contribuyente</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Rangos" type="cat:RangoCodigosSeguridad">
+								<xs:annotation>
+									<xs:documentation>Nodo requerido para expresar los rangos de los identificadores de Códigos de Seguridad</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+						</xs:sequence>
+						<xs:attribute name="RFC" type="cat:tipoRFC" use="required">
+							<xs:annotation>
+								<xs:documentation>Atributo requerido para expresar el RFC del Productor al que se le enviaron los Códigos de Seguridad.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<!--xs:attribute name="Justificacion" type="xs:string" use="required"-->
+						<xs:attribute name="Justificacion" type="cat:catJustificacion" use="required">
+							<xs:annotation>
+								<xs:documentation>Atributo requerido para expresar la justificación </xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+			</xs:choice>
+			<xs:attribute name="Version" type="xs:string" use="required" fixed="1.0">
+				<xs:annotation>
+					<xs:documentation>Atributo requerido para expresar la versión del formato.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="Fecha" type="xs:dateTime" use="required">
+				<xs:annotation>
+					<xs:documentation>Atributo requerido para expresar la fecha del informe</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="RFCProveedorCertificado" type="cat:tipoRFC" use="required">
+				<xs:annotation>
+					<xs:documentation>Atributo requerido para expresar el RFC del Proveedor de Servicios Autorizado.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

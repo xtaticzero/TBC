@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<appender name="appenderCRFC" class="org.apache.log4j.DailyRollingFileAppender">
+    <param name="file" value="/siat/logs/ConsultaRFC_${weblogic.Name}.log" />
+    <param name="Append" value="true"/>
+    <param name="DatePattern" value="'.'yyyyMMdd" />
+ 
+    <!--
+	<appender-ref ref="consola" />
+ NIVEL DE PRIORIDAD DE LOG4J -->
+    <param name="Threshold" value="INFO" />
+
+    <layout class="org.apache.log4j.PatternLayout">
+        <param name="ConversionPattern"
+                 value="%d %-4r [%t] %-5p %l %x - %m%n" />
+    </layout>
+</appender>
+<logger name="loggerCRFC" additivity="false" >
+        <appender-ref ref="appenderCRFC"/>
+</logger>
+
+
+<root>    	
+	<appender-ref ref="appenderCRFC" />
+	
+</root>

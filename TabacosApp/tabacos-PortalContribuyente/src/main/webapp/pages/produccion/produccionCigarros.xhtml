@@ -1,0 +1,389 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:c="http://java.sun.com/jsp/jstl/core"
+        xmlns:pe="http://primefaces.org/ui/extensions"
+        xmlns:tbc="http://www.sat.gob.mx/tabacos">
+    <html xmlns="http://www.w3.org/1999/xhtml">
+        <applet name="FIEL" code="com.novell.applet.firmaElectronica.main.SgiApplet.class"
+                codebase="../../resources/applet/" archive="#{appletConf['applet.name']}" height="0" width="0"/>
+        <h:head>
+            <meta http-equiv="X-UA-Compatible" content="IE=8"/>
+            <h:outputScript library="js/" name="tabacos.js"/>
+            <h:outputScript library="js/" name="FIEL.js"/>
+            <h:outputStylesheet library="css/" name="tabacos.css"/>
+            <style type="text/css">
+                .fileupload-content{
+                    height:70px!important;
+                    z-index: 0 !important;
+                }
+                .ui-inputfield{
+                    width: 80% !important;
+                }
+
+                .fileupload-buttonbar{
+                    height:35px!important;
+                    z-index: 0 !Important;
+                }
+                .fileupload-buttonbar .ui-button input {
+                    top: auto !important;
+                    right: auto !important;
+                    margin: auto !important;
+                    border: solid transparent;
+                    border-width: 0 0 100px 200px;
+                    opacity: 0;
+                    filter: alpha(opacity=0);
+                    -o-transform: translate(250px, -50px) scale(1);
+                    direction: ltr;
+                    cursor: pointer;
+                    z-index: 0;
+                }
+            </style>
+        </h:head>
+        <h:body>
+            <ui:include src="/WEB-INF/templates/confirmExit.xhtml"/>
+            <ui:include src="/pages/tramites/menuTramites.xhtml"/>
+            <h:form id="formProdCigarros" styleClass="panel-contenedor" enctype="multipart/form-data">
+                <p:growl id="msgExitoGuardar" showDetail="true" sticky="false" globalOnly="true"/>
+                <p:panel id="panelProdCigarros" header="#{tbcMsj['page.produccion.title']}" rendered="#{produccionCigarrillosMB.produccionHelper.pnlPrincipal}">
+                    <table style="width: 100%;" border="0">
+                        <tr>
+                            <td style="width: 20%">
+                                <p:outputLabel value="#{tbcMsj['page.produccion.rfc']}: "/>
+                            </td>
+                            <td style="width: 80%">
+                                <p:selectOneMenu id="txtRfc"  
+                                                 style="width: 200px;
+                                                 text-align: left;
+                                                 margin-left:auto;
+                                                 margin-right:auto;"
+                                                 value="#{produccionCigarrillosMB.produccionHelper.produccionCigarrosHelper.tabacalera.rfc}">
+                                    <f:selectItems value="#{produccionCigarrillosMB.produccionHelper.produccionCigarrosHelper.lstContribuyente}" 
+                                                   var="contribuyenteObj"
+                                                   itemLabel="#{contribuyenteObj.rfc}"
+                                                   itemValue="#{contribuyenteObj.rfc}"/>
+                                    <p:ajax event="change" update="txtRfc txtRazon" 
+                                            listener="#{produccionCigarrillosMB.actualizaRSTabacalera}"/>
+                                </p:selectOneMenu>
+                                <p:message id="msgRFC2" for="txtRfc" display="text"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 20%">
+                                <p:outputLabel value="#{tbcMsj['page.produccion.razon.social']}: "/>
+                            </td>
+                            <td style="width: 80%">
+                                <p:inputText id="txtRazon" style="width: 350px" readonly="true"
+                                             value="#{produccionCigarrillosMB.produccionHelper.produccionCigarrosHelper.tabacalera.razonSocial}"/>
+                            </td>
+                        </tr>
+                    </table>
+                    <table style="width: 100%;" border="0">
+                        <tr>
+                            <td style="width: 20%">
+                                <p:outputLabel value="#{tbcMsj['page.produccion.marca']}: "/>
+                            </td>
+                            <td style=" width: 30%">
+                                <p:selectOneMenu id="cbxMarcas" style="width: 200px;" 
+                                                 value="#{produccionCigarrillosMB.produccionHelper.opcionMarca}">
+                                    <f:selectItem itemLabel="#{tbcMsj['page.cbx.default']}" itemValue="" />
+                                    <f:selectItems value="#{produccionCigarrillosMB.produccionHelper.marcasList}" 
+                                                   var="marcasProdList"
+                                                   itemLabel="#{marcasProdList.marca}"
+                                                   itemValue="#{marcasProdList.idMarca}">
+                                    </f:selectItems>
+                                    <f:ajax event="change" render="msgMarcas calFechaHora btnValidaProd" 
+                                            listener="#{produccionCigarrillosMB.habilitarBtnValidarProd}"/>
+                                </p:selectOneMenu>
+                                <p:message id="msgMarcas" for="cbxMarcas" display="text"/>
+                            </td>
+                            <td style=" width: 20%">
+                                <p:outputLabel value="#{tbcMsj['page.produccion.origen']}: "/>
+                            </td>
+                            <td style="width: 30%">
+                                <p:selectOneMenu id="cbxOrigen" style="width: 200px;"  
+                                                 value="#{produccionCigarrillosMB.produccionHelper.opcionOrigen}">
+                                    <f:selectItem itemLabel="#{tbcMsj['page.cbx.default']}" itemValue=""/>
+                                    <f:selectItems value="#{produccionCigarrillosMB.produccionHelper.origenList}" 
+                                                   var="origenProdList"
+                                                   itemLabel="#{origenProdList.descCorta}"
+                                                   itemValue="#{origenProdList.idPais}"/>
+                                    <f:ajax event="change" render="msgOrigen calFechaHora btnValidaProd" 
+                                            listener="#{produccionCigarrillosMB.habilitarBtnValidarProd}"/>
+                                </p:selectOneMenu>
+                                <p:message id="msgOrigen" for="cbxOrigen" display="text"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p:outputLabel value="#{tbcMsj['page.produccion.planta']}: "/>
+                            </td>
+                            <td>
+                                <p:selectOneMenu id="cbxPlanta" style="width: 200px;"  
+                                                 value="#{produccionCigarrillosMB.produccionHelper.opcionPlanta}">
+                                    <f:selectItem itemLabel="#{tbcMsj['page.cbx.default']}" itemValue=""/>
+                                    <f:selectItems value="#{produccionCigarrillosMB.produccionHelper.plantasList}" 
+                                                   var="plantaProdList"
+                                                   itemLabel="#{plantaProdList.nombrePlanta}"
+                                                   itemValue="#{plantaProdList.idPlanta}"/>
+                                    <f:ajax event="change" render="msgPlanta calFechaHora btnValidaProd" 
+                                            listener="#{produccionCigarrillosMB.habilitarBtnValidarProd}"/> 
+                                </p:selectOneMenu>
+                                <p:message id="msgPlanta" for="cbxPlanta" display="text"/>
+                            </td>
+                            <td>
+                                <p:outputLabel value="#{tbcMsj['page.produccion.fecha.importa']}: "/>
+                            </td>
+                            <td>
+                                <table style="width: 80%" border="0">
+                                    <tr>
+                                        <td>
+                                            <p:calendar id="calFechaImporta" locale="es" navigator="true" pattern="dd/MM/yyyy"                                          
+                                                        readonlyInput="true" style="width:70px"
+                                                        maxdate="#{produccionCigarrillosMB.fechaMaxima}"
+                                                        onkeypress="validateEnter()"
+                                                        value="#{produccionCigarrillosMB.produccionHelper.produccion.fechImportacion}">
+                                                <p:ajax event="dateSelect" update="msgFechaImporta calFechaHora btnValidaProd" 
+                                                        listener="#{produccionCigarrillosMB.habilitarBtnValidarProd}"/>
+                                            </p:calendar>
+                                            <p:message id="msgFechaImporta" for="calFechaImporta" display="text"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p:outputLabel value="#{tbcMsj['page.produccion.maquina']}: "/>
+                            </td>
+                            <td>
+                                <p:inputText id="txtMaquina" style="width: 250px"
+                                             value="#{produccionCigarrillosMB.produccionHelper.produccion.descMaquinaProd}">
+                                    <p:ajax event="blur" update="msgMaquina calFechaHora btnValidaProd" 
+                                            listener="#{produccionCigarrillosMB.habilitarBtnValidarProd}"/>
+                                </p:inputText>
+                                <p:message id="msgMaquina" for="txtMaquina" display="text"/>
+                            </td>
+                            <td>
+                                <p:outputLabel value="#{tbcMsj['page.produccion.fecha.hora']}:"/>
+                            </td>
+                            <td>
+                                <table style="width: 45%" border="0">
+                                    <tr>
+                                        <td>
+                                            <p:calendar id="calFechaHora" locale="es" navigator="true" pattern="dd/MM/yyyy HH:mm:ss"                                          
+                                                        readonlyInput="true" style="width: 10px; bottom: auto"
+                                                        onkeypress="validateEnter()"
+                                                        value="#{produccionCigarrillosMB.produccionHelper.produccion.fechProduccion}"  disabled="true">
+                                                <p:ajax event="dateSelect" update="msgFechaHora calFechaHora btnValidaProd" 
+                                                        listener="#{produccionCigarrillosMB.habilitarBtnValidarProd}"/>
+                                            </p:calendar>
+                                            <p:message id="msgFechaHora" for="calFechaHora" display="text"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p:outputLabel value="#{tbcMsj['page.produccion.lote']}: "/>
+                            </td>
+                            <td>
+                                <p:inputText id="txtLote" style="width: 250px"
+                                             value="#{produccionCigarrillosMB.produccionHelper.produccion.numLote}">
+                                    <p:ajax event="blur" update="msgLote calFechaHora btnValidaProd" 
+                                            listener="#{produccionCigarrillosMB.habilitarBtnValidarProd}"/>
+                                </p:inputText>
+                                <p:message id="msgLote" for="txtLote" display="text"/>
+                            </td>
+                            <td>
+                                <p:outputLabel value="#{tbcMsj['page.produccion.cantidad']}:"/>
+                            </td>
+                            <td>
+                                <p:inputText id="txtCantidad" style="width: 250px" maxlength="13"
+                                             onkeypress="return justNumbers(event);"
+                                             value="#{produccionCigarrillosMB.produccionHelper.produccion.cantidadProd}">
+                                    <p:ajax event="blur" update="calFechaHora btnValidaProd" 
+                                            listener="#{produccionCigarrillosMB.habilitarBtnValidarProd}"/>
+                                </p:inputText>
+                                <h:message id="msgCantidad" for="txtCantidad" style="color: red"/>
+                            </td>
+                        </tr>
+                    </table>
+                    <br></br> 
+                    <table style="width: 100%" border="0">
+                        <tr>
+                            <td style="width: 20%">
+                                <p:outputLabel value="#{tbcMsj['page.produccion.carga']}:"/>
+                            </td>
+                            <td style="width: 40%">
+                                <p:fileUpload id="cargaArchivo"
+                                              disabled="#{produccionCigarrillosMB.produccionHelper.deshabilitaCargaArchivo}"
+                                              value="#{produccionCigarrillosMB.archivoFolios}"
+                                              fileUploadListener="#{produccionCigarrillosMB.validaArchivoFolios}"
+                                              mode="advance"
+                                              auto="true"
+                                              allowTypes="/(\.|\/)(xlsx|xls)$/"
+                                              sizeLimit="1049000"
+                                              invalidFileMessage="#{tbcMsj['msg.archivo.invalido']}"
+                                              invalidSizeMessage="#{tbcMsj['msg.archivo.grande']}"
+                                              label="#{tbcMsj['btn.examinar']}" update=":formProdCigarros">
+                                </p:fileUpload>
+                                <p:outputLabel id="lblMsgErrorArchivo" style="color: red" value="#{produccionCigarrillosMB.msgErrorArchivo}"/>
+                                <b><p:outputLabel id="lblMsgExitoArchivo" style="color: black" value="#{produccionCigarrillosMB.msgExitoArchivo}"/></b>
+                                <p:message id="msgCargaArchivo" for="cargaArchivo" display="text"/>
+                            </td>
+                            <td style="width: 160px" >
+                                <p:commandButton id="btnValidaProd" ajax="true" process="@this" update=":formProdCigarros:"
+                                                 value="#{tbcMsj['page.btn.validar.produccion']}"
+                                                 disabled="#{produccionCigarrillosMB.produccionHelper.deshabilitaBtnValidarProd}"
+                                                 actionListener="#{produccionCigarrillosMB.guardarProduccion}" immediate="true"/>
+
+                            </td>
+                            <td>
+
+                            </td>
+                        </tr>
+                    </table>
+                    <table style="width: 100%" border="0">
+                        <tr>
+                            <td style="width: 95%">
+                                <p:commandButton value="#{tbcMsj['page.btn.salir']}" onclick="exitDialog.show();" styleClass="gmxNegativo"/>
+                            </td>
+                            <td>
+                                <p:commandButton id="btnGuardar" process="@this" onclick="firma.show();"
+                                                 value="#{tbcMsj['page.btn.guardar']}"  
+                                                 disabled="#{produccionCigarrillosMB.produccionHelper.deshabilitaBtnGuardar}"
+                                                 styleClass="gmxPositivo"/>
+                            </td>
+                        </tr>
+                    </table>
+                </p:panel>
+                <p:panel id="panelAcuse" header="#{tbcMsj['page.produccion.title']}" 
+                         rendered="#{produccionCigarrillosMB.produccionHelper.pnlAcuse}">
+                    <table align="center" style="width: 35%" border="0">
+                        <tr>
+                            <td colspan="2">
+                                <b> <p:outputLabel value="#{tbcMsj['label.exito']}" style="text-align: center;" /> </b>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p:outputLabel value="#{tbcMsj['label.rfc']}"/>
+                            </td>
+                            <td>
+                                <p:outputLabel value="#{produccionCigarrillosMB.produccionHelper.produccionCigarrosHelper.tabacalera.rfc}"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p:outputLabel value="#{tbcMsj['label.incidencia']}:"/>  
+                            </td>
+                            <td>
+                                <p:outputLabel value="#{tbcMsj['label.produccion']}"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p:outputLabel value="#{tbcMsj['label.fecha']}:"/>
+                            </td>
+                            <td>
+                                <p:outputLabel value="#{produccionCigarrillosMB.fechaAcuse}"/> 
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p:outputLabel value="#{tbcMsj['label.folio.acuse']}:"/>
+                            </td>
+                            <td>
+                                <p:outputLabel value="#{produccionCigarrillosMB.idAcuseRecibo}"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <table align="center" border="0">
+                                    <tr>
+                                        <td>
+                                            <p:commandButton value="#{tbcMsj['btn.salir']}"
+                                                             onclick="exitDialog.show();"
+                                                             styleClass="gmxNegativo"/>
+                                        </td>
+                                        <td>
+                                            <p:commandButton value="#{tbcMsj['btn.imprimir.acuse']}" 
+                                                             ajax="false"
+                                                             action="#{produccionCigarrillosMB.btnGenerarReportePDF}"
+                                                             immediate="true"
+                                                             update=":formProdCigarros:"
+                                                             styleClass="gmxPositivo"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </p:panel>
+                <p:dialog header="#{tbcMsj['panel.titulo.firma.solicitud']}" widgetVar="firma" resizable="false" width="700px" height="400px" onShow="true" closable="false" modal="true">
+                    <p:panel id="panelFirmaSolicitud" header="#{tbcMsj['panel.titulo.firma.solicitud']}">
+
+                        <p:outputLabel value="#{tbcMsj['label.accion.representante.legal']}" styleClass="titulo-label"/>
+                        <p:separator id="separatorFS"/>
+                        <h:panelGrid columns="3" id="panelGridFirmarSolicitud" style="text-align:left; margin: 0px auto;">
+                            <p:outputLabel value="#{tbcMsj['label.rfc']}"/>
+                            <p:inputText id="txtRFC" value="#{produccionCigarrillosMB.produccionHelper.firmaFormHelper.rfcSession}" disabled="true" style="width: 200px"/>
+                            <p:spacer/>
+                            <p:spacer/>
+                            <p:message id="msgRFC" for="txtRFC" display="text"/>
+                            <p:spacer/>
+                            <p:outputLabel value="#{tbcMsj['label.password']}"/>
+                            <p:password id="privateKeyPassword" value="#{produccionCigarrillosMB.produccionHelper.firmaFormHelper.passwordSession}" required="true"
+                                        requiredMessage="#{tbcMsj['error.campo.obligatorio']}" style="width: 200px"/>
+                            <p:spacer/>
+                            <p:spacer/>
+                            <p:message id="msgPassword" for="privateKeyPassword" display="text"/>
+                            <p:spacer/>
+                            <p:outputLabel value="#{tbcMsj['label.certificado']}"/>
+                            <p:inputText id="certificate" disabled="true" value="" style="width: 250px"/>
+                            <p:commandButton value="#{tbcMsj['btn.examinar']}" id="btnCert" onclick="browseForCertificate()"/>
+                            <p:spacer/>
+                            <p:message id="msgCertificado" for="certificate" display="text"/>
+                            <p:spacer/>
+                            <p:outputLabel value="#{tbcMsj['label.llave.privada']}"/>
+                            <p:inputText id="privateKey" disabled="true" value="" style="width: 250px"/>
+                            <p:commandButton value="#{tbcMsj['btn.examinar']}" id="btnPrivateKey" onclick="browseForPrivateKey()"/>
+                            <p:spacer/>
+                            <p:message id="msgLlavePriv" for="privateKey" display="text"/>
+                            <p:spacer/>
+                            <p:spacer/>
+                            <p:spacer/>
+                            <p:commandButton value="#{tbcMsj['btn.firmar']}" id="btnEnviarForm" update="@form"
+                                             action="#{produccionCigarrillosMB.guardarSolicitud}" process="@form"
+                                             onstart="enviarFormulario()" onsuccess="firma.hide();" styleClass="gmxPositivo"/>
+                        </h:panelGrid>
+                        <input type="hidden" id="firmaDigital" name="firmaDigital"
+                               value="#{produccionCigarrillosMB.produccionHelper.firmaFormHelper.selloDigital}"/>
+                        <input type="hidden" id="cadenaOriginal" name="cadenaOriginal"
+                               value="#{produccionCigarrillosMB.produccionHelper.firmaFormHelper.cadenaOriginal}"/>
+                        <input type="hidden" id="mode" name="mode" value="#{tbc_prop_ambiente['aplicacion.ambiente.driver']}"/>
+                        <p:inputText id="firmaDigital" value="#{produccionCigarrillosMB.produccionHelper.firmaFormHelper.selloDigital}" disabled="true" rendered="false"/>
+                        <p:inputText id="cadenaOriginal" value="#{produccionCigarrillosMB.produccionHelper.firmaFormHelper.cadenaOriginal}" disabled="true" rendered="false"/>
+                        <p:inputText id="mode" value="#{tbc_prop_ambiente['aplicacion.ambiente.driver']}" disabled="true" rendered="false"/>
+                        <br/>
+                    </p:panel>
+                </p:dialog>
+            </h:form>
+            <p:confirmDialog header="#{tbcMsj['label.confirm.header']}" widgetVar="dlgConfirmacion"
+                             closable="false" width="315px" height="80px" message="#{tbcMsj['label.confirm.guardar']}">
+                <p:commandButton id="btnCancelar" value="#{tbcMsj['label.confirm.cancelar']}"
+                                 oncomplete="dlgConfirmacion.hide();" styleClass="ui-confirmdialog-no"
+                                 icon="ui-icon-close" style="float:right;"/>
+                <p:commandButton id="btnAceptar" value="#{tbcMsj['label.confirm.aceptar']}"
+                                 onclick="dlgConfirmacion.hide();" update="formProdCigarros"
+                                 styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+            </p:confirmDialog>
+
+        </h:body>
+    </html>
+</f:view>

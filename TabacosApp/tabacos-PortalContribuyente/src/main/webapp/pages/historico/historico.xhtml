@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<f:view xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:c="http://java.sun.com/jsp/jstl/core"
+        xmlns:pe="http://primefaces.org/ui/extensions"
+        xmlns:tbc="http://www.sat.gob.mx/tabacos">
+
+    <html xmlns="http://www.w3.org/1999/xhtml"> 
+        <h:head>
+            <h:outputStylesheet library="css" name="estilo.css"  />
+            <h:outputStylesheet library="css/" name="tabacos.css"/>
+        </h:head>
+
+        <h:body>
+            <ui:include src="/WEB-INF/templates/confirmExit.xhtml"/>
+            <ui:include src="/pages/tramites/menuTramites.xhtml"/>
+            <p:panel header="#{tbcMsj['page.historico.title']}" styleClass="panel-contenedor">
+                <h:form id="formHist">
+                    <!-- Panel para los resultados style="display:none" -->
+                    <div id="resultadosB">                    
+                        <h:panelGrid columns="1" cellpadding="5" >
+                            <div style="overflow:auto; width:80%; border: red"> 
+
+                                <p:dataTable id="tbHistoricos" widgetVar="tbHistoricos"
+                                             value="#{historicoMB.historicos}" var="prov"
+                                             paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                             rowsPerPageTemplate="5,10,15"
+                                             paginator="true"
+                                             paginatorPosition="bottom"
+                                             scrollWidth=""
+                                             rows="14"
+                                             resizableColumns="true"
+                                             style="width: 100%; display:block;overflow-y:none;overflow-x:auto;"
+                                             >
+
+                                    <p:column style="text-align: left;" sortBy="#{prov.folio}">
+                                        <f:facet name="header" ><h:outputText value="#{tbcMsj['page.historico.datos.folio']}"/></f:facet>
+                                        <h:outputText style="font-weight: bold" value="#{prov.folio}" />
+                                    </p:column>
+
+                                    <p:column width="13%" sortBy="#{prov.rfc}">
+                                        <f:facet name="header"><h:outputText value="#{tbcMsj['page.historico.datos.rfc']}"/></f:facet>
+                                        <h:outputText value="#{prov.rfc}" />
+                                    </p:column>
+
+                                    <p:column width="30%" resizable="true" sortBy="#{prov.contribuyente}">
+                                        <f:facet name="header"><h:outputText value="#{tbcMsj['page.historico.datos.contribuyente']}"/></f:facet>
+                                        <h:outputText value="#{prov.contribuyente}"/>
+                                    </p:column>
+
+                                    <p:column style="text-align: right;" sortBy="#{prov.cantidad}">
+                                        <f:facet name="header"><h:outputText value="#{tbcMsj['page.historico.datos.cantidad']}"/></f:facet>
+                                        <h:outputText value="#{prov.cantidad}" />
+                                    </p:column>
+
+                                    <p:column width="10%" sortBy="#{prov.fecha}">
+                                        <f:facet name="header"><h:outputText value="#{tbcMsj['page.historico.datos.fecha']}"/></f:facet>
+                                        <h:outputText value="#{prov.fecha}" >
+                                            <f:convertDateTime pattern="dd/MM/yyyy" ></f:convertDateTime>
+                                        </h:outputText>
+                                    </p:column>
+
+                                    <p:column sortBy="#{prov.pas}">
+                                        <f:facet name="header"><h:outputText value="#{tbcMsj['page.historico.datos.pas']}"/></f:facet>
+                                        <h:outputText value="#{prov.pas}" />
+                                    </p:column>
+
+                                </p:dataTable>
+                            </div>
+
+                        </h:panelGrid>
+                    </div>
+
+                    <h:panelGrid width="100%">
+                        <h:panelGroup>
+                            <p:commandButton value="#{tbcMsj['page.historico.datos.imprimirexcel']}" 
+                                             ajax="false"
+                                             action="#{historicoMB.btnGenerarReporteExcel}"
+                                             immediate="true"
+                                             styleClass="gmxPositivo"/>
+                            <p:commandButton value="#{tbcMsj['page.historico.datos.imprimirpdf']}" 
+                                             ajax="false"
+                                             action="#{historicoMB.btnGenerarReportePDF}"
+                                             immediate="true"
+                                             styleClass="gmxPositivo"/>
+                            <p:commandButton value="#{tbcMsj['btn.salir']}"
+                                             onclick="exitDialog.show();"
+                                             styleClass="gmxNegativo"/> 
+                        </h:panelGroup>
+                    </h:panelGrid>
+                </h:form>
+            </p:panel> 
+        </h:body>
+    </html>
+</f:view>

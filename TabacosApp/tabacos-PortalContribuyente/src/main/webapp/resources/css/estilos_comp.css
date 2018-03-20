@@ -1,0 +1,44 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+*/
+
+
+.ui-fileupload .progress {
+  /*  display: none; - if you wanted to hide the progress bar as well*/
+}
+.ui-fileupload  {
+    border: none;
+    width: 100;
+    height: 50;
+        
+}
+.ui-progressbar {  /* made progress bar smaller to fit on same line */
+    width: 80px!important;
+    height: 5px!important;
+}
+
+.fileupload-buttonbar .ui-button input {
+    z-index: 1000 !important;
+    border-width: 0 0 0px 0px !important; /*Para cambiar el tamanio de seleccionar archivo */
+    width: 20px !important; /*Para cambiar el tamanio de seleccionar archivo */
+    height: 10px !important; /*Para cambiar el tamanio de seleccionar archivo */
+}
+.ui-button input{
+    z-index: 1000 !important;
+}
+
+.ui-datepicker { 
+    /*width: 300px !important;  cambia la del popup del calendar*/ 
+    padding: .2em .2em 0; 
+    z-index:9999 !important;
+    max-width: 1300px;
+}
+
+.inputField_fileUpload {
+   width: 350px !important;
+   height: 5px !important;
+}

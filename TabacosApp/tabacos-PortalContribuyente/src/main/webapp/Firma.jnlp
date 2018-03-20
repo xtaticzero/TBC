@@ -1,0 +1,21 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<jnlp version="1.0" spec="1.0+">
+    <information>
+        <title>Firma Electrónica</title>
+        <vendor>Novell de México</vendor>
+    </information>
+    <security>
+        <all-permissions/>
+    </security>
+    <update check="timeout" policy="always"/>
+    <resources>
+        <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
+        <jar href="appletFIEL.jar" main="true"
+             download="eager"/>
+    </resources>
+    <applet-desc name="Firma" main-class="com.novell.applet.firmaElectronica.main.SgiApplet" width="1" height="1"></applet-desc>
+    <!--
+        <jar href="appletFIEL.jar" download="eager" main="true" />
+    -->
+</jnlp>
+        

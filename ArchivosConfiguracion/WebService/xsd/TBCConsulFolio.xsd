@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:confol="http://esquemas.clouda.sat.gob.mx/archivos/Tabacos/1/Consulta" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:cat="http://esquemas.clouda.sat.gob.mx/archivos/Tabacos/1/Catalogos" targetNamespace="http://esquemas.clouda.sat.gob.mx/archivos/Tabacos/1/Consulta" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:import namespace="http://esquemas.clouda.sat.gob.mx/archivos/Tabacos/1/Catalogos" schemaLocation="catTabacos.xsd"/>
+	<xs:element name="TBCConsulFolio">
+		<xs:annotation>
+			<xs:documentation>Estándar para la consulta del estado de la Solicitud de Códigos de Seguridad para Tabacos</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Folios">
+					<xs:annotation>
+						<xs:documentation>Nodo requerido para expresar el Folio asignado a la solicitud de códigos de seguridad</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:attribute name="RFC" type="cat:tipoRFC" use="required">
+							<xs:annotation>
+								<xs:documentation>Atributo requerido para expresar el RFC del Contribuyente que solicita los Códigos de Seguirdad</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<!--xs:attribute name="Folio" type="xs:string" use="required"-->
+						<xs:attribute name="Folio" type="cat:tipoFolioSolicitud" use="required">
+							<xs:annotation>
+								<xs:documentation>Atributo requerido para expresar el número de Folio asignado a la solicitud de Códigos de Seguridad</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="Version" type="xs:string" use="required" fixed="1.0">
+				<xs:annotation>
+					<xs:documentation>Atributo requerido para expresar la versión del formato.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="RFCProveedorCertificado" type="cat:tipoRFC" use="required">
+				<xs:annotation>
+					<xs:documentation>Atributo requerido para expresar el RFC del Proveedor de Servicios Autorizado.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

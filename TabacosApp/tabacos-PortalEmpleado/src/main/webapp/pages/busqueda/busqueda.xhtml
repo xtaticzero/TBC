@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <h:head>
+
+        <h:outputStylesheet library="css" name="estilo.css"  />
+        <h:outputScript library="js/" name="busqueda.js" />
+    </h:head>
+
+    <h:body>
+
+        <h:form id="myForm" style="border: 0px">
+            <p:tab id="busquedas" title="Busquedas" >
+                <p:panel header=" #{tbcMsj['page.busqueda.title']}" style="width:850px; margin-left:auto; margin-right:auto;">
+
+
+                    <table>
+                        <tr>
+                            <td><p:outputLabel value="#{tbcMsj['page.busqueda.contribuyente'] }" /></td>
+                            <td style="width: 200px; "><p:inputText widgetVar="contribuyente" id="contribuyente" label="Contribuyente" maxlength="15" 
+
+                                                                    value="#{busquedas.busquedaBean.rfcContribuyente}" onkeypress="return validaAlfaNumericos(event)">
+                                    <p:ajax event="blur" listener="#{busquedas.validaRfcContribuyente}" update="msgContriBusquedas"/>
+                                </p:inputText>
+                                <p:message id="msgContriBusquedas" for="contribuyente" display="text"/></td>
+                            <td style="width: 10%"></td>
+                            <td><p:outputLabel value="#{tbcMsj['page.busqueda.maquinaproduccion']}" /></td>
+                            <td style="width: 200px;"><p:inputText widgetVar="maquinaproduccion" id="maquinaproduccion" label="Maquinaproduccion" 
+                                                                   value="#{busquedas.busquedaBean.maquinaproduccion}" 
+                                                                   onkeypress="return validaAlfaNumericosConAcentos(event)">
+                                </p:inputText></td>
+                        </tr>
+
+                        <tr>
+                            <td><p:outputLabel value="#{tbcMsj['page.busqueda.proveedor']}" /></td>
+                            <td><p:inputText widgetVar="proveedor" id="proveedor" label="proveedor" maxlength="15"
+                                             value="#{busquedas.busquedaBean.rfcProveedor}" 
+                                             onkeypress="return validaAlfaNumericos(event)">
+                                    <p:ajax event="blur" listener="#{busquedas.validaRfcProveedor}" update="msgProvBusquedas"/>
+                                </p:inputText>
+                                <p:message id="msgProvBusquedas" for="proveedor" display="text"/></td>
+                            <td style="width: 10%"></td>
+                            <td><p:outputLabel value="#{tbcMsj['page.busqueda.fechainicio']}" /></td>
+                            <td><p:calendar widgetVar="fecha" id="fecha" locale="es" 
+                                            mindate="#{busquedas.minFecha}"
+                                            maxdate="#{busquedas.maxFecha}"
+                                            value="#{busquedas.busquedaBean.fecha}" pattern="dd/MM/yyyy" /></td>
+                        </tr>
+
+                        <tr>
+                            <td><p:outputLabel value="#{tbcMsj['page.busqueda.marcas']}" /></td>
+                            <td><p:inputText widgetVar="marcas" maxlength="41" id="marcas" label="marcas"
+                                             onkeypress="return validaAlfaNumericosConAcentos(event)"
+                                             value="#{busquedas.busquedaBean.marca}"/></td>
+                            <td style="width: 10%"></td>
+                            <td><p:outputLabel value="#{tbcMsj['page.busqueda.fechafin']}" /></td>
+                            <td><p:calendar widgetVar="fechaFin" id="fechaFin" value="#{busquedas.busquedaBean.fechaFin}" 
+                                            pattern="dd/MM/yyyy" locale="es" 
+                                            mindate="#{busquedas.minFecha}" maxdate="#{busquedas.maxFecha}" /></td>
+                        </tr>
+
+                        <tr>
+                            <td><p:outputLabel value="#{tbcMsj['page.busqueda.codigo']}" /></td>
+                            <td><p:inputText widgetVar="codigo" maxlength="12" id="codigo" label="codigo" 
+                                             value="#{busquedas.busquedaBean.codigo}" onkeypress="return validaAlfaNumericos(event)"/></td>
+                            <td style="width: 10%"><p:outputLabel value="" /></td>
+                            <td colspan="2"><p:outputLabel value="#{busquedas.errorFechas}" style="color: red; font-size: 10px " /></td>
+                            <td></td>
+                        </tr>
+
+                        <tr>
+                            <td><p:outputLabel value="#{tbcMsj['page.busqueda.loteproduccion']}" /></td>
+                            <td><p:inputText widgetVar="loteproduccion" id="loteproduccion" label="loteproduccion" 
+                                             value="#{busquedas.busquedaBean.loteproduccion}" 
+                                             onkeypress="return validaAlfaNumericosConAcentos(event)"/></td>
+                            <td style="width: 10%"></td>
+
+                            <td></td>
+                            <td></td>
+                        </tr>
+
+                        <tr>
+                            <td><p:outputLabel value="#{tbcMsj['page.busqueda.plantaproduccion']}" /></td>
+                            <td><p:inputText widgetVar="plantaproduccion" id="plantaproduccion" label="plantaproduccion" 
+                                             value="#{busquedas.busquedaBean.plantaproduccion}" 
+                                             onkeypress="return validaAlfaNumericosConAcentos(event)"/></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="5"><p:outputLabel value="#{busquedas.msgError}" style="color: red; font-weight: bold" /></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </table>
+                    <h:panelGrid width="100%">
+                        <h:panelGroup>
+                            <p:commandButton value="#{tbcMsj['page.busqueda.buscar']}"
+                                             styleClass="gmxPositivo"
+                                             actionListener="#{busquedas.btnBuscar}" 
+                                             ajax="false" process="@this"
+                                             />
+                            <p:commandButton value="#{tbcMsj['page.busqueda.salir']}" onclick="exitDialog.show();"
+                                             styleClass="gmxNegativo"
+                                             actionListener="#{busquedas.btnReset}"
+                                             ajax="false" process="@this"
+                                             />
+                            
+                        </h:panelGroup>
+                    </h:panelGrid>
+
+
+
+                    <!-- Panel para los resultados style="display:none" -->
+                    <div id="resultadosB">
+
+                        <p:panel id="toggleable" header="#{tbcMsj['page.busqueda.title']}" toggleable="true" toggleSpeed="500" closeSpeed="500" widgetVar="panel" style="margin-bottom:20px ">
+
+                            <div style="overflow:auto; width:100%; height:250px;">
+                                <p:panel id="resultBusqueda" style="width:100%;">
+
+                                    <div style="overflow:auto; width:100%; height:400px;">                          
+
+                                        <p:dataTable id="tbHistoricos" widgetVar="tbHistoricos" value="#{busquedas.busquedas}" var="result"
+                                                     paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                     rowsPerPageTemplate="5,10,15"
+                                                     paginator="true"
+                                                     paginatorPosition="bottom"
+                                                     scrollWidth=""
+                                                     rows="10"
+                                                     emptyMessage="Sin registros que mostrar."
+                                                     style="width: 100%; height: 350px; display:block;overflow-y:none;overflow-x:auto; border: 0;"
+                                                     styleClass="order-table"
+
+                                                     >
+                                            <c:if test="#{busquedas.incluyeCodigo == true}">
+                                                <p:column >
+                                                    <f:facet name="header"><p:outputLabel value="#{tbcMsj['page.busqueda.resultados.codigo']}"/></f:facet>
+                                                        #{result.codigo}
+                                                </p:column>
+                                            </c:if>
+
+                                            <p:column>
+                                                <f:facet name="header"><p:outputLabel value="#{tbcMsj['page.busqueda.resultados.contribuyente']}"/></f:facet>
+                                                    #{result.rfcContribuyente}
+                                            </p:column>
+
+                                            <p:column>
+                                                <f:facet name="header"><p:outputLabel value="#{tbcMsj['page.busqueda.resultados.proveedor']}"/></f:facet>
+                                                    #{result.rfcProveedor}
+                                            </p:column>
+
+                                            <p:column>
+                                                <f:facet name="header"><p:outputLabel value="#{tbcMsj['page.busqueda.resultados.marcas']}"/></f:facet>
+                                                    #{result.marca}
+                                            </p:column>
+
+                                            <p:column >
+                                                <f:facet name="header"><p:outputLabel value="#{tbcMsj['page.busqueda.resultados.loteproduccion']}"/></f:facet>
+                                                    #{result.loteproduccion}
+                                            </p:column>
+                                            <p:column>
+                                                <f:facet name="header"><p:outputLabel value="#{tbcMsj['page.busqueda.resultados.plantaproduccion']}"/></f:facet>
+                                                    #{result.plantaproduccion}
+                                            </p:column>
+
+                                            <p:column>
+                                                <f:facet name="header"><p:outputLabel value="#{tbcMsj['page.busqueda.resultados.maquinaproduccion']}"/></f:facet>
+                                                    #{result.maquinaproduccion}
+                                            </p:column>
+
+                                            <p:column>
+                                                <f:facet name="header"><p:outputLabel value="#{tbcMsj['page.busqueda.resultados.fecha']}"></p:outputLabel></f:facet>
+                                                <p:outputLabel value="#{result.fechaFormateada}"></p:outputLabel>      
+                                            </p:column>
+                                        </p:dataTable>
+                                    </div>
+
+                                    <br></br>
+                                    <br></br>
+
+                                </p:panel>
+                            </div>
+
+                            <f:facet name="options">
+                                <p:menu id="menuOptions" widgetVar="menuOptions">
+
+                                </p:menu>
+                            </f:facet>
+
+                        </p:panel>
+
+                        <!-- Termina panel de resultados -->
+                    </div>
+                </p:panel>
+
+            </p:tab>
+
+        </h:form>
+
+    </h:body>
+</html>

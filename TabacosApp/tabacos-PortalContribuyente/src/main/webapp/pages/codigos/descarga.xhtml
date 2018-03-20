@@ -1,0 +1,184 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:c="http://java.sun.com/jsp/jstl/core"
+        xmlns:pe="http://primefaces.org/ui/extensions"
+        xmlns:tbc="http://www.sat.gob.mx/tabacos">
+    <html xmlns="http://www.w3.org/1999/xhtml">
+        <applet name="FIEL" code="com.novell.applet.firmaElectronica.main.SgiApplet.class"
+                codebase="../../resources/applet/" archive="#{appletConf['applet.name']}" height="0" width="0"/>
+        <h:head>
+            <h:outputScript library="js/" name="tabacos.js"/>
+            <h:outputScript library="js/" name="FIEL.js"/>
+            <h:outputStylesheet library="css/" name="tabacos.css"/>
+        </h:head>
+        <h:body>
+            <ui:include src="/WEB-INF/templates/confirmExit.xhtml"/>
+            <ui:include src="/pages/tramites/menuTramites.xhtml"/>
+            <ui:include src="/pages/tramites/menuSolicitudCodigos.xhtml" />
+            <p:panel id="panelDescargaCodigos" header="#{tbcMsj['page.solicitud.descarga.title']}" styleClass="panel-contenedor">
+                <h:form id="descargaCodigoForm">
+                    <p:growl showDetail="true" sticky="true" globalOnly="true" autoUpdate="true"/>
+                    <h:panelGrid id="descargaPanel" columns="1" border="0" cellspacing="6" rendered="#{descargaCodigosMB.solicitud}">
+                        <h:panelGrid columns="3" border="0">
+                            <p:outputLabel value="#{tbcMsj['label.rfc.contribuyente']}"/>
+                            <p:selectOneMenu id="rfcContribuyente" value="#{descargaCodigosMB.descargaCodigosHelper.rfcTabacalera}" 
+                                             style="width: 450px;
+                                             margin-left:auto;
+                                             margin-right:auto;">
+                                <f:selectItems value="#{descargaCodigosMB.descargaCodigosHelper.lstTabacaleras}"
+                                               var="contribuyenteObj"
+                                               itemLabel="#{contribuyenteObj.rfc}"
+                                               itemValue="#{contribuyenteObj.rfc}"/>
+                                <p:ajax event="change" update=":descargaCodigoForm:cadenaOriginal btnBusqueda" listener="#{descargaCodigosMB.activarBusqueda}"/>
+                            </p:selectOneMenu>
+                            <h:outputText/>
+                            <h:outputText/>
+                            <!--                            <p:message id="msgRfcContribuyente" for="rfcContribuyente" display="text"/>-->
+                            <h:outputText/>
+                            <p:outputLabel value="#{tbcMsj['page.data.table.title.folio']}"/>
+                            <h:panelGrid columns="2" border="0">
+                                <p:inputText id="idSolicitud" value="#{descargaCodigosMB.descargaCodigosHelper.idSolicitud}" 
+                                             style="width: 148px"
+                                             maxlength="15"
+                                             onkeypress="return justNumbers(event);">
+                                    <p:ajax event="blur" update="btnBusqueda" listener="#{descargaCodigosMB.activarBusqueda}"/>
+                                </p:inputText>
+                                <p:commandButton id="btnBusqueda" value="#{tbcMsj['page.btn.buscar']}" actionListener="#{descargaCodigosMB.buscarSolicitud}" update="@form" process="@this" disabled="#{!descargaCodigosMB.activarBusqueda}"/>
+                                <!--<p:message id="msgIdSolicitud" for="idSolicitud" display="text"/>-->
+                                <h:outputText/>
+                            </h:panelGrid>
+                            <h:outputText/>
+                        </h:panelGrid>
+                        <h:panelGroup>
+                            <p:dataTable id="solicitudTbl" var="solicitud" value="#{descargaCodigosMB.descargaCodigosHelper.lstSolicitudResolucions}" emptyMessage="#{tbcMsj['msg.data.table.vacio']}">
+                                <p:column headerText="#{tbcMsj['page.solicitud.descarga.table.rfc']}">
+                                    <h:outputText value="#{solicitud.rfcTavacalera}" />
+                                </p:column>
+
+                                <p:column headerText="#{tbcMsj['page.solicitud.descarga.table.contribuyente']}">
+                                    <h:outputText value="#{solicitud.razonSocial}" />
+                                </p:column>
+
+                                <p:column headerText="#{tbcMsj['page.solicitud.descarga.table.folio']}">
+                                    <h:outputText value="#{solicitud.idSolicitud}" />
+                                </p:column>
+
+                                <p:column headerText="#{tbcMsj['page.solicitud.descarga.table.fecha']}">
+                                    <h:outputText value="#{solicitud.fechaResolucion}" />
+                                </p:column>
+
+                                <p:column headerText="#{tbcMsj['page.solicitud.descarga.table.folioInc']}">
+                                    <h:outputText value="#{solicitud.folioInicial}" />
+                                </p:column>
+
+                                <p:column headerText="#{tbcMsj['page.solicitud.descarga.table.folioFin']}">
+                                    <h:outputText value="#{solicitud.folioFinal}" />
+                                </p:column>
+
+                                <p:column headerText="#{tbcMsj['page.solicitud.descarga.table.descarga']}">
+                                    <p:dataTable var="archivo" value="#{solicitud.lstArchivos}" emptyMessage="#{tbcMsj['msg.dataTable.vacio']}">
+                                        <p:column headerText="#{tbcMsj['page.solicitud.descarga.table.nom.archivo']}">
+                                            <p:commandLink action="#{descargaCodigosMB.firmar}" process="@this" onclick="firma.show();" update=":descargaCodigoForm:panelFirmaSolicitud ">
+                                                <h:outputText value="#{archivo.nombreArchivo} " style="color:blue"/>
+                                                <f:setPropertyActionListener value="#{archivo}" 
+                                                                             target="#{descargaCodigosMB.archivoSeleccionado}"/>
+                                            </p:commandLink>
+                                        </p:column>
+                                    </p:dataTable>
+                                </p:column>
+                            </p:dataTable> 
+                        </h:panelGroup>
+                        <h:panelGroup>
+                            <p:commandButton value="#{tbcMsj['btn.salir']}" onclick="exitDialog.show();" styleClass="gmxNegativo"/>
+                        </h:panelGroup>
+                    </h:panelGrid>
+                    <p:panel id="acuseDescargaPanel" rendered="#{descargaCodigosMB.acuse}">
+                        <table width="100%" cellspacing="3" cellpadding="3">
+                            <tr>
+                                <td/>
+                                <td width="500px">
+                                    <h:panelGrid columns="3" width="100%">
+                                        <h:panelGrid width="100%"/>
+                                        <h:panelGrid columns="2" width="100%">
+                                            <p:outputLabel value="#{tbcMsj['page.descarga.cod.acuse.rfc']}"/>
+                                            <p:outputLabel value="#{descargaCodigosMB.descargaCodigosHelper.autorizacionResol.rfcTavacalera}"/>
+                                            <p:outputLabel value="#{tbcMsj['page.descarga.cod.acuse.fecha']}"/>                                            
+                                            <p:outputLabel value="#{descargaCodigosMB.tripDateTimeDisplay}"/>                                            
+                                            <p:outputLabel value="#{tbcMsj['page.descarga.cod.acuse.folio.acuse']}"/>                                            
+                                            <p:outputLabel value="#{descargaCodigosMB.idAcuseRecibo}"/>                                            
+                                            <p:outputLabel value="#{tbcMsj['page.descarga.cod.acuse.catidad.solicitada']}"/>                                            
+                                            <p:outputLabel value="#{descargaCodigosMB.descargaCodigosHelper.autorizacionResol.codigosAutorizados}"/>
+                                        </h:panelGrid>
+                                        <h:panelGrid width="100%"/>
+                                    </h:panelGrid>
+                                    <p:commandButton value="#{tbcMsj['btn.salir']}" onclick="exitDialog.show();" styleClass="gmxNegativo"/>
+                                    <p:commandButton value="#{tbcMsj['btn.imprimir.acuse']}" 
+                                                     ajax="false"
+                                                     action="#{descargaCodigosMB.btnGenerarAcusePDF}" immediate="true"
+                                                     styleClass="gmxPositivo"/>
+                                    <p:commandButton value="#{tbcMsj['btn.descargar.descargar.codigos']}" 
+                                                     ajax="false"
+                                                     action="#{descargaCodigosMB.descargaArchivo}" immediate="true"
+                                                     styleClass="gmxPositivo"/>
+                                </td>
+                                <td/>
+                            </tr>
+                        </table> 
+                    </p:panel>
+                    <p:dialog header="#{tbcMsj['panel.titulo.firma.solicitud']}" widgetVar="firma" resizable="false" width="700px" height="350px" onShow="true" closable="false" modal="true">
+                        <p:panel id="panelFirmaSolicitud" header="#{tbcMsj['panel.titulo.firma.solicitud']}">
+
+                            <p:outputLabel value="#{tbcMsj['label.accion.representante.legal']}" styleClass="titulo-label"/>
+                            <p:separator id="separatorFS"/>
+                            <h:panelGrid columns="3" id="panelGridFirmarSolicitud" style="text-align:left; margin: 0px auto;">
+                                <p:outputLabel value="#{tbcMsj['label.rfc']}"/>
+                                <p:inputText id="txtRFC" value="#{descargaCodigosMB.firmaFormHelper.rfcSession}" disabled="true" style="width: 200px"/>
+                                <p:spacer/>
+                                <p:spacer/>
+                                <p:message id="msgRFC" for="txtRFC" display="text"/>
+                                <p:spacer/>
+                                <p:outputLabel value="#{tbcMsj['label.password']}"/>
+                                <p:password id="privateKeyPassword" value="#{descargaCodigosMB.firmaFormHelper.passwordSession}" required="true"
+                                            requiredMessage="#{tbcMsj['error.campo.obligatorio']}" style="width: 200px"/>
+                                <p:spacer/>
+                                <p:spacer/>
+                                <p:message id="msgPassword" for="privateKeyPassword" display="text"/>
+                                <p:spacer/>
+                                <p:outputLabel value="#{tbcMsj['label.certificado']}"/>
+                                <p:inputText id="certificate" disabled="true" value="" style="width: 250px"/>
+                                <p:commandButton value="#{tbcMsj['btn.examinar']}" id="btnCert" onclick="browseForCertificate()"/>
+                                <p:spacer/>
+                                <p:message id="msgCertificado" for="certificate" display="text"/>
+                                <p:spacer/>
+                                <p:outputLabel value="#{tbcMsj['label.llave.privada']}"/>
+                                <p:inputText id="privateKey" disabled="true" value="" style="width: 250px"/>
+                                <p:commandButton value="#{tbcMsj['btn.examinar']}" id="btnPrivateKey" onclick="browseForPrivateKey()"/>
+                                <p:spacer/>
+                                <p:message id="msgLlavePriv" for="privateKey" display="text"/>
+                                <p:spacer/>
+                                <p:spacer/>
+                                <p:spacer/>
+                                <p:commandButton value="#{tbcMsj['btn.firmar']}" id="btnEnviarForm" update="@form"
+                                                 action="#{descargaCodigosMB.guardarSolicitud}" process="@form"
+                                                 onstart="enviarFormulario()" onsuccess="firma.hide();" styleClass="gmxPositivo"/>
+                            </h:panelGrid>
+                            <input type="hidden" id="firmaDigital" name="firmaDigital"
+                                   value="#{descargaCodigosMB.firmaFormHelper.selloDigital}"/>
+                            <input type="hidden" id="cadenaOriginal" name="cadenaOriginal"
+                                   value="#{descargaCodigosMB.firmaFormHelper.cadenaOriginal}"/>
+                            <input type="hidden" id="mode" name="mode" value="#{tbc_prop_ambiente['aplicacion.ambiente.driver']}"/>
+                            <p:inputText id="firmaDigital" value="#{descargaCodigosMB.firmaFormHelper.selloDigital}" disabled="true" rendered="false"/>
+                            <p:inputText id="cadenaOriginal" value="#{descargaCodigosMB.firmaFormHelper.cadenaOriginal}" disabled="true" rendered="false"/>
+                            <p:inputText id="mode" value="#{tbc_prop_ambiente['aplicacion.ambiente.driver']}" disabled="true" rendered="false"/>
+                            <br/>
+                        </p:panel>
+                    </p:dialog>
+                </h:form>
+            </p:panel>
+        </h:body>
+    </html>
+</f:view>

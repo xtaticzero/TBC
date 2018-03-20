@@ -1,0 +1,12 @@
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <p:confirmDialog header="#{tbcMsj['menu.exit']}" widgetVar="exitDialog" closable="false" width="315px" height="80px" message="#{tbcMsj['label.confirm.salir']}">
+        <p:button styleClass="gmxPositivo"
+                  value="#{tbcMsj['btn.confirm.yes']}"
+                  outcome="/pages/tramites/tramites"/>
+        <p:button styleClass="gmxNegativo"
+                  value="#{tbcMsj['btn.confirm.no']}"
+                  onclick="exitDialog.hide();"/>
+    </p:confirmDialog> 
+</html>

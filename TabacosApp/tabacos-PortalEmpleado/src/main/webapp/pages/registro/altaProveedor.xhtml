@@ -1,0 +1,272 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:c="http://java.sun.com/jsp/jstl/core"
+        xmlns:pe="http://primefaces.org/ui/extensions"
+        xmlns:tbc="http://www.sat.gob.mx/tabacos">
+    <html xmlns="http://www.w3.org/1999/xhtml">
+        <h:head>
+            <meta http-equiv="X-UA-Compatible" content="IE=11"/>
+            <h:outputScript library="js/" name="tabacos.js"/>
+            <h:outputStylesheet library="css/" name="tabacos.css"/>
+        </h:head>
+        <h:body>
+            <ui:include src="/WEB-INF/templates/confirmExit.xhtml"/>
+            <ui:include src="/pages/tramites/menuRegistro.xhtml"/>
+            <ui:include src="/pages/tramites/menuProveedor.xhtml" />
+            <h:form id="formProveedor">
+                <p:growl id="msgExitoGuardar" showDetail="true" sticky="false" globalOnly="true"/>
+                <p:panel id="panelProvedores" header="#{tbcMsj['page.proveedor.title.alta']}" rendered="#{altaProveedorMBean.pnlPrincipal}">
+                    <table style="width: 100%;" border="0">
+                        <tr>
+                            <td style="width: 19%">
+                                <p:outputLabel value="#{tbcMsj['page.proveedor.rfc']}: "/>
+                            </td>
+                            <td style="width: 1%">
+                                <p:outputLabel style="color: red;"></p:outputLabel>
+                            </td>
+                            <td style=" width: 30%">
+                                <p:inputText id="txtRfc" styleClass="input-text" maxlength="13"
+                                             style="text-transform: uppercase" 
+                                             value="#{altaProveedorMBean.proveedor.rfc}">
+                                    <p:ajax event="blur" update="formProveedor txtDomicilio txtRazonSocial" 
+                                            listener="#{altaProveedorMBean.buscaRFCService}"/>
+                                </p:inputText>
+                            </td>
+                            <td style=" width: 20%">
+                                <p:outputLabel value="#{tbcMsj['page.proveedor.domicilio.fiscal']}: " />
+                            </td>
+                            <td style="width: 1%">
+                                <p:outputLabel style="color: red;"></p:outputLabel>
+                            </td>
+                            <td style="width: 29%">
+                                <p:inputText id="txtDomicilio" style="width: 250px" readonly="true"
+                                             value="#{altaProveedorMBean.proveedor.domicilio}" >
+                                </p:inputText>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p:outputLabel value="#{tbcMsj['page.proveedor.razon']}: "/>
+                            </td>
+                            <td>
+                                <p:outputLabel style="color: red;"></p:outputLabel>
+                            </td>
+                            <td>
+                                <p:inputText id="txtRazonSocial" styleClass="input-text" readonly="true"
+                                             value="#{altaProveedorMBean.proveedor.razonSocial}" >
+                                </p:inputText>                                
+                            </td>
+                            <td>
+                                <p:outputLabel value="#{tbcMsj['page.proveedor.fecha.registro']}: "/>
+                            </td>
+                            <td>
+                                <p:outputLabel style="color: red;"></p:outputLabel>
+                            </td>
+                            <td>
+                                <p:calendar id="calFechaHora" locale="es" navigator="true" 
+                                            pattern="dd/MM/yyyy HH:mm:ss"                                          
+                                            readonlyInput="true" style="width:70px"
+                                            maxdate="#{altaProveedorMBean.fechaMaxima}"
+                                            onkeypress="validateEnter()" 
+                                            value="#{altaProveedorMBean.proveedor.fecRegistro}">
+                                    <p:ajax event="dateSelect" update="btnGuardarAlta" 
+                                            listener="#{altaProveedorMBean.habilitaBtnGuardarAlta}"/>
+                                </p:calendar>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="6">
+                                <p:outputLabel value="#{tbcMsj['label.titulo.representante']}"
+                                               styleClass="titulo-label"></p:outputLabel>
+                                <p:separator id="separator1"/>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <table style="width: 100%" border="0">
+                        <tr>
+                            <td style="width: 19%">
+                                <p:outputLabel value="#{tbcMsj['page.proveedor.nombre']}: "/>
+                            </td>
+                            <td style="width: 1%">
+                                <p:outputLabel style="color: red;"></p:outputLabel>
+                            </td>
+                            <td style="width: 30%">
+                                <p:inputText id="txtRepresentante" styleClass="input-text"
+                                             value="#{altaProveedorMBean.representante.nombre}">
+                                    <p:ajax event="blur" update="btnGuardarAlta" 
+                                            listener="#{altaProveedorMBean.habilitaBtnGuardarAlta}"/>
+                                </p:inputText>
+                            </td>
+                            <td style="width: 20%">
+                                <p:outputLabel value="#{tbcMsj['page.proveedor.telefono']}: "/>
+                            </td>
+                            <td style="width: 1%">
+                                <p:outputLabel style="color: red;"></p:outputLabel>
+                            </td>
+                            <td style="width: 29%">
+                                <p:inputText id="txtTelefono" maxlength="10"
+                                             onkeypress="return validaNumeros(event);"
+                                             value="#{altaProveedorMBean.representante.telefono}">
+                                    <p:ajax event="blur" update="btnGuardarAlta" 
+                                            listener="#{altaProveedorMBean.habilitaBtnGuardarAlta}"/>
+                                </p:inputText>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p:outputLabel value="#{tbcMsj['page.proveedor.ape.paterno']}:"/>
+                            </td>
+                            <td style="width: 1%">
+                                <p:outputLabel style="color: red;"></p:outputLabel>
+                            </td>
+                            <td>
+                                <p:inputText id="txtPaterno" styleClass="input-text"
+                                             value="#{altaProveedorMBean.representante.apellidoPaterno}">
+                                    <p:ajax event="blur" update="btnGuardarAlta" listener="#{altaProveedorMBean.habilitaBtnGuardarAlta}"/>
+                                </p:inputText>
+                            </td>
+                            <td>
+                                <p:outputLabel value="#{tbcMsj['page.proveedor.correo']}: "/>
+                            </td>
+                            <td style="width: 1%">
+                                <p:outputLabel style="color: red;"></p:outputLabel>
+                            </td>
+                            <td>
+                                <p:inputText id="txtEmail" maxlength="50" style="width: 200px"
+                                             value="#{altaProveedorMBean.representante.correoElectronico}">
+                                    <p:ajax event="blur" update="msgEmail btnGuardarAlta" listener="#{altaProveedorMBean.habilitaBtnGuardarAlta}"/>
+                                    <f:validator validatorId="emailValidator"/>
+                                </p:inputText>
+                                <br></br>
+                                <h:message id="msgEmail" for="txtEmail" style="color: red" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p:outputLabel value="#{tbcMsj['page.proveedor.ape.materno']}:"/>
+                            </td>
+                            <td style="width: 1%">
+                                <p:outputLabel style="color: red;"></p:outputLabel>
+                            </td>
+                            <td>
+                                <p:inputText id="txtMaterno" styleClass="input-text"
+                                             value="#{altaProveedorMBean.representante.apellidoMaterno}">
+                                    <p:ajax event="blur" update="btnGuardarAlta" 
+                                            listener="#{altaProveedorMBean.habilitaBtnGuardarAlta}"/>
+                                </p:inputText>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p:outputLabel value="#{tbcMsj['page.proveedor.rfc.cliente']}:"/>
+                            </td>
+                            <td style="width: 1%">
+                                <p:outputLabel style="color: red;"></p:outputLabel>
+                            </td>
+                            <td>
+                                <p:selectOneMenu id="cbxRfcCliente" style="width: 180px;"
+                                                 value="#{altaProveedorMBean.opcionRfcCliente}">
+                                    <f:selectItem itemLabel="#{tbcMsj['page.cbx.default']}" itemValue=""/>
+                                    <f:selectItems value="#{altaProveedorMBean.tabacaleraList}"
+                                                   var="rfcClienteList"
+                                                   itemLabel="#{rfcClienteList.rfc}"
+                                                   itemValue="#{rfcClienteList.idTabacalera}">
+                                    </f:selectItems>
+                                    <p:ajax update="btnGuardarAlta" event="change" 
+                                            listener="#{altaProveedorMBean.habilitaBtnGuardarAlta}"/>
+                                </p:selectOneMenu>
+                            </td>
+                        </tr>
+                    </table>
+                    <p:separator/>
+                    <table align="center" border="0" style="width: 100%">
+                        <tr>
+                            <td style="width: 95%">
+                                <p:commandButton styleClass="gmxNegativo"
+                                                 value="#{tbcMsj['page.btn.salir']}" 
+                                                 onclick="exitDialog.show();"/>  
+                            </td>
+                            <td>
+
+                                <p:commandButton id="btnGuardarAlta" 
+                                                 styleClass="gmxPositivo"
+                                                 onclick="dlgConfirmacion.show()"
+                                                 value="#{tbcMsj['page.btn.guardar']}"  
+                                                 disabled="#{altaProveedorMBean.deshabilitaBtnGuardarAlta}"/>
+                            </td>
+                        </tr>
+                    </table>
+                </p:panel>
+                <p:panel id="panelAcuseAltaProveedor" header="#{tbcMsj['page.proveedor.title.alta']}" 
+                         rendered="#{altaProveedorMBean.pnlAcuse}">
+                    <table align="center" style="width: 35%" border="0">
+                        <tr>
+                            <td colspan="2">
+                                <b> <p:outputLabel value="#{tbcMsj['label.exito']}" style="text-align: center;" /> </b>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p:outputLabel value="#{tbcMsj['label.rfc']}"/>
+                            </td>
+                            <td>
+                                <p:outputLabel value="#{altaProveedorMBean.proveedor.rfc}"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p:outputLabel value="#{tbcMsj['label.fecha']}"/>
+                            </td>
+                            <td>
+                                <p:outputLabel value="#{altaProveedorMBean.fechaAcuse}"/> 
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p:outputLabel value="#{tbcMsj['label.folio.acuse']}"/>
+                            </td>
+                            <td>
+                                <p:outputLabel value="#{altaProveedorMBean.idAcuseRecibo}"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <table align="center" border="0">
+                                    <tr>
+                                        <td>
+                                            <p:commandButton styleClass="gmxNegativo"
+                                                             value="#{tbcMsj['btn.salir']}" onclick="exitDialog.show();"/>
+                                        </td>
+                                        <td>
+                                            <p:commandButton styleClass="gmxPositivo"
+                                                             value="#{tbcMsj['btn.imprimir.acuse']}" 
+                                                             ajax="false" action="#{altaProveedorMBean.btnGenerarReportePDF}" immediate="true" update=":formProdCigarros:">
+                                            </p:commandButton>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </p:panel>
+            </h:form> 
+            <p:confirmDialog header="#{tbcMsj['label.confirmacion.header']}" 
+                             widgetVar="dlgConfirmacion" closable="false" width="315px" height="80px" message="#{tbcMsj['label.confirm.guardar']}">
+                <p:commandButton id="btnAceptar"
+                                 value="#{tbcMsj['label.confirm.aceptar']}"
+                                 onclick="dlgConfirmacion.hide();" update="formProveedor"
+                                 actionListener="#{altaProveedorMBean.guardaProveedor}"
+                                 styleClass="ui-confirmdialog-yes gmxPositivo" icon="ui-icon-check"/>
+                <p:commandButton id="btnCancelar"
+                                 value="#{tbcMsj['label.confirm.cancelar']}"
+                                 oncomplete="dlgConfirmacion.hide();" styleClass="ui-confirmdialog-no gmxNegativo"
+                                 icon="ui-icon-close"/>
+            </p:confirmDialog>
+        </h:body>
+    </html>
+</f:view>

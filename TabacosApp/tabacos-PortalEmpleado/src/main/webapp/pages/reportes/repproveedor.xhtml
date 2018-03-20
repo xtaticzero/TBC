@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<f:view xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:c="http://java.sun.com/jsp/jstl/core"
+        xmlns:pe="http://primefaces.org/ui/extensions"
+        xmlns:tbc="http://www.sat.gob.mx/tabacos">
+    <html xmlns="http://www.w3.org/1999/xhtml">
+        <h:head>
+            <meta http-equiv="X-UA-Compatible" content="IE=11"/>
+            <h:outputStylesheet library="css/" name="tabacos.css"/>
+            <h:outputScript library="js/" name="tabacos.js"/>
+            <style type="text/css">
+                .ui-menubar   {mouseover: #ff0000; background-color: #A80000;}
+                .ui-state-hover {cursor:hand;}
+             </style>
+        </h:head>
+        <h:body>
+            <p:panel id="panelDowload" header="#{tbcMsj['label.titulo.proveedor']}" 
+                     styleClass="panel-contenedor"> 
+            <h:form id="formProveedor">                 
+                <p:tabMenu activeIndex="#{param.i}" styleClass="ui-menubar"> 
+                    <p:menuitem value="#{tbcMsj['label.titulo.mcontribuyente']}" url="reptabacalera.jsf?i=0" >  
+                        <f:param name="i" value="0" />
+                    </p:menuitem>
+                    <p:menuitem value="#{tbcMsj['label.titulo.mproveedor']}" url="repproveedor.jsf?i=1" >
+                        <f:param name="i" value="1" />
+                    </p:menuitem>
+                    <p:menuitem value="#{tbcMsj['label.titulo.mmarca']}" url="repmarca.jsf?i=2" >  
+                        <f:param name="i" value="2" />
+                    </p:menuitem>
+                    <p:menuitem value="#{tbcMsj['label.titulo.mcodigosfalso']}" url="repcodigo.jsf?i=3" >
+                        <f:param name="i" value="3" />
+                    </p:menuitem>
+                    <p:menuitem value="#{tbcMsj['label.titulo.mproduccion']}" url="repProduccion.jsf?i=4" >
+                        <f:param name="i" value="4" />
+                    </p:menuitem>
+                    <p:menuitem value="#{tbcMsj['label.titulo.mdesperdicios']}" url="repDesperdicio.jsf?i=5" >   
+                        <f:param name="i" value="5" />
+                    </p:menuitem>
+                    <p:menuitem value="#{tbcMsj['label.titulo.mhistoricos']}" url="rephistorico.jsf?i=6" >                      
+                        <f:param name="i" value="6" />
+                    </p:menuitem>                                        
+                </p:tabMenu> 
+                <p:growl id="msgs" showDetail="true" sticky="true" globalOnly="true" autoUpdate="true"/>
+                <table width="800px">
+                    <tr>
+                        <td width="50%">
+                            <table width="100%">
+                                <tr width="100%">                        
+                                    <td>
+                                        <h:outputLabel>#{tbcMsj['label.rfc.proveedor']}</h:outputLabel>
+                                    </td>
+                                    <td>
+                                        <p:autoComplete id="txtRFC2" value="#{reporteProveedorMB.reporteProveedorHelper.rfc}" 
+                                                        maxlength="15" completeMethod="#{reporteProveedorMB.autocompletarRfcProvedor}">
+                                            <p:ajax event="blur" listener="#{reporteProveedorMB.validaRFC}" update="formProveedor btnPdf btnExcel"/>
+                                        </p:autoComplete>
+                                        
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <h:outputLabel>#{tbcMsj['label.fechainicio']}</h:outputLabel>
+                                    </td>
+                                    <td>
+                                        <p:calendar id="finicio2" value="#{reporteProveedorMB.reporteProveedorHelper.fechaInicio}" 
+                                            style="width: 10px" navigator="true" pattern="dd/MM/yyyy" locale="es"
+                                            requiredMessage="#{tbcMsj['msg.fechainicial']}"
+                                            effect="fadeIn" effectDuration="100" maxdate="#{reporteProveedorMB.today}"
+                                            readonlyInput="true">
+                                            <p:ajax event="dateSelect" listener="#{reporteProveedorMB.validaFormatoFechas}" update="ffinal2"/> 
+                                        </p:calendar>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <h:outputLabel>#{tbcMsj['label.fechafin']}</h:outputLabel>
+                                    </td>
+                                    <td>
+                                        <p:calendar id="ffinal2" value="#{reporteProveedorMB.reporteProveedorHelper.fechaFin}" 
+                                                    mindate="#{reporteProveedorMB.reporteProveedorHelper.fechaInicio}"
+                                            style="width: 10px" navigator="true" pattern="dd/MM/yyyy" locale="es"
+                                            requiredMessage="#{tbcMsj['msg.fechafinal']}"
+                                            effect="fadeIn" effectDuration="100" maxdate="#{reporteProveedorMB.today}" readonlyInput="true">
+                                            <f:attribute name="finicial" value="#{reporteProveedorMB.reporteProveedorHelper.fechaInicio}" />
+                                            <p:ajax event="dateSelect" listener="#{reporteProveedorMB.validaFormatoFechas}"/>  
+                                        </p:calendar>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>                            
+                            <table>
+                                <p:separator/>
+                                <tr>
+                                    <td>  
+                                        <p:selectOneRadio id="proveedorRB" value="#{reporteProveedorMB.reporteProveedorHelper.tipoReporte}" 
+                                            layout="pageDirection" style="width: 350px">
+                                            <f:selectItem itemLabel="#{tbcMsj['label.proveedor.alta']}" itemValue="#{reporteProveedorMB.reporteProveedorHelper.tipoAlta.descripcion}" />
+                                            <f:selectItem itemLabel="#{tbcMsj['label.proveedor.mod']}" itemValue="#{reporteProveedorMB.reporteProveedorHelper.tipoCambio.descripcion}"  />
+                                            <f:selectItem itemLabel="#{tbcMsj['label.proveedor.baja']}" itemValue="#{reporteProveedorMB.reporteProveedorHelper.tipoBaja.descripcion}"  />
+                                            <p:ajax event="change" listener="#{reporteProveedorMB.validaParametrosReportes}" update="formProveedor"/> 
+                                        </p:selectOneRadio>
+                                    </td>
+                                </tr>
+                            </table>  
+                        </td>
+                    </tr>
+                </table>
+                <h:panelGrid columns="2">                
+                    <p:commandButton id="btnPdf"
+                                     value="#{tbcMsj['lbl.archivo.pdf']}"
+                                     actionListener="#{reporteProveedorMB.btnGenerarReporteProveedorPDF}"
+                                     ajax="false"
+                                     disabled="#{!reporteProveedorMB.flgBtnReportes}"
+                                     styleClass="gmxPositivo"/>                    
+                    <p:commandButton id="btnExcel"
+                                     value="#{tbcMsj['lbl.archivo.excel']}"
+                                     actionListener="#{reporteProveedorMB.btnGenerarReporteProveedorExcel}"
+                                     ajax="false"
+                                     disabled="#{!reporteProveedorMB.flgBtnReportes}"
+                                     styleClass="gmxPositivo"/>                            
+                </h:panelGrid>
+            </h:form>
+            </p:panel>
+        </h:body>
+    </html>
+</f:view>

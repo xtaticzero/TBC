@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ReporteCodigos" pageWidth="792" pageHeight="612" orientation="Landscape" columnWidth="752" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="1b36f0f7-f336-4de8-a601-19bcda3e5a30">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="2"/>
+	<parameter name="folio" class="java.lang.String"/>
+	<parameter name="rfc" class="java.lang.String"/>
+	<parameter name="fecha" class="java.util.Date"/>
+	<parameter name="cantsol" class="java.lang.Long"/>
+	<parameter name="servpub" class="java.lang.String"/>
+	<parameter name="cantaut" class="java.lang.Long"/>
+	<parameter name="docresol" class="java.lang.String"/>
+	<parameter name="estatus" class="java.lang.String"/>
+	<pageHeader>
+		<band height="272">
+			<staticText>
+				<reportElement uuid="828f2811-28cc-4611-951c-aa6285ed8f22" x="96" y="3" width="562" height="34"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="20" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Acuse de Autorizar Solicitudes]]></text>
+			</staticText>
+			<image>
+				<reportElement uuid="2ca11345-2782-4da0-a407-eecc628af175" x="3" y="3" width="93" height="86"/>
+				<imageExpression><![CDATA["reports/images/logoSHCPV.jpg"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement uuid="afa4ce2f-5a9c-46fd-9a22-04510ce279c6" x="658" y="3" width="93" height="85"/>
+				<imageExpression><![CDATA["reports/images/logoSATV.jpg"]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement uuid="97671265-d143-4902-b400-d7a9c365ae7a" x="206" y="107" width="474" height="20"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{folio}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="c4c99c05-d1ad-4d9c-a6d0-e9e70b83d841" x="206" y="127" width="474" height="20"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{rfc}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement uuid="0968079c-1ad8-4297-99c9-a8cc0ace9468" x="206" y="147" width="474" height="20"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{fecha}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="9047fcb0-8d09-40fa-bbe3-7572fe8397dd" x="206" y="167" width="474" height="20"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{cantsol}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="a4b78420-3665-4f05-91c5-31f7c144ca92" x="206" y="187" width="474" height="20"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{servpub}]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement uuid="fb8aae64-76f6-48e9-95b4-b4b48f0b07a8" x="206" y="207" width="474" height="20"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{cantaut}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="61dc71ea-cc2e-487e-8b5f-720c7d9471de" x="206" y="227" width="474" height="20"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{docresol}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="62e3b666-a179-4e3c-ac8c-a79f25ceccc8" x="206" y="247" width="474" height="20"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{estatus}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="cfc32bcb-6beb-4032-a6f3-0bdf8c547217" x="51" y="107" width="155" height="20"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[FOLIO:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="ec6100fc-9b57-4c99-86a1-86511b64115a" x="51" y="127" width="155" height="20"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[RFC:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="ad3cf7f4-f323-4783-8396-e05aab629faf" x="51" y="147" width="155" height="20"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[FECHA:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="49a92c63-7f02-4453-81b1-be4d8149edb7" x="51" y="167" width="155" height="20"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[CANTIDAD SOLICITADA:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="727caaac-3073-420b-a566-4baa52ca4b1f" x="51" y="187" width="155" height="20"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[SERV. PUBLICO:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="cec561a3-958a-4b80-8270-7ae949bbea31" x="51" y="207" width="155" height="20"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[CANTIDAD AUTORIZADA:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="53ac5316-a32e-421f-b97f-0b99096b6bbb" x="51" y="227" width="155" height="20"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[DOCUMENTO RESOLUCION:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="d52bd236-6503-49aa-9f2c-fedbeed933b1" x="51" y="247" width="155" height="20"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[ESTATUS DE RESOLUCION:]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="4"/>
+	</columnHeader>
+	<detail>
+		<band height="5" splitType="Stretch"/>
+	</detail>
+	<pageFooter>
+		<band height="3" splitType="Stretch"/>
+	</pageFooter>
+</jasperReport>

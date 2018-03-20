@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<f:view xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:c="http://java.sun.com/jsp/jstl/core"
+        xmlns:pe="http://primefaces.org/ui/extensions"
+        xmlns:tbc="http://www.sat.gob.mx/tabacos">
+    <html xmlns="http://www.w3.org/1999/xhtml">
+        <h:head>
+            <meta http-equiv="X-UA-Compatible" content="IE=11"/>            
+            <h:outputStylesheet library="css/" name="tabacos.css"/>
+            <h:outputScript library="js/" name="tabacos.js"/>
+            <style type="text/css">
+                .ui-menubar   {mouseover: #ff0000; background-color: #A80000;}
+                .ui-state-hover {cursor:hand;}
+             </style>
+        </h:head>
+        <h:body>
+            <p:panel id="panelDowload" header="#{tbcMsj['label.titulo.historicos']}" 
+                     styleClass="panel-contenedor"> 
+            <h:form id="formHist">
+                <p:tabMenu activeIndex="#{param.i}" styleClass="ui-menubar"> 
+                    <p:menuitem value="#{tbcMsj['label.titulo.mcontribuyente']}" url="reptabacalera.jsf?i=0" >  
+                        <f:param name="i" value="0" />
+                    </p:menuitem>
+                    <p:menuitem value="#{tbcMsj['label.titulo.mproveedor']}" url="repproveedor.jsf?i=1" >
+                        <f:param name="i" value="1" />
+                    </p:menuitem>
+                    <p:menuitem value="#{tbcMsj['label.titulo.mmarca']}" url="repmarca.jsf?i=2" >  
+                        <f:param name="i" value="2" />
+                    </p:menuitem>
+                    <p:menuitem value="#{tbcMsj['label.titulo.mcodigosfalso']}" url="repcodigo.jsf?i=3" >
+                        <f:param name="i" value="3" />
+                    </p:menuitem>
+                    <p:menuitem value="#{tbcMsj['label.titulo.mproduccion']}" url="repProduccion.jsf?i=4" >
+                        <f:param name="i" value="4" />
+                    </p:menuitem>
+                    <p:menuitem value="#{tbcMsj['label.titulo.mdesperdicios']}" url="repDesperdicio.jsf?i=5" >   
+                        <f:param name="i" value="5" />
+                    </p:menuitem>
+                    <p:menuitem value="#{tbcMsj['label.titulo.mhistoricos']}" url="rephistorico.jsf?i=6" >                      
+                        <f:param name="i" value="6" />
+                    </p:menuitem>                                        
+                </p:tabMenu>
+                <p:growl id="msgs" showDetail="true" sticky="false" globalOnly="true"/>
+                <br/>
+                <p:dataTable id="tbHist" widgetVar="tbHist" value="#{reportesHistoricosMB.historicos}" var="historico"
+                        paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                        rowsPerPageTemplate="5,10,15"
+                        paginator="true"
+                        paginatorPosition="bottom"
+                        scrollWidth=""
+                        rows="14"
+                        style="width: 100%; display:block;overflow-y:none;overflow-x:auto;"
+                        >
+                    <p:column sortBy="#{historico.folio}">
+                            <f:facet name="header"><h:outputText value="#{tbcMsj['label.historicos.folio']}"/></f:facet>
+                            <h:outputText style="font-weight: bold" value="#{historico.folio}" />
+                    </p:column>
+
+                    <p:column sortBy="#{historico.rfc}"> 
+                            <f:facet name="header"><h:outputText value="#{tbcMsj['label.historicos.rfc']}"/></f:facet>                            
+                            <h:outputText value="#{historico.rfc}" />
+                    </p:column>
+                    <p:column sortBy="#{historico.contribuyente}"> 
+                            <f:facet name="header"><h:outputText style="width: 30%" value="#{tbcMsj['label.historicos.contribuyente']}"/></f:facet>
+                            <h:outputText style="width: 30%" value="#{historico.contribuyente}" />
+                    </p:column>
+                    <p:column sortBy="#{historico.cantidad}">
+                            <f:facet name="header"><h:outputText value="#{tbcMsj['label.historicos.cantidad']}"/></f:facet>
+                            <h:outputText value="#{historico.cantidad}" />
+                    </p:column>
+
+                    <p:column sortBy="#{historico.fecha}">
+                            <f:facet name="header"><h:outputText value="#{tbcMsj['label.historicos.fecha']}"/></f:facet>
+                                    <h:outputText value="#{historico.fecha}" >
+                                            <f:convertDateTime pattern="dd/MM/yyyy" ></f:convertDateTime>
+                                    </h:outputText>
+                    </p:column>
+                    <p:column sortBy="#{historico.pas}"> 
+                            <f:facet name="header"><h:outputText value="#{tbcMsj['label.historicos.pas']}"/></f:facet>
+                            <h:outputText value="#{historico.pas}" />
+                    </p:column>
+                </p:dataTable>
+                <h:panelGrid columns="2">                
+                    <p:commandButton value="#{tbcMsj['lbl.archivo.pdf']}"
+                                     actionListener="#{reportesHistoricosMB.btnGenerarReportePDF}"
+                                     ajax="false"
+                                     styleClass="gmxPositivo"/>                    
+                    <p:commandButton value="#{tbcMsj['lbl.archivo.excel']}"
+                                     actionListener="#{reportesHistoricosMB.btnGenerarReporteExcel}"
+                                     ajax="false"
+                                     styleClass="gmxPositivo"/>                            
+                </h:panelGrid>
+            </h:form>
+            </p:panel>
+        </h:body>
+    </html>
+</f:view>

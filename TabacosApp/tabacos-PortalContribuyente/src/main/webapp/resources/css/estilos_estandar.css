@@ -1,0 +1,74 @@
+@charset "utf-8";
+/* CSS Document */
+
+/*General*/
+html {
+	background-color:#FFFFFF;
+	margin:0;
+	padding:0;
+}
+
+body {
+	width:61em;
+	margin:0 auto;
+	font: 10pt/1.5em Arial, sans-serif;
+	color:#737576;
+	line-height:normal;
+	font-style:normal;
+	font-variant:normal;
+	font-weight:normal;
+}
+
+/*Layout*/
+header,section,article,aside,footer,nav {
+	display: block;
+}
+
+header {
+	margin-top:1em;
+	height:10.3em;
+	border:#009 1px solid;
+	border-collapse:collapse;
+}
+
+div#barra_herramientas {
+	padding-top:0.5em;
+	text-align:right;
+	padding-right:1em;
+	color:#012a60;
+	float:right;
+	border:#F00 1px solid;
+	border-collapse:collapse;
+	height:2.5em;
+	width:59.8em;
+}
+div#firma_busqueda {
+	height:5em;
+	overflow:hidden;
+	display:block;
+	border:#0F6 1px solid;
+	border-collapse:collapse;
+}
+
+nav {
+	margin-top:0px;
+	display:block;
+	height:2em;
+	border:#F63 1px solid;
+	border-collapse:collapse;
+}
+
+section {
+	position:relative;
+	min-height:28.2em;
+	height:auto;
+	overflow-y:auto;
+	border:#FC0 1px solid;
+	border-collapse:collapse;
+}
+
+footer {
+	min-height:9.8em;
+	border:#5B003E 1px solid;
+	border-collapse:collapse;
+}

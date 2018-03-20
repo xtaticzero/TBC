@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <meta http-equiv="X-UA-Compatible" content="IE=11"/>
+        <h:outputStylesheet library="css" name="estilo.css"  />
+        <h:outputStylesheet library="css/" name="tabacos.css"/>
+    </h:head>
+    <h:body>
+        <p:panel id="panelBuscarMarca" header="#{tbcMsj['autmarca.titulo']}" 
+                 style="width:820px;margin-left:auto;margin-right:auto;">
+        <h:form id="form">             
+            <p:growl id="msgs" showDetail="true" />
+            <table style="width: 100%">
+                <tr>
+                    <td style="width: 60%">
+                        <table style="width: 100%">
+                            <tr>
+                                <td>                                    
+                                    <p:outputLabel style="font-weight: bold; width: 100%">
+                                        #{tbcMsj['autsol.busqueda.subtitulo']}</p:outputLabel>
+                                    <p:separator/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                <p:outputLabel style="width: 100%">#{tbcMsj['autsol.busqueda.buscar']}</p:outputLabel>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>    
+                                <p:outputLabel style="width: 100%">#{tbcMsj['autsol.busqueda.parametro']}</p:outputLabel>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>                                
+                                <p:inputText id="paramBusq" value="#{autorizarMarcasMBean.paramBusq}" 
+                                    style="width: 300px; text-transform: uppercase"
+                                    disabled="#{autorizarMarcasMBean.captFiltro}" />      
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>  
+                                <p:commandButton value="#{tbcMsj['autsol.busqueda.btnbuscar']}" id="BuscarButton" styleClass="gmxPositivo" 
+                                    actionListener="#{autorizarMarcasMBean.buscarSolicitud}" ajax="false" />
+                                </td>
+                            </tr>                                 
+                        </table>
+                    </td>
+                    <td style="width: 40%">
+                        <table>
+                            <tr>
+                                <td style="alignment-baseline: central">                                         
+                                    <p:selectOneMenu id="producto" value="#{autorizarMarcasMBean.filtroSel}" style="width: 200px">
+                                        <f:selectItem itemLabel="#{tbcMsj['label.seleccione.one']}" itemValue="" />
+                                        <f:selectItems value="#{autorizarMarcasMBean.filtros}" 
+                                            var="prov" itemLabel="#{prov.valor}" itemValue="#{prov.id}"/>
+                                        <f:ajax render="paramBusq" event="change" 
+                                            listener="#{autorizarMarcasMBean.selectFiltro}"/>
+                                    </p:selectOneMenu>                                                                                    
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+            <table style="width: 100%">
+                <tr>
+                    <td>
+                        <p:outputLabel style="width: 100%"> </p:outputLabel>
+                        <p:outputLabel style="font-weight: bold; width: 100%">#{tbcMsj['autsol.busqueda.listado']}</p:outputLabel>
+                        <p:separator/>                        
+                        <p:dataTable var="solicitud" value="#{autorizarMarcasMBean.solicitudes}" rows="10"
+                                            paginator="true" style="width: 100%"
+                                            paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                            rowsPerPageTemplate="5,10,15" selectionMode="single" 
+                                            selection="#{autorizarMarcasMBean.registro}" 
+                                            rowKey="#{solicitud.clave}" emptyMessage="#{tbcMsj['autsol.guardar.mensajeSinDatos']}">
+                            <p:ajax event="rowSelect" update="@this" listener="#{autorizarMarcasMBean.seleccionarSolicitud}"/>
+                           <p:column headerText="#{tbcMsj['autmarca.busqueda.tabla.clave']}">
+                               <h:outputText value="#{solicitud.clave}" />
+                           </p:column>
+
+                           <p:column headerText="#{tbcMsj['autsol.busqueda.tabla.rfc']}">
+                               <h:outputText value="#{solicitud.rfc}" />
+                           </p:column>
+
+                           <p:column headerText="#{tbcMsj['autsol.busqueda.tabla.rsocial']}">
+                               <h:outputText value="#{solicitud.razonSocial}" />
+                           </p:column>                       
+
+                           <p:column headerText="#{tbcMsj['autsol.busqueda.tabla.fecha']}">
+                               <h:outputText value="#{solicitud.fecha}" />
+                           </p:column>
+
+                            <p:column headerText="#{tbcMsj['autsol.busqueda.tabla.proceso']}">
+                                <h:outputText value="#{solicitud.estadoResolicion}" />
+                           </p:column>
+                        </p:dataTable>                    
+                    </td>
+                </tr>    
+            </table>
+        </h:form>
+        </p:panel>
+    </h:body>
+</html>

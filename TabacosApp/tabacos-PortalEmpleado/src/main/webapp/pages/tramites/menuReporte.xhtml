@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/facelets">
+    <html xmlns="http://www.w3.org/1999/xhtml" xmlns:p="http://primefaces.org/ui">
+        <h:head>
+            <h:outputStylesheet library="css/" name="tabacos.css"/>
+        </h:head>
+        <h:body>
+            <ui:composition>
+                <p:menubar>
+                    <p:menuitem value="#{tbcMsj['label.titulo.mcontribuyente']}" url="/pages/reportes/reptabacalera.jsf"/>                    
+                    <p:menuitem value="#{tbcMsj['label.titulo.mproveedor']}" url="/pages/reportes/repproveedor.jsf"/>
+                    <p:menuitem value="#{tbcMsj['label.titulo.mmarca']}" url="/pages/reportes/repmarca.jsf"/>                    
+                    <p:menuitem value="#{tbcMsj['label.titulo.mcodigosfalso']}" url="/pages/reportes/repcodigo.jsf"/>                    
+                    <p:menuitem value="#{tbcMsj['label.titulo.mproduccion']}" url="/pages/reportes/repregistro.jsf"/>
+                    <p:menuitem value="#{tbcMsj['label.titulo.mdesperdicios']}" url="/pages/reportes/repdesperdicio.jsf"/>                    
+                    <p:menuitem value="#{tbcMsj['label.titulo.mhistoricos']}" url="/pages/reportes/rephistorico.jsf"/>                                                            
+                </p:menubar>
+            </ui:composition>
+        </h:body>
+    </html>
+</f:view>

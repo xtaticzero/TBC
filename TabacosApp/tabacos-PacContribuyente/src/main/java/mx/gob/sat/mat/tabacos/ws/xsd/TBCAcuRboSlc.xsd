@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:acurboslc="http://esquemas.clouda.sat.gob.mx/archivos/Tabacos/1/Solicitud/Acuse" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:cat="http://esquemas.clouda.sat.gob.mx/archivos/Tabacos/1/Catalogos" targetNamespace="http://esquemas.clouda.sat.gob.mx/archivos/Tabacos/1/Solicitud/Acuse" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:import namespace="http://esquemas.clouda.sat.gob.mx/archivos/Tabacos/1/Catalogos" schemaLocation="catTabacos.xsd"/>
+	<xs:element name="TBCAcuRboSlc">
+		<xs:annotation>
+			<xs:documentation>Estándar de Acuse de Recibo para la solicitud de Códigos de Seguridad para Tabacos</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Acuse">
+					<xs:annotation>
+						<xs:documentation>Nodo requerido para expresar el acuse de recepcion de la solicitud de Códigos de Seguridad</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:attribute name="RFC" type="cat:tipoRFC" use="required">
+							<xs:annotation>
+								<xs:documentation>Atributo requerido para expresar el RFC del Contribuyente que solicita los Códigos de Seguirdad</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="Folio" type="xs:string" use="required">
+							<xs:annotation>
+								<xs:documentation>Atributo requerido para expresar el número de Folio asignado a la solicitud de Códigos de Seguridad</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="CantidadCodigos" use="required">
+							<xs:annotation>
+								<xs:documentation>Aributo requerido para expresar el número Total de Códigos Solicitados</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:integer">
+									<xs:minInclusive value="1"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="FolioAcuse" type="xs:string" use="required">
+							<xs:annotation>
+								<xs:documentation>Atributo requerido para expresar el folio del Acuse</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="Version" type="xs:string" use="required" fixed="1.0">
+				<xs:annotation>
+					<xs:documentation>Atributo requerido para expresar la versión del formato.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="Fecha" type="xs:dateTime" use="required">
+				<xs:annotation>
+					<xs:documentation>Atributo requerido para expresar la fecha del Acuse de Recibo</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

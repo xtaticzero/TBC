@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:slccodseg="http://esquemas.clouda.sat.gob.mx/archivos/Tabacos/1/Solicitud" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:cat="http://esquemas.clouda.sat.gob.mx/archivos/Tabacos/1/Catalogos" targetNamespace="http://esquemas.clouda.sat.gob.mx/archivos/Tabacos/1/Solicitud" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:import namespace="http://esquemas.clouda.sat.gob.mx/archivos/Tabacos/1/Catalogos" schemaLocation="catTabacos.xsd"/>
+	<xs:element name="TBCSlcCodSeg">
+		<xs:annotation>
+			<xs:documentation>Estándar de Solicitud de Códigos de Seguridad para Tabacos</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Solicitud">
+					<xs:annotation>
+						<xs:documentation>Nodo obligatorio para expresar la solicitud de Códigos de Seguridad</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:attribute name="RFC" type="cat:tipoRFC" use="required">
+							<xs:annotation>
+								<xs:documentation>Atributo requerido para expresar el RFC del Contribuyente que solicita los Códigos de Seguirdad</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="TipoContribuyente" type="cat:catTipoContribuyente" use="required">
+							<xs:annotation>
+								<xs:documentation>Atributo requerido para expresar  el tipo de contribuyente. 1. Fabricante 2. Importador 3. Ambos</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="CantidadCodigos" use="required">
+							<xs:annotation>
+								<xs:documentation>Aributo requerido para expresar el número Total de Códigos de Seguridad Solicitados</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:integer">
+									<xs:minInclusive value="1"/>
+									<xs:maxInclusive value="999999999"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="Origen" type="cat:catPais" use="required">
+							<xs:annotation>
+								<xs:documentation>Atributo requerido para expresar el país de origen del producto.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<!--xs:attribute name="Firma" type="xs:string" use="required"-->
+						<xs:attribute name="Firma" type="cat:catTipoFirma" use="required">
+							<xs:annotation>
+								<xs:documentation>Atributo requerido para contener la firma digital del emisor o contribuyente que solicita los códigos de seguridad. La firma deberá ser expresada como una cadena de texto en formato base 64.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="Version" type="xs:string" use="required" fixed="1.0">
+				<xs:annotation>
+					<xs:documentation>Atributo requerido para expresar la versión del formato.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="Fecha" type="xs:dateTime" use="required">
+				<xs:annotation>
+					<xs:documentation>Atributo requerido para expresar la fecha de la solicitud de Códigos de Seguridad</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="RFCProveedorCertificado" type="cat:tipoRFC" use="required">
+				<xs:annotation>
+					<xs:documentation>Atributo requerido para expresar el RFC del Proveedor de Servicios Autorizado.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/facelets">
+    <html xmlns="http://www.w3.org/1999/xhtml" xmlns:p="http://primefaces.org/ui">
+        <h:head>
+        </h:head>
+        <h:body>
+            <ui:composition>
+
+                <p:menubar><!--                    <p:separator />-->
+                    <p:menuitem value="#{tbcMsj['menuitem.registro.abcproveedores']}" url="/pages/registro/altaProveedor.jsf" icon="ui-icon-pencil" />                    
+                    <p:menuitem value="#{tbcMsj['menuitem.registro.abcmarcas']}" url="/pages/registro/altaMarca.jsf" icon="ui-icon-pencil" />
+                    <p:menuitem value="#{tbcMsj['menuitem.registro.codigosfalsosinvalidos']}" url="/pages/registro/codigosFalsosInvalidos.jsf" icon="ui-icon-trash" />
+                </p:menubar>
+
+            </ui:composition>
+        </h:body>
+    </html>
+</f:view>

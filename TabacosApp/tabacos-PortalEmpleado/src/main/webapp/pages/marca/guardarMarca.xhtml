@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <meta http-equiv="X-UA-Compatible" content="IE=11"/>    
+        <h:outputScript library="js/" name="tabacos.js"/>
+        <h:outputStylesheet library="css/" name="tabacos.css"/>
+    </h:head>
+    <h:body>                
+        <p:panel id="panelAutMarca" header="#{tbcMsj['autmarca.titulo']}" 
+                 style="width:820px;margin-left:auto;margin-right:auto;">        
+        <h:form id="formAutMarca">                         
+            <p:growl id="msgs" showDetail="true" sticky="false" globalOnly="true"/>
+            <p:outputLabel style="width: 300px; font-weight: bold">#{tbcMsj['autsol.guardar.subtitulo1']}</p:outputLabel>    
+            <p:separator/>
+            <p:outputLabel style="width: 300px; font-weight: bold">#{tbcMsj['autsol.guardar.subtitulo2']}</p:outputLabel>            
+            <table width="100%">
+                <tr>
+                    <td width="30%">
+                        <p:outputLabel style="width: 100%">#{tbcMsj['autmarca.busqueda.tabla.clave']}</p:outputLabel>                    
+                    </td>
+                    <td >
+                        <p:inputText id="folioCapt" value="#{autorizarMarcasMBean.solicitud.clave}"
+                            style="width: 200px" readonly="true" />
+                    </td>
+                    <td>
+                        <p:message id="msgFolioCapt" for="folioCapt" display="text"/>                                
+                    </td>
+                </tr>
+                <tr>
+                    <td width="30%">
+                        <p:outputLabel style="width: 100%">#{tbcMsj['autsol.busqueda.tabla.rfc']}</p:outputLabel>
+                    </td>
+                    <td>
+                        <p:inputText id="rfcCapt" value="#{autorizarMarcasMBean.
+                        solicitud.rfc}" style="width: 200px" readonly="true" />
+                    </td>
+                    <td>
+                        <p:message id="msgRfc" for="rfcCapt" display="text"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="30%">
+                        <p:outputLabel style="width: 100%">#{tbcMsj['autsol.guardar.rsocial']}</p:outputLabel>
+                    </td>
+                    <td>
+                        <p:inputText id="rsocialCapt" value="#{autorizarMarcasMBean.
+                            razonSocial}" style="width: 200px" readonly="true" />
+                    </td>
+                    <td>                    
+                    </td>
+                </tr>
+            </table>
+            <p:outputLabel style="font-weight: bold">#{tbcMsj['autsol.guardar.subtitulo4']}</p:outputLabel>                            
+            <table style="width: 100%;">
+                <tr>
+                    <td width="30%">
+                        <p:outputLabel style="width: 100%">#{tbcMsj['abcmarcas.marca']}</p:outputLabel>
+                    </td>
+                    <td>
+                        <p:inputText id="marcaCapt" value="#{autorizarMarcasMBean.
+                            solicitud.marca}" style="width: 200px" readonly="true" />
+                    </td>
+                    <td>                    
+                    </td>
+                </tr>
+            </table>                        
+            <p:outputLabel style="font-weight: bold">#{tbcMsj['autsol.guardar.subtitulo3']}</p:outputLabel>
+            <p:separator/>
+            <table style="width: 100%;">
+                <tr>
+                    <td width="30%">                       
+                        <p:outputLabel style="width: 100%">#{tbcMsj['autsol.guardar.resolucion']}</p:outputLabel>
+                    </td>
+                    <td>
+                        <p:selectOneMenu id="resolucion" value="#{autorizarMarcasMBean.filtroSel}" 
+                                         style="width: 200px" required="true"
+                            requiredMessage="Falta llenar el campo resolución">
+                            <f:selectItem itemLabel="#{tbcMsj['label.seleccione.one']}" itemValue="" />
+                            <f:selectItem itemLabel="#{tbcMsj['autsol.guardar.autorizada']}" 
+                                          itemValue="#{tbcMsj['autsol.guardar.autorizada']}" />
+                            <f:selectItem itemLabel="#{tbcMsj['autsol.guardar.rechazada']}" 
+                                          itemValue="#{tbcMsj['autsol.guardar.rechazada']}" />                            
+                        </p:selectOneMenu>  
+                    </td>
+                    <td>
+                        <p:message id="msresolucion" for="resolucion" display="text"/>
+                    </td>
+                </tr>                
+                <tr>
+                    <td width="30%">
+                     
+                    </td>
+                    <td>                     
+                    </td>
+                    <td>                     
+                    </td>
+                </tr>
+                <tr>
+                    <td width="30%">
+                        <p:outputLabel>#{tbcMsj['autsol.guardar.spublico']}</p:outputLabel>
+                    </td>
+                    <td>
+                        <p:selectOneMenu id="autorizante" 
+                            value="#{autorizarMarcasMBean.autorizante}" 
+                            style="width: 200px" required="true"
+                            requiredMessage="Falta llenar el campo servidor público que autoriza.">
+                            <f:selectItem itemLabel="#{tbcMsj['label.seleccione.one']}" itemValue="" />
+                            <f:selectItems value="#{autorizarMarcasMBean.autorizantes}" 
+                                var="prov" itemLabel="#{prov.valor}" itemValue="#{prov.id}"/>
+<!--                            <p:ajax update="autorizante"/>-->
+                        </p:selectOneMenu>         
+                    </td>
+                    <td>
+                        <p:message id="msgAutorizante" for="autorizante" display="text"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="30%">
+                        <p:outputLabel>#{tbcMsj['autsol.busqueda.tabla.fecha']}</p:outputLabel>
+                    </td>
+                    <td width="20%">
+                        <p:calendar id="fecha" value="#{autorizarMarcasMBean.solicitud.fechaInicio}" 
+                            navigator="true" pattern="dd/MM/yyyy" 
+                            disabled="#{autorizarMarcasMBean.fechaActiva}"
+                            maxdate="#{autorizarMarcasMBean.today}"  required="true"
+                            requiredMessage="Falta llenar el campo fecha" >                            
+                        </p:calendar>
+                                
+                    </td>
+                    <td>
+                        <p:message id="msgFecha" for="fecha" display="text"/>
+                    </td>
+                </tr>
+            </table> 
+            <p:separator/>
+            <table>
+                <row>
+                    <td width="10%">
+                        <p:commandButton widgetVar="wbtnRegSol" value="#{tbcMsj['autsol.guardar.btnatras']}" styleClass="gmxNegativo"
+                                         id="btnRegSol" 
+                            actionListener="#{autorizarMarcasMBean.regresarSolicitud}" immediate="true"/>
+                    </td>
+                    <td width="80%">   
+                        <p:commandButton value="#{tbcMsj['autsol.guardar.btnguardar']}" id="btnGuardarMarcas" styleClass="gmxPositivo"
+                            onclick="dlgConfirmacion.show()" >
+                            <p:dialog header="#{tbcMsj['label.confirmacion.header']}" widgetVar="dlgConfirmacion" resizable="false"
+                                    closable="false" width="315px" height="120px">
+                                <p:outputLabel value="#{tbcMsj['label.confirm.guardar']}"/>
+                                <p:separator style="border-color: white"/>
+                                <p:commandButton id="btnCancelar" value="#{tbcMsj['label.confirm.cancelar']}"
+                                               oncomplete="dlgConfirmacion.hide();" styleClass="ui-confirmdialog-no gmxNegativo"
+                                               icon="ui-icon-close" style="float:right;"/>
+                                <p:commandButton id="btnAceptar" value="#{tbcMsj['label.confirm.aceptar']}"
+                                               onclick="dlgConfirmacion.hide();" update="formAutMarca"
+                                               actionListener="#{autorizarMarcasMBean.guardarSolicitud}"
+                                               styleClass="ui-confirmdialog-yes gmxPositivo" icon="ui-icon-check" style="float:right;">
+                                    <f:ajax event="click" render="btnImprimirMarcas" />
+                              </p:commandButton>
+                            </p:dialog>
+                        </p:commandButton>                        
+                    </td>
+                    <td width="10%">                                           
+                    </td>
+                </row>
+            </table>
+        </h:form>        
+        </p:panel>
+    </h:body>
+</html>

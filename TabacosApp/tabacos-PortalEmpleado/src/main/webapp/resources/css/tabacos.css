@@ -1,0 +1,52 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 2/04/2015, 10:09:53 AM
+    Author     : Ing Emmanuel Estrada Gonzalez
+*/
+
+/** SelectCheckbox Menu **/
+
+.titulo-label {
+    font-weight:bold;
+    font-size:small;
+}
+
+.panel-principal{
+    width: 810.0px;
+}
+
+.panel-interno{
+    width: 800.0px;
+}
+
+.noBorders tr, .noBorders td {
+    /*background: none !important;*/
+    border: none !important;
+}
+
+.alineacion-texto-numero{
+    text-align: right;
+}
+
+.textoRojo {
+    color: RED;
+}
+
+.textoAzul {
+    color: #0070BB;
+}
+
+.panel-contenedor{
+    margin-left:auto;
+    margin-right:auto;
+}
+.input-text{
+    width: 200px;
+}
+.campo-obligatorio{
+    color: red;
+}

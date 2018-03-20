@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:c="http://java.sun.com/jsp/jstl/core"
+        xmlns:pe="http://primefaces.org/ui/extensions"
+        xmlns:tbc="http://www.sat.gob.mx/tabacos">
+    <html xmlns="http://www.w3.org/1999/xhtml">
+        <applet name="FIEL" code="com.novell.applet.firmaElectronica.main.SgiApplet.class"
+                codebase="../../resources/applet/" archive="#{appletConf['applet.name']}" height="0" width="0"/>
+        <h:head>
+            <h:outputScript library="js/" name="tabacos.js"/>
+            <h:outputScript library="js/" name="FIEL.js"/>
+            <h:outputStylesheet library="css/" name="tabacos.css"/>
+        </h:head>
+        <h:body>
+            
+            <f:view xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:primefaces-p="http://primefaces.org/ui">
+    <html xmlns="http://www.w3.org/1999/xhtml">
+        <h:head></h:head>
+        <h:body>
+            <h:form>
+                <primefaces-p:panel header="Test Reporte">
+                    <primefaces-p:commandButton ajax="false" value="Acuse Recibo" action="#{solicitarCodigosMB.btnGenerarAcusePDF}" onclick="this.form.target='_blank'">
+                    </primefaces-p:commandButton>
+                    <primefaces-p:spacer width="20"/>
+                    <primefaces-p:commandButton ajax="false" value="Acuse Destruccion" action="#{desperdiciosMB.btnGenerarReporteDestruccionPDF}" onclick="this.form.target='_blank'">
+                    </primefaces-p:commandButton>
+                    <primefaces-p:spacer width="20"/>
+                    <primefaces-p:commandButton ajax="false" value="Acuse produccion" action="#{produccionCigarrosMB.btnGenerarReportePDF}" onclick="this.form.target='_blank'">
+                    </primefaces-p:commandButton>
+                    
+                     <primefaces-p:commandButton ajax="false" value="Acuse descarga cods" action="#{descargaCodigosMB.btnGenerarAcusePDF}" onclick="this.form.target='_blank'">
+                    </primefaces-p:commandButton>
+                    <primefaces-p:spacer width="20"/>
+                    <primefaces-p:commandButton ajax="false" value="Acuse codigos falsos" action="#{ingresaCodMB.btnGenerarReportePDF}" onclick="this.form.target='_blank'">
+                    </primefaces-p:commandButton>
+                    <primefaces-p:spacer width="20"/>
+                    <primefaces-p:commandButton ajax="false" value="sol alta marcas" action="#{solicitudAltaMarcaMB.btnGenerarAcusePDF}" onclick="this.form.target='_blank'">
+                    </primefaces-p:commandButton>
+                    
+                    
+                    
+                </primefaces-p:panel>
+            </h:form>
+        </h:body>
+    </html>
+</f:view>
+        </h:body>
+    </html>
+</f:view>
